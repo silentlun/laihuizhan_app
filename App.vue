@@ -1,4 +1,6 @@
 <script>
+	import initApp from '@/common/appInit.js';
+	import { mapState,mapMutations } from 'vuex';
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -14,4 +16,5 @@
 
 <style>
 	/*每个页面公共css */
+	@import "./common/uni.css";
 </style>

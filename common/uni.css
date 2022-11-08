@@ -1,0 +1,265 @@
+/* #ifndef APP-NVUE */
+@font-face {
+	font-family: icontaibo;
+	src: url('~@/static/iconfont.ttf');
+}
+*{
+	box-sizing: border-box;
+}
+page{
+	height: 100%;
+}
+view{
+	box-sizing: border-box;
+}
+/* #endif */
+.page{
+	flex: 1;
+}
+.bg-gray{
+	background-color:#f8f8f9;
+}
+.margin-top-10{margin-top: 20rpx;}
+
+/* 详情页 */
+.page-banner {
+	width: 750rpx;
+	height: 420rpx;
+}
+
+.page-warp{
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: column;
+	background-color: #FFFFFF;
+	padding: 0 30rpx;
+}
+.page-title{
+	padding: 20rpx 0;
+	position: relative;
+}
+/* #ifndef APP-NVUE */
+.page-title:after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 1rpx;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #e9eaec;
+}
+/* #endif */
+.page-title-title{
+	font-size: 44rpx;
+	font-weight: bold;
+	line-height: 1.3;
+	text-align: left;
+}
+.page-meta {
+	padding:20rpx 0;
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.page-meta-label{
+	font-size:24rpx;
+	color:#a5a5a5;
+}
+.page-author{
+	font-size: 28rpx;
+}
+.page-content{
+	padding: 20rpx 0;
+}
+.description {
+	background-color: #f6f6f6;
+	padding: 16rpx 20rpx;
+	font-size: 28rpx;
+	color: #959595;
+	line-height: 44rpx;
+	margin-bottom:30rpx;
+	overflow: hidden;
+}
+.text-center{
+	text-align: center;
+}
+.text-right{
+	text-align: right;
+}
+
+.foot-nav-seat{
+	height: 120rpx;
+}
+.foot-nav{
+	position:fixed; 
+	bottom:0; 
+	left:0; 
+	right: 0;
+	background-color:#fff; 
+	border-top: #eee solid 1rpx; 
+	width:750rpx;
+	height:100rpx; 
+	padding-left: 30rpx;
+	padding-right: 30rpx;
+	/* #ifndef APP-NVUE */
+	display: flex;
+	z-index: 99;
+	/* #endif */
+	justify-content: space-between;
+	align-items: center;
+	
+}
+.foot-body{
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	justify-content: flex-end;
+	flex: 1;
+}
+.foot-item{
+	position:relative;
+	width: 80rpx;
+	text-align: center;
+	margin-left: 30rpx;
+}
+
+.foot-item-badge {
+    font-size: 20rpx;
+    line-height: 1;
+    position: absolute;
+    top: -5rpx;
+    right:6rpx;
+    color: #333;
+}
+.foot-comment-input{
+	background-color: #f1f1f1;
+	border-radius: 60rpx;
+	font-size: 24rpx;
+	color: #666666;
+	padding: 20rpx 60rpx;
+}
+
+/* #ifndef APP-NVUE */
+.comment-warp{
+	background-color: #fff;
+}
+.comment-list{
+	padding: 20rpx 30rpx;
+	position: relative;
+	display: flex;
+	box-sizing: border-box;
+	width: 100%;
+	flex: 1;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+.comment-list .user-avatar{
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 50%;
+	margin-right: 20rpx;
+	flex-shrink: 0;
+}
+.comment-body{
+	flex:auto;
+}
+.comment-title{
+	font-size: 28rpx;
+	color: #000000;
+}
+.comment-content{
+	font-size: 28rpx;
+	color: #000;
+}
+.comment-foot{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.comment-foot .comment-text{
+	font-size: 20rpx;
+	color: #999;
+	text-align: right;
+	flex:1;
+}
+.comment-text .icon{
+	font-size: 20rpx;
+	color: #999;
+	margin-right: 10rpx;
+}
+
+.comment-foot .comment-time{
+	font-size: 20rpx;
+	color: #999;
+	flex: 3;
+}
+.comment-reply-list{
+	display: flex;
+	flex-direction: column;
+	padding: 10rpx 0;
+	position: relative;
+}
+.comment-reply-list:before {
+	position: absolute;
+  z-index: 3;
+	right: 0;
+	top: 0;
+	left: 0;
+	height: 1rpx;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #e9eaec;
+}
+.comment-reply-list-cell{
+	font-size: 24rpx;
+	color: #333;
+}
+.comment-blank{
+	font-size: 28rpx;
+	color: #666666;
+	padding: 30rpx;
+}
+/* #endif */
+
+.no-data {
+    flex: 1;
+    position: absolute;
+    left: 0;
+    top: 120rpx;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+  
+/* 面板 */
+.panel{
+	margin-bottom: 20rpx;
+	background-color: #FFFFFF;
+}
+.panel-heading{
+	padding: 20rpx;
+	font-size: 32rpx;
+}
+.panel-title{
+	font-size: 32rpx;
+}
+.panel-body{
+	padding: 20rpx;
+}
+.panel-text{
+	font-size: 28rpx;
+	color: #777777;
+	line-height: 42rpx;
+}
+
+.content-padded{
+	padding: 30rpx 60rpx;
+}
