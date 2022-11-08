@@ -66,7 +66,7 @@
 		<t-gap height="110" bgColor="#f8f8f9"></t-gap>
 		<t-list>
 			<t-list-cell v-for="(item, index) in dataList" :key="index">
-				<event-item :data="item"></event-item>
+				<event-item :data="item" @click="showDetail(item)"></event-item>
 			</t-list-cell>
 		</t-list>
 	</view>
@@ -98,8 +98,60 @@
 				},
 			}
 		},
+		onLoad() {
+			this.loadData()
+		},
 		methods: {
+			loadData() {
+				if (this.isLoading) {
+					return;
+				}
 			
+				this.isLoading = true;
+				this.isNoData = false;
+				this.loadingStatus = 'loading'
+			
+				uni.request({
+					url: 'v1/events',
+					data: this.requestParams,
+					success: (res) => {
+						const data = res.data.data;
+						console.log(data)
+						if(this.requestParams.page > 1){
+							if(data.length <= 0){
+								this.loadingStatus = 'nodata'
+							}else{
+								this.dataList = this.dataList.concat(data);
+							}
+						}else{
+							this.isNoData = (data.length <= 0);
+							this.dataList = data;
+						}
+						this.requestParams.page++;
+						
+					},
+					fail: (err) => {
+						if (this.dataList.length == 0) {
+							this.isNoData = true;
+						}
+					},
+					complete: (e) => {
+						this.isLoading = false;
+					}
+				});
+			},
+			loadMore(e) {
+				this.loadData();
+				/* setTimeout(() => {
+					this.loadData();
+				}, 4000); */
+				
+			},
+			showDetail: function (e) {
+				uni.navigateTo({
+					url: "./view?id="+e.id
+				})
+			},
 		}
 	}
 </script>
