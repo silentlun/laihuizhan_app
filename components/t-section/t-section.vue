@@ -44,7 +44,7 @@
 	.headline {
 		width: 750rpx;
 		height: 100rpx;
-		padding: 0 20rpx;
+		padding: 0 30rpx;
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */

@@ -62,7 +62,7 @@
 		    "path" : "pages/event/view",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "",
+		        "navigationBarTitleText": "活动详情",
 		        "enablePullDownRefresh": false
 		    }
 		    
@@ -80,7 +80,7 @@
 		    "path" : "pages/venues/view",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "",
+		        "navigationBarTitleText": "场地详情",
 		        "enablePullDownRefresh": false
 		    }
 		    
