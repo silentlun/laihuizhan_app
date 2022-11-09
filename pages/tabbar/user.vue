@@ -11,7 +11,7 @@
 					</view>
 					<view class="info-box" v-else>
 						<text class="username">Hello, {{info.showname}}</text>
-						<text class="groupname">{{info.groupname}}</text>
+						<!-- <text class="groupname">{{info.groupname}}</text> -->
 					</view>
 				</view>
 				<view class=""><t-icons type="settings" color="#fff" size="18"></t-icons></view>

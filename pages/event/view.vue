@@ -3,11 +3,14 @@
 		<image class="page-banner" :src="data.thumb" mode="scaleToFill"></image>
 		<view class="event-warp">
 			<text class="event-title">{{data.title || ''}}</text>
+			<view class="feedback-box">
+				<t-icons type="remind" color="#777" size="16"></t-icons><text class="feedback-text">举报</text>
+			</view>
 		</view>
+		
 		<t-list>
 			<t-list-item :subtitle="data.eventdate"></t-list-item>
 			<t-list-item :subtitle="data.address" :showArrow="true"></t-list-item>
-			<t-list-item subtitle="查看联系方式" :showArrow="true"></t-list-item>
 		</t-list>
 		<t-gap height="20" bg-color="#f8f8f9"></t-gap>
 		<t-section title="活动详情"></t-section>
@@ -17,7 +20,7 @@
 			</view>
 			
 		</view>
-		<t-gap height="100" bg-color="#f8f8f9"></t-gap>
+		<!-- <t-gap height="100" bg-color="#f8f8f9"></t-gap>
 		<view class="foot-block"></view>
 		<view class="foot-event">
 			<view class="foot-share" @click="openShare"><t-icons type="share" size="24"></t-icons></view>
@@ -25,7 +28,10 @@
 			<text class="foot-btn disabled" v-if="data.bm_stauts==2">进行中</text>
 			<text class="foot-btn disabled" v-if="data.bm_stauts==0">已结束</text>
 			
-		</view>
+		</view> -->
+		<t-footer>
+			<t-button text="联系主办方" shape="circle" size="md"></t-button>
+		</t-footer>
 	</view>
 </template>
 
@@ -140,5 +146,15 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
+	}
+	.feedback-box{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+	}
+	.feedback-text{
+		font-size: 24rpx;
+		color: #777;
 	}
 </style>

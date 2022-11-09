@@ -93,58 +93,6 @@ view{
 	text-align: right;
 }
 
-.foot-nav-seat{
-	height: 120rpx;
-}
-.foot-nav{
-	position:fixed; 
-	bottom:0; 
-	left:0; 
-	right: 0;
-	background-color:#fff; 
-	border-top: #eee solid 1rpx; 
-	width:750rpx;
-	height:100rpx; 
-	padding-left: 30rpx;
-	padding-right: 30rpx;
-	/* #ifndef APP-NVUE */
-	display: flex;
-	z-index: 99;
-	/* #endif */
-	justify-content: space-between;
-	align-items: center;
-	
-}
-.foot-body{
-	/* #ifndef APP-NVUE */
-	display: flex;
-	/* #endif */
-	flex-direction: row;
-	justify-content: flex-end;
-	flex: 1;
-}
-.foot-item{
-	position:relative;
-	width: 80rpx;
-	text-align: center;
-	margin-left: 30rpx;
-}
-
-.foot-item-badge {
-    font-size: 20rpx;
-    line-height: 1;
-    position: absolute;
-    top: -5rpx;
-    right:6rpx;
-    color: #333;
-}
-.foot-comment-input{
-	background-color: #f1f1f1;
-	border-radius: 60rpx;
-	font-size: 24rpx;
-	color: #666666;
-	padding: 20rpx 60rpx;
-}
 
 /* #ifndef APP-NVUE */
 .comment-warp{
