@@ -1,7 +1,7 @@
 <template>
 	<view class="page">
 		<t-swiper :data="focusData" @click="newsDetail"></t-swiper>
-		<t-section title="热门会展服务" link="/pages/service/list" showMore></t-section>
+		<t-section title="热门会展服务" link="/pages/merchant/list" showMore></t-section>
 		<t-section title="热门会展场地" link="/pages/venues/list" showMore></t-section>
 		<t-list>
 			<t-list-cell v-for="(item, index) in venuesData" :key="index">

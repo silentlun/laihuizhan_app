@@ -86,7 +86,7 @@
 		    
 		}
         ,{
-            "path" : "pages/service/list",
+            "path" : "pages/merchant/list",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "会展服务",
@@ -95,10 +95,10 @@
             
         }
 		,{
-		    "path" : "pages/service/view",
+		    "path" : "pages/merchant/view",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "",
+		        "navigationBarTitleText": "服务商介绍",
 		        "enablePullDownRefresh": false
 		    }
 		    
@@ -122,6 +122,15 @@
             
         }
         
+        ,{
+            "path" : "pages/user/company/company",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

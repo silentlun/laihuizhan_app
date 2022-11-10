@@ -37,7 +37,7 @@
 			<view class="my-card">
 				<t-list>
 					<t-list-item title="我的订单" to="/pages/user/myorder" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'form'}" link="navigateTo"></t-list-item>
-					<t-list-item title="我的企业" to="/pages/user/order" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'activity'}" link="navigateTo"></t-list-item>
+					<t-list-item title="我的企业" to="/pages/user/company/company" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'activity'}" link="navigateTo"></t-list-item>
 					<t-list-item title="我的投诉" to="/pages/news/history" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'bofangjilu'}" link="navigateTo"></t-list-item>
 					<t-list-item title="我的关注" to="/pages/user/favorite" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'shoucang'}" link="navigateTo"></t-list-item>
 				</t-list>
