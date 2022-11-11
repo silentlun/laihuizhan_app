@@ -41,6 +41,9 @@
 
 <style>
 	.card{
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
 		flex-direction: column;
 		background-color: #FFFFFF;
 		margin-top: 20rpx;
@@ -61,12 +64,13 @@
 		lines: 3;
 	}
 	.card-footer{
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		border-style: solid;
-		border-color: #e9eaec;
-		border-top-width: 1rpx;
+		border-top: #e9eaec solid 1rpx;
 		padding: 20rpx;
 	}
 	.footer-text{

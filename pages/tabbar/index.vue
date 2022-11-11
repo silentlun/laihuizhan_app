@@ -1,14 +1,19 @@
 <template>
 	<view class="page">
 		<t-swiper :data="focusData" @click="newsDetail"></t-swiper>
-		<t-section title="热门会展服务" link="/pages/merchant/list" showMore></t-section>
-		<t-section title="热门会展场地" link="/pages/venues/list" showMore></t-section>
+		<t-section title="热门服务" link="/pages/merchant/list" showMore></t-section>
+		<t-list>
+			<t-list-cell v-for="(item, index) in venuesData" :key="index">
+				<company-item :data="item" @click="showDetail(item)"></company-item>
+			</t-list-cell>
+		</t-list>
+		<t-section title="热门场地" link="/pages/venues/list" showMore></t-section>
 		<t-list>
 			<t-list-cell v-for="(item, index) in venuesData" :key="index">
 				<venues-item :data="item"></venues-item>
 			</t-list-cell>
 		</t-list>
-		<t-section title="热门会展活动" link="/pages/event/list" showMore></t-section>
+		<t-section title="热门活动" link="/pages/event/list" showMore></t-section>
 		<t-list>
 			<t-list-cell v-for="(item, index) in eventData" :key="index">
 				<event-item :data="item"></event-item>

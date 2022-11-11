@@ -14,7 +14,7 @@
 						<!-- <text class="groupname">{{info.groupname}}</text> -->
 					</view>
 				</view>
-				<view class=""><t-icons type="settings" color="#fff" size="18"></t-icons></view>
+				<view class=""><t-icons type="settings" color="#fff" size="18" @click="toSetting"></t-icons></view>
 			</view>
 			
 			<view class="follow-tabs">
@@ -39,7 +39,7 @@
 					<t-list-item title="我的订单" to="/pages/user/myorder" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'form'}" link="navigateTo"></t-list-item>
 					<t-list-item title="我的企业" to="/pages/user/company/company" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'activity'}" link="navigateTo"></t-list-item>
 					<t-list-item title="我的投诉" to="/pages/news/history" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'bofangjilu'}" link="navigateTo"></t-list-item>
-					<t-list-item title="我的关注" to="/pages/user/favorite" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'shoucang'}" link="navigateTo"></t-list-item>
+					<t-list-item title="我的关注" to="/pages/user/follow" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'shoucang'}" link="navigateTo"></t-list-item>
 				</t-list>
 			</view>
 		</view>
@@ -89,6 +89,11 @@
 					navigateFlag = false;
 				}, 200)
 			},
+			toSetting(){
+				uni.navigateTo({
+					url: "/pages/setting/setting"
+				})
+			}
 		}
 	}
 </script>

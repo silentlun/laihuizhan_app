@@ -3,6 +3,7 @@
 		<image class="qy-logo" :src="data.thumb"></image>
 		<view class="qy-list-body">
 			<text class="qy-title">{{data.title}}</text>
+			<text class="qy-desc">{{data.title}}</text>
 			<view class="qy-desc-foot">
 				<text class="lable">{{data.stageid}}站台设计</text>
 				<text class="lable">{{data.typeid}}</text>
@@ -49,9 +50,9 @@
 		/* #endif */
 		flex-direction: row;
 		justify-content: space-between;
-		padding: 20rpx 0rpx;
-		margin-left: 20rpx;
-		margin-right: 20rpx;
+		padding: 30rpx 0rpx;
+		margin-left: 30rpx;
+		margin-right: 30rpx;
 		background-color: #ffffff;
 		/* #ifdef APP-NVUE */
 		border-bottom-color: #e5e5e5;

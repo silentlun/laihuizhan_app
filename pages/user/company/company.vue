@@ -4,16 +4,27 @@
 			<t-list-cell v-for="(item, index) in dataList" :key="item.id">
 				<t-card :data="item" @click="showDetail(item)" :index="index">
 					<template v-slot:header>
-						<view class="mycomment-header">
-							<text class="mycomment-date">发表于 {{item.title}}</text>
-							<view class="favor-box" @click.stop="onDelete(index,item)">
-								<t-icons type="delete" size="11" color="#999999"></t-icons>
-								<text class="info-text">删除</text>
-							</view>
-						</view>
+						<text class="company-title">{{item.title}}</text>
 					</template>
 					<template v-slot:body>
-						<text class="mycomment-text">{{item.body}}</text>
+						<view class="company-info">
+							<text class="company-text">纳税识别码：{{item.body}}</text>
+							<text class="company-text">开户行：{{item.body}}</text>
+							<text class="company-text">账号：{{item.body}}</text>
+						</view>
+						
+					</template>
+					<template v-slot:footer>
+						<view class="handle-box">
+							<view class="handle-item">
+								<t-icons type="delete" size="11" color="#999999"></t-icons>
+								<text class="handle-item-text">修改</text>
+							</view>
+							<view class="handle-item">
+								<t-icons type="delete" size="11" color="#999999"></t-icons>
+								<text class="handle-item-text">删除</text>
+							</view>
+						</view>
 					</template>
 				</t-card>
 			</t-list-cell>
@@ -22,6 +33,9 @@
 			</t-list-cell>
 		</t-list>
 		<t-prompt class="no-data" title="暂无相关数据" v-if="isNoData"></t-prompt>
+		<t-footer>
+			<view class="create-btn"><t-button text="+ 添加企业" shape="circle" size="md" @click="toForm"></t-button></view>
+		</t-footer>
 	</view>
 </template>
 
@@ -30,7 +44,7 @@
 		data() {
 			return {
 				dataList:[
-					{id:1,title:"sdfsfdsdfdf",body:"dsffsdsfdsfdsdf"}
+					{id:1,title:"北京盛世泰伯网络技术有限公司",body:"dsffsdsfdsfdsdf"}
 				],
 				isLoading: false,
 				loadingText: '加载中...',
@@ -155,51 +169,55 @@
 			closeActionSheet: function() {
 				this.showActionSheet = false
 			},
+			toForm: function (e) {
+				uni.navigateTo({
+					url: "form?id="
+				})
+			},
 		}
 	}
 </script>
 
 <style>
-.mycomment-header{
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-	}
-	.mycomment-date{
-		font-size: 24rpx;
-		/* color: #777777; */
+	.company-title{
+		font-size: 32rpx;
+		color: #333;
 		padding: 20rpx;
 	}
-	.mycomment-text{
-		font-size: 28rpx;
-		line-height: 32rpx;
-		padding: 0 20rpx 20rpx 20rpx;
+	.company-info{
+		display: flex;
+		flex-direction: column;
+		padding: 0 20rpx 20rpx;
 	}
-	.mycomment-info{
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		border-style: solid;
-		border-color: #e9eaec;
-		border-top-width: 1rpx;
-		padding: 20rpx;
-	}
-	.mycomment-title{
-		font-size: 24rpx;
-		color: #777777;
-		text-overflow: ellipsis;
-		lines: 1;
-		flex: 1;
-	}
-	.info-text {
+	.company-text {
 		color: #999999;
-		font-size: 20rpx;
-		margin-right: 30rpx;
+		font-size: 24rpx;
+		line-height: 48rpx;
 	}
-	.favor-box{
+	.handle-box{
 		display: flex;
 		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+		padding: 20rpx 0;
+		border-top: #e9eaec solid 1rpx;
+	}
+	.handle-item{
+		/* display: flex;
+		flex-direction: row;
 		justify-content: flex-start;
-		padding: 10rpx 0;
+		align-items: center; */
+		margin-right: 20rpx;
+	}
+	.handle-item-text{
+		color: #999999;
+		font-size: 20rpx;
+		line-height: 40rpx;
+	}
+	.create-btn{
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		width: 100%;
 	}
 </style>

@@ -53,3 +53,6 @@ view{
 	font-size: 32rpx;
 	line-height: 48rpx;
 }
+.content-padded{
+	padding: 30rpx 60rpx;
+}
