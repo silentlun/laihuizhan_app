@@ -3,7 +3,7 @@
 		:class="['is-direction-' + localLabelPos ,border?'uni-forms-item--border':'' ,border && isFirstBorder?'is-first-border':'']">
 		<slot name="label">
 			<view class="uni-forms-item__label" :class="{'no-label':!label && !isRequired}"
-				:style="{width:localLabelWidth,justifyContent: localLabelAlign}">
+				:style="{width:localLabelWidth,justifyContent: localLabelAlign}" v-if="label">
 				<text v-if="isRequired" class="is-required">*</text>
 				<text>{{label}}</text>
 			</view>
@@ -26,6 +26,7 @@
 			</view>
 		</view>
 		<!-- #endif -->
+		<slot name="right"></slot>
 	</view>
 </template>
 
@@ -586,7 +587,7 @@
 		margin-bottom: 0;
 		padding: 10px 0;
 		// padding-bottom: 0;
-		border-top: 1px #eee solid;
+		border-bottom: 1px #eee solid;
 
 		/* #ifndef APP-NVUE */
 		.uni-forms-item__content {
@@ -622,7 +623,7 @@
 
 	.is-first-border {
 		/* #ifndef APP-NVUE */
-		border: none;
+		/* border: none; */
 		/* #endif */
 		/* #ifdef APP-NVUE */
 		border-width: 0;

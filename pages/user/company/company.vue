@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-gray">
-		<t-list ref="list" :enableBackToTop="true" loadmoreoffset="15" @loadmore="loadMore">
-			<t-list-cell v-for="(item, index) in dataList" :key="item.id">
+		<template v-if="isNoData">
+			<uni-list-cell v-for="(item, index) in dataList" :key="item.id">
 				<t-card :data="item" @click="showDetail(item)" :index="index">
 					<template v-slot:header>
 						<text class="company-title">{{item.title}}</text>
@@ -27,12 +27,12 @@
 						</view>
 					</template>
 				</t-card>
-			</t-list-cell>
-			<t-list-cell v-if="isLoading || dataList.length > 4">
+			</uni-list-cell>
+			<uni-list-cell v-if="isLoading || dataList.length > 4">
 				<uni-load-more :status="loadingStatus" />
-			</t-list-cell>
-		</t-list>
-		<t-prompt class="no-data" title="暂无相关数据" v-if="isNoData"></t-prompt>
+			</uni-list-cell>
+		</template>
+		<lun-prompt class="no-data" title="暂无相关数据" v-else></lun-prompt>
 		<t-footer>
 			<view class="create-btn"><t-button text="+ 添加企业" shape="circle" size="md" @click="toForm"></t-button></view>
 		</t-footer>

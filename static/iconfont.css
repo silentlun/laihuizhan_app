@@ -1,0 +1,73 @@
+@font-face {
+  font-family: "lunfont"; /* Project id 3766356 */
+  src: url('/static/iconfont.ttf?t=1668225209024') format('truetype');
+}
+
+.lunfont {
+  font-family: "lunfont" !important;
+  font-size: inherit;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-phone:before {
+  content: "\e652";
+}
+
+.icon-ticket:before {
+  content: "\e678";
+}
+
+.icon-discover:before {
+  content: "\e683";
+}
+
+.icon-form:before {
+  content: "\e699";
+}
+
+.icon-pay_error:before {
+  content: "\e60c";
+}
+
+.icon-pay_success:before {
+  content: "\e605";
+}
+
+.icon-baoming:before {
+  content: "\e673";
+}
+
+.icon-kongshuju:before {
+  content: "\e735";
+}
+
+.icon-share:before {
+  content: "\e8b0";
+}
+
+.icon-electronics:before {
+  content: "\e66e";
+}
+
+.icon-filter:before {
+  content: "\e672";
+}
+
+.icon-link:before {
+  content: "\e676";
+}
+
+.icon-time:before {
+  content: "\e681";
+}
+
+.icon-weizhichangdi:before {
+  content: "\e6a9";
+}
+
+.icon-vip-fill:before {
+  content: "\ea3d";
+}
+

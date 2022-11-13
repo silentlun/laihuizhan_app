@@ -5,76 +5,84 @@
 			<text class="tips">用于接收系统通知和找回账号凭证</text>
 		</view>
 		<view class="content-padded">
-		<t-forms-item>
-			<t-input type="text" v-model="formData.password" placeholder="请输入邮箱地址"></t-input>
-		</t-forms-item>
-		<t-forms-item>
-			<t-input type="number" v-model="formData.smsCode" placeholder="输入验证码"></t-input>
-			<template v-slot:right>
-				<text class="btn-code" :class="{'btn-code-disabled':isDisabled}" @click="sendSms">{{buttonName}}</text>
-			</template>
-		</t-forms-item>
-		
+			<uni-forms ref="valiForm" :rules="rules" :modelValue="formData" :border="true">
+				<uni-forms-item name="email">
+					<uni-easyinput v-model="formData.email" :inputBorder="false" placeholder="请输入邮箱" />
+				</uni-forms-item>
+				<uni-forms-item name="smsCode">
+					<uni-easyinput type="number" v-model="formData.smsCode" :inputBorder="false" placeholder="输入验证码" />
+					<template v-slot:right>
+						<text class="btn-code" :class="{'btn-code-disabled':isDisabled}" @click="sendSms">{{buttonName}}</text>
+					</template>
+				</uni-forms-item>
+			</uni-forms>
 		</view>
 		<view class="content-padded">
-			<t-button text="保存" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
+			<t-button text="确认修改" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
 		</view>
 	</view>
 </template>
 
 <script>
-	var validate = require("@/common/formValidation.js")
 	export default {
 		data() {
 			return {
 				formData:{},
 				buttonName: "获取验证码",
 				isDisabled:false,
+				rules: {
+					email: {
+						rules: [{
+							required: true,
+							errorMessage: '邮箱不能为空'
+							
+						}]
+					},
+					smsCode: {
+						rules: [{
+							required: true,
+							errorMessage: '验证码不能为空',
+						},{
+							format: 'number',
+							errorMessage: '验证码只能是数字',
+						}]
+					},
+				},
 			}
 		},
 		methods: {
 			formSubmit() {
-				//表单规则
-				let rules = [{
-					name: "email",
-					rule: ["required", "isEmail"],
-					msg: ["请输入邮箱", "请输入正确的邮箱"]
-				},{
-					name: "smsCode",
-					rule: ["required", "isNum"],
-					msg: ["请输入短信验证码", "验证码必须为数字"]
-				}];
-				//进行表单检查
-				let formData = this.formData;
-				console.log(formData)
-				
-				let checkRes = validate.validation(formData, rules);
-				if (!checkRes) {
+				uni.hideKeyboard();
+				this.$refs.valiForm.validate().then(res => {
+					console.log('success', res);
 					uni.request({
-						url: getApp().globalData.appUrl+"index.php?m=member&c=apps&a=account_manage_password",
+						url: "v1/users/changepwd",
 						method: 'POST',
-						data: formData,
+						data: this.formData,
 						header: {
 							'content-type': 'application/x-www-form-urlencoded',
-							'Token':this.userInfo.token
 						},
 						success: (res) => {
 							console.log(JSON.stringify(res))
 							if (res.statusCode == 200) {
-								if(res.data.status == 1){
+								if(res.data.data.status == 1){
 									uni.navigateBack({
 									    delta: 1
 									});
 								}
-								plus.nativeUI.toast(res.data.msg,{verticalAlign:"center"});
+								uni.showToast({
+									icon:'none',
+									title: res.data.data.message,
+									duration: 2000,
+								});
 								
 							}
 						}
 					})
-					
-				} else {
-					plus.nativeUI.toast(checkRes,{verticalAlign:"center"});
-				}
+				}).catch(err => {
+					console.log('err', err);
+				})
+				
 			},
 		}
 	}

@@ -17,9 +17,9 @@
 			</view>
 		</view>
 		
-		<t-list>
-			<t-list-item :subtitle="data.address" :showArrow="true"></t-list-item>
-		</t-list>
+		<uni-list>
+			<uni-list-item :subtitle="data.address" :showArrow="true"></uni-list-item>
+		</uni-list>
 		<view class="service-list">
 			<view class="service-item service">
 				<text class="service-text">周边推荐</text>
@@ -28,7 +28,7 @@
 				<text class="service-text">活动排期</text>
 			</view>
 		</view>
-		<t-gap height="20" bg-color="#f8f8f9"></t-gap>
+		<lun-gap height="20" bg-color="#f8f8f9"></lun-gap>
 		<t-section title="场地介绍"></t-section>
 		<view class="page-warp" style="padding-bottom: 30px;">
 			<view class="detail-content">
@@ -36,7 +36,7 @@
 			</view>
 			
 		</view>
-		<t-gap height="20" bg-color="#f8f8f9"></t-gap>
+		<lun-gap height="20" bg-color="#f8f8f9"></lun-gap>
 		<t-section title="抵达交通"></t-section>
 		<view class="page-warp" style="padding-bottom: 30px;">
 			<view class="detail-content">
@@ -44,7 +44,7 @@
 			</view>
 			
 		</view>
-		<t-gap height="20" bg-color="#f8f8f9"></t-gap>
+		<lun-gap height="20" bg-color="#f8f8f9"></lun-gap>
 		<t-section title="功能/设施"></t-section>
 		<view class="page-warp" style="padding-bottom: 30px;">
 			<view class="detail-content">
@@ -52,7 +52,7 @@
 			</view>
 			
 		</view>
-		<t-gap height="20" bg-color="#f8f8f9"></t-gap>
+		<lun-gap height="20" bg-color="#f8f8f9"></lun-gap>
 		<t-section title="配套服务"></t-section>
 		<view class="page-warp" style="padding-bottom: 30px;">
 			<view class="detail-content">
@@ -69,9 +69,9 @@
 			<text class="foot-btn disabled" v-if="data.bm_stauts==0">已结束</text>
 			
 		</view> -->
-		<t-footer>
+		<lun-footer>
 			<t-button text="联系场地" shape="circle" size="md"></t-button>
-		</t-footer>
+		</lun-footer>
 	</view>
 </template>
 

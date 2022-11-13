@@ -5,19 +5,17 @@
 			<text class="tips">请使用新手机号及当前密码登录</text>
 		</view>
 		<view class="content-padded">
-		<t-forms-item>
-			<t-input type="text" v-model="formData.password" placeholder="请输入当前绑定的手机号"></t-input>
-		</t-forms-item>
-		<t-forms-item>
-			<t-input type="text" v-model="formData.repassword" placeholder="请输入新的手机号"></t-input>
-		</t-forms-item>
-		<t-forms-item>
-			<t-input type="number" v-model="formData.smsCode" placeholder="输入验证码"></t-input>
-			<template v-slot:right>
-				<text class="btn-code" :class="{'btn-code-disabled':isDisabled}" @click="sendSms">{{buttonName}}</text>
-			</template>
-		</t-forms-item>
-		
+		<uni-forms ref="valiForm" :rules="rules" :modelValue="formData" :border="true">
+			<uni-forms-item name="mobile">
+				<uni-easyinput v-model="formData.mobile" :inputBorder="false" placeholder="输入新的手机号" />
+			</uni-forms-item>
+			<uni-forms-item name="smsCode">
+				<uni-easyinput type="number" v-model="formData.smsCode" :inputBorder="false" placeholder="输入验证码" />
+				<template v-slot:right>
+					<text class="btn-code" :class="{'btn-code-disabled':isDisabled}" @click="sendSms">{{buttonName}}</text>
+				</template>
+			</uni-forms-item>
+		</uni-forms>
 		</view>
 		<view class="content-padded">
 			<t-button text="确认修改" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
@@ -26,62 +24,65 @@
 </template>
 
 <script>
-	var validate = require("@/common/formValidation.js")
 	export default {
 		data() {
 			return {
 				formData:{},
 				buttonName: "发送验证码",
 				isDisabled:false,
+				rules: {
+					mobile: {
+						rules: [{
+							required: true,
+							errorMessage: '手机号不能为空'
+							
+						}]
+					},
+					smsCode: {
+						rules: [{
+							required: true,
+							errorMessage: '验证码不能为空',
+						},{
+							format: 'number',
+							errorMessage: '验证码只能是数字',
+						}]
+					},
+				},
 			}
 		},
 		methods: {
 			formSubmit() {
-				//表单规则
-				let rules = [{
-					name: "mobile",
-					rule: ["required", "isMobile"],
-					msg: ["请输入原手机号", "请输入正确的手机号"]
-				},{
-					name: "newmobile",
-					rule: ["required", "isMobile"],
-					msg: ["请输入新手机号", "请输入正确的手机号"]
-				},{
-					name: "smsCode",
-					rule: ["required", "isNum"],
-					msg: ["请输入短信验证码", "验证码必须为数字"]
-				}];
-				//进行表单检查
-				let formData = this.formData;
-				console.log(formData)
-				
-				let checkRes = validate.validation(formData, rules);
-				if (!checkRes) {
+				uni.hideKeyboard();
+				this.$refs.valiForm.validate().then(res => {
+					console.log('success', res);
 					uni.request({
-						url: getApp().globalData.appUrl+"index.php?m=member&c=apps&a=account_manage_password",
+						url: "v1/users/changepwd",
 						method: 'POST',
-						data: formData,
+						data: this.formData,
 						header: {
 							'content-type': 'application/x-www-form-urlencoded',
-							'Token':this.userInfo.token
 						},
 						success: (res) => {
 							console.log(JSON.stringify(res))
 							if (res.statusCode == 200) {
-								if(res.data.status == 1){
+								if(res.data.data.status == 1){
 									uni.navigateBack({
 									    delta: 1
 									});
 								}
-								plus.nativeUI.toast(res.data.msg,{verticalAlign:"center"});
+								uni.showToast({
+									icon:'none',
+									title: res.data.data.message,
+									duration: 2000,
+								});
 								
 							}
 						}
 					})
-					
-				} else {
-					plus.nativeUI.toast(checkRes,{verticalAlign:"center"});
-				}
+				}).catch(err => {
+					console.log('err', err);
+				})
+				
 			},
 		}
 	}

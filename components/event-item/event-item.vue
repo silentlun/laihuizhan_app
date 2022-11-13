@@ -5,8 +5,8 @@
 			<view class="media-body">
 				<text class="media-title">{{data.title}}</text>
 				<view class="media-info">
-					<text class="info-text icon">&#xe74a; {{data.start_date}} ~ {{data.end_date}}</text>
-					<text class="media-foot-addr icon">&#xe650; {{data.venue}}</text>
+					<text class="info-text icon"><uni-icons custom-prefix="lunfont" type="icon-time" size="10" color="#777"></uni-icons> {{data.start_date}} ~ {{data.end_date}}</text>
+					<text class="media-foot-addr icon"><uni-icons type="location" size="12" color="#777"></uni-icons> {{data.venue}}</text>
 				</view>
 			</view>
 		</view>

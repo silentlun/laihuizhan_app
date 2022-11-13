@@ -4,8 +4,6 @@
 		<view class="avatar-body" :class="[isrow ? 'avatar-body-row' : 'avatar-body-column']">
 			<view class="avatar-name-box" v-if="showName">
 				<text class="avatar-name">{{data.username}}</text>
-				<!-- <text class="avatar-label" v-if="data.groupid == 2">GIO</text> -->
-				<!-- <text class="avatar-label" v-if="data.groupid == 3">PRO</text> -->
 			</view>
 			<text class="avatar-text">{{data.tips}}</text>
 		</view>
@@ -37,7 +35,7 @@
 			},
 		},
 		mounted() {
-			this.avatar = this.avatar ? this.avatar : '/static/default_user.png';
+			this.avatar = this.avatar ? this.avatar : '/static/user_defalut.jpg';
 		},
 		methods: {
 			bindClick() {
@@ -45,7 +43,7 @@
 			},
 			onavatarError(e){
 				console.error('image发生error事件，携带值为' + e.detail.errMsg)
-				this.data.avatar = '/static/default_user.png'
+				this.data.avatar = '/static/user_defalut.jpg'
 			},
 		}
 	}

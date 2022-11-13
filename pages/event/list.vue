@@ -63,12 +63,12 @@
 				</view>
 			</t-dropdown-item>
 		</t-dropdown>
-		<t-gap height="110" bgColor="#f8f8f9"></t-gap>
-		<t-list>
-			<t-list-cell v-for="(item, index) in dataList" :key="index">
+		<lun-gap height="110" bgColor="#f8f8f9"></lun-gap>
+		<uni-list>
+			<uni-list-cell v-for="(item, index) in dataList" :key="index">
 				<event-item :data="item" @click="showDetail(item)"></event-item>
-			</t-list-cell>
-		</t-list>
+			</uni-list-cell>
+		</uni-list>
 	</view>
 </template>
 

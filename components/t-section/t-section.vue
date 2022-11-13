@@ -3,7 +3,7 @@
 		<text class="head-title">{{title}}</text>
 		<view class="link-more" v-if="showMore" @click="onClick">
 			<text class="link-more-text">更多</text>
-			<t-icons type="right" color="#999999"></t-icons>
+			<uni-icons type="right" color="#999999"></uni-icons>
 		</view>
 		<slot></slot>
 	</view>

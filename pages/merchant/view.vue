@@ -33,29 +33,28 @@
 		</view>
 		<view class="page-warp merchant-warp">
 			<view class="feedback-box">
-				<t-icons type="remind" color="#777" size="16"></t-icons><text class="feedback-text">投诉</text>
+				<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">投诉</text>
 			</view>
 		</view>
 		<!-- <t-list>
 			<t-list-item :subtitle="'北京市朝阳区的说法发随叫随到发'" :showArrow="true"></t-list-item>
 		</t-list> -->
-		
+		<t-section title="服务商简介"></t-section>
 		<view class="page-warp">
 			<!-- <view class="tabs">
 			<tui-tabs :tabs="navbar" :currentTab="currentTab>1?0:currentTab" @change="change" itemWidth="50%"></tui-tabs>
 			</view> -->
-			<t-section title="服务商简介"></t-section>
+			
 			<view>
 				<p>【区域与行业】</p><p>① 11月7日，国家发展改革委发布《关于进一步完善政策环境加大力度支持民间投资发展的意见》，鼓励民间资本积极参与国家创新平台建设，支持民营企业承担国家重大科技战略任务，鼓励平台企业加快人工智能、云计算、区块链、操作系统、处理器等领域重点项目建设。（国家发改委官微）</p>
 			</view>
-			<t-section title="服务案例"></t-section>
-			<t-list>
-				<t-list-cell v-for="(item, index) in dataList" :key="index">
-					<event-item :data="item" @click="showDetail(item)"></event-item>
-				</t-list-cell>
-			</t-list>
-			
 		</view>
+		<t-section title="服务案例"></t-section>
+		<t-list>
+			<t-list-cell v-for="(item, index) in dataList" :key="index">
+				<event-item :data="item" @click="showDetail(item)"></event-item>
+			</t-list-cell>
+		</t-list>
 		
 		<t-footer>
 			<t-button text="联系服务商" shape="circle" size="md"></t-button>

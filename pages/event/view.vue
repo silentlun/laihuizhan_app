@@ -8,10 +8,10 @@
 			</view>
 		</view>
 		
-		<t-list>
-			<t-list-item :subtitle="data.eventdate"></t-list-item>
-			<t-list-item :subtitle="data.address" :showArrow="true"></t-list-item>
-		</t-list>
+		<uni-list :border="false">
+			<uni-list-item :subtitle="data.eventdate"></uni-list-item>
+			<uni-list-item :subtitle="data.address" :showArrow="true"></uni-list-item>
+		</uni-list>
 		<view class="page-warp">
 			<view class="service-card">
 				<text class="service-text">服务商推荐</text>
@@ -45,9 +45,10 @@
 			<text class="foot-btn disabled" v-if="data.bm_stauts==0">已结束</text>
 			
 		</view> -->
-		<t-footer>
-			<t-button text="联系主办方" shape="circle" size="md"></t-button>
-		</t-footer>
+		<lun-footer>
+			<lun-footer-nav></lun-footer-nav>
+			<!-- <t-button text="联系主办方" shape="circle" size="md" @click="toContact"></t-button> -->
+		</lun-footer>
 	</view>
 </template>
 
@@ -97,6 +98,11 @@
 					}
 				})
 			},
+			toContact(){
+				uni.navigateTo({
+					url: '/pages/main/contact'
+				});
+			}
 		}
 	}
 </script>

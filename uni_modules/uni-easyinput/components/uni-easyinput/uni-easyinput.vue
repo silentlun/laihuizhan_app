@@ -492,7 +492,7 @@ $uni-border-1: #dcdfe6 !default;
 	position: relative;
 	text-align: left;
 	color: #333;
-	font-size: 14px;
+	font-size: 28rpx;
 }
 
 .uni-easyinput__content {
@@ -519,14 +519,14 @@ $uni-border-1: #dcdfe6 !default;
 	overflow: hidden;
 	flex: 1;
 	line-height: 1;
-	font-size: 14px;
-	height: 35px;
+	font-size: 28rpx;
+	height: 70rpx;
 	// min-height: 36px;
 }
 
 .uni-easyinput__placeholder-class {
 	color: #999;
-	font-size: 12px;
+	font-size: 28rpx;
 	// font-weight: 200;
 }
 
@@ -543,7 +543,7 @@ $uni-border-1: #dcdfe6 !default;
 	overflow: hidden;
 	flex: 1;
 	line-height: 1.5;
-	font-size: 14px;
+	font-size: 28rpx;
 	margin: 6px;
 	margin-left: 0;
 	height: 80px;
@@ -586,9 +586,9 @@ $uni-border-1: #dcdfe6 !default;
 	position: absolute;
 	bottom: -17px;
 	left: 0;
-	line-height: 12px;
+	line-height: 24rpx;
 	color: $uni-error;
-	font-size: 12px;
+	font-size: 24rpx;
 	text-align: left;
 }
 
@@ -632,7 +632,7 @@ $uni-border-1: #dcdfe6 !default;
 
 	.uni-easyinput__placeholder-class {
 		color: #d5d5d5;
-		font-size: 12px;
+		font-size: 24rpx;
 	}
 }
 </style>

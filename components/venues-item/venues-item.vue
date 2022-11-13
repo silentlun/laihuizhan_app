@@ -5,9 +5,9 @@
 			<view class="media-body">
 				<text class="media-title">{{data.title}}</text>
 				<view class="media-info">
-					<text class="media-foot-addr icon">&#xe650; {{data.address}}</text>
+					<text class="media-foot-addr icon"><uni-icons type="location" size="12" color="#777"></uni-icons> {{data.address}}</text>
 					<view class="info-tag">
-						<t-tag size="small">展会</t-tag>
+						<uni-tag text="标签" type="warning" size="mini" :circle="true" :inverted="true"></uni-tag>
 					</view>
 				</view>
 			</view>

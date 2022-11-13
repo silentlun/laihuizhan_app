@@ -14,7 +14,7 @@
 						<!-- <text class="groupname">{{info.groupname}}</text> -->
 					</view>
 				</view>
-				<view class=""><t-icons type="settings" color="#fff" size="18" @click="toSetting"></t-icons></view>
+				<view class=""><uni-icons type="gear-filled" color="#fff" size="24" @click="toSetting"></uni-icons></view>
 			</view>
 			
 			<view class="follow-tabs">
@@ -35,12 +35,18 @@
 		<view class="cover-container">
 			<!-- <image class="arc" src="/static/arc.png" mode="widthFix"></image> -->
 			<view class="my-card">
-				<t-list>
-					<t-list-item title="我的订单" to="/pages/user/myorder" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'form'}" link="navigateTo"></t-list-item>
-					<t-list-item title="我的企业" to="/pages/user/company/company" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'activity'}" link="navigateTo"></t-list-item>
-					<t-list-item title="我的投诉" to="/pages/news/history" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'bofangjilu'}" link="navigateTo"></t-list-item>
-					<t-list-item title="我的关注" to="/pages/user/follow" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'shoucang'}" link="navigateTo"></t-list-item>
-				</t-list>
+				<uni-list :border="false">
+					<uni-list-item title="我的订单" to="/pages/user/insurance-order" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'list'}" link="navigateTo">
+						<template v-slot:header>
+							<view class="list-item-icon">
+								<uni-icons color="#000000" custom-prefix="lunfont" type="icon-form" size="20"></uni-icons>
+							</view>
+						</template>
+					</uni-list-item>
+					<uni-list-item title="我的企业" to="/pages/user/company/company" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'medal'}" link="navigateTo"></uni-list-item>
+					<uni-list-item title="我的投诉" to="/pages/news/history" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'notification'}" link="navigateTo"></uni-list-item>
+					<uni-list-item title="我的关注" to="/pages/user/follow" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'star'}" link="navigateTo"></uni-list-item>
+				</uni-list>
 			</view>
 		</view>
 	</view>
@@ -194,6 +200,9 @@ page{
 	padding-top: 10rpx;
 	padding-bottom: 10rpx;
 	background-color: #fff;
-	border-radius: 10rpx;
+	border-radius: 16rpx;
+}
+.list-item-icon{
+	margin-right: 20rpx;
 }
 </style>

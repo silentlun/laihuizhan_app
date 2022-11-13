@@ -1,41 +1,66 @@
 <template>
-	<view>
+	<view class="profile-input-group">
 		<user-avatar :data="formData" :avatar="avatar" @click="editAvatar"></user-avatar>
-		<view class="profile-input-group">
-			<t-forms-item label="姓名">
-				<t-input type="text" v-model="formData.username" placeholder="请输入真实姓名"></t-input>
-			</t-forms-item>
-			<t-forms-item label="公司">
-				<t-input type="text" v-model="formData.company" placeholder="请输入公司名称或机构名称"></t-input>
-			</t-forms-item>
-			<t-forms-item label="职务">
-				<t-input type="text" v-model="formData.job" placeholder="请输入职务"></t-input>
-			</t-forms-item>
-			<t-forms-item label="简介">
-				<t-input type="textarea" v-model="formData.introduction" placeholder="介绍一下自己吧"></t-input>
-			</t-forms-item>
-			
-			
-			<view class="content-padded">
-				<t-button text="保存" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
-			</view>
-			
+		<uni-forms ref="valiForm" :rules="rules" :modelValue="formData" label-position="top" label-width="100%">
+			<uni-forms-item label="昵称" name="nickname" required>
+				<uni-easyinput v-model="formData.nickname" placeholder="昵称" />
+			</uni-forms-item>
+			<uni-forms-item label="性别" name="gender">
+				<uni-data-checkbox v-model="formData.gender" :localdata="genders"></uni-data-checkbox>
+			</uni-forms-item>
+		</uni-forms>
+		
+		<view class="content-padded">
+			<t-button text="保存" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
 		</view>
+		
 	</view>
 </template>
 
 <script>
-	var validate = require("@/common/formValidation.js")
 	import { mapState,mapMutations } from 'vuex'
 	export default {
 		data() {
 			return {
-				formData:{},
+				formData:{
+					tips: '点击更换',
+				},
 				editAvatarStatus:false,
+				genders: [{
+					text: '先生',
+					value: '先生'
+				}, {
+					text: '女士',
+					value: '女士'
+				}, {
+					text: '保密',
+					value: '保密'
+				}],
+				rules: {
+					nickname: {
+						rules: [{
+							required: true,
+							maximum: 20,
+							minimum: 2,
+							errorMessage: '昵称不能为空'
+							
+						},{
+							validateFunction: (rule, value, data, callback) => {
+								return new Promise((resolve, reject) => {
+									if(value.length > 1 && value.length < 20){
+										resolve()
+									}else{
+										reject(new Error('昵称长度必须介于2至20个字符之间'))
+									}
+								})
+							}
+						}]
+					},
+				},
 			}
 		},
 		onLoad() {
-			this.loadUserInfo();
+			/* this.loadUserInfo();
 			uni.$on('updateAvatar', (data)=>{
 				if(data.avatar){
 					this.editAvatarStatus = true
@@ -43,7 +68,7 @@
 					this.avatar = data.avatar;
 					this.upavatar(data.avatar)
 				}
-			})
+			}) */
 		},
 		onUnload() {
 			uni.$off('updateAvatar')
@@ -60,29 +85,18 @@
 							console.log(res)
 							this.formData = data;
 							this.formData.introduction = data.profile.introduction;
-							this.formData.tips = '点击编辑'
+							this.formData.tips = '点击更换'
 						}
 					}
 				})
 			},
 			formSubmit: function(e) {
 				uni.hideKeyboard();
-				let rules = [{
-					name: "username",
-					rule: ["required", "minLength:2", "maxLength:20"],
-					msg: ["请输入姓名", "姓名至少两个字符", "姓名最多20个字符"]
-				},{
-					name: "company",
-					rule: ["required", "minLength:2", "maxLength:100"],
-					msg: ["请输入公司名称", "公司名称至少两个字符", "公司名称最多100个字符"]
-				},{
-					name: "job",
-					rule: ["required", "minLength:2", "maxLength:20"],
-					msg: ["请输入职务", "职务至少两个字符", "职务最多20个字符"]
-				}];
-				//进行表单检查
-				let checkRes = validate.validation(this.formData, rules);
-				if (!checkRes) {
+				this.$refs.valiForm.validate().then(res => {
+					console.log('success', res);
+					uni.showToast({
+						title: `校验通过`
+					})
 					uni.showLoading({
 						title: '保存中'
 					});
@@ -112,7 +126,7 @@
 								}else{
 									uni.showToast({
 										icon:'none',
-									    title: res.data.msg,
+									    title: res.data.message,
 									});
 								}
 							}
@@ -125,17 +139,12 @@
 							});
 						}
 					});
-				} else {
-					uni.showToast({
-						icon:'none',
-					    title: checkRes
-					});
-				}
-				return false;
+				}).catch(err => {
+					console.log('err', err);
+				})
+				
 			},
-			onavatarError(e){
-				this.info.avatar = '../../static/default_user.png'
-			},
+			
 			editAvatar() {
 				uni.chooseImage({
 					sourceType: ["camera", "album"],
@@ -166,5 +175,6 @@
 		width: 750rpx;
 		padding-left: 30rpx;
 		padding-right: 30rpx;
+		padding-top: 60rpx;
 	}
 </style>
