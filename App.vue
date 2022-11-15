@@ -2,8 +2,10 @@
 	import initApp from '@/common/appInit.js';
 	import { mapState,mapMutations } from 'vuex';
 	export default {
+		globalData: {},
 		onLaunch: function() {
 			console.log('App Launch')
+			initApp();
 		},
 		onShow: function() {
 			console.log('App Show')

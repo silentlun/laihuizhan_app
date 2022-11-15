@@ -6,7 +6,7 @@
 					<view class="avatar-box">
 						<image class="avatar" :src="info.avatar" @click="authDetail('/pages/user/info')"></image>
 					</view>
-					<view class="info-box" v-if="hasLogin">
+					<view class="info-box" v-if="!hasLogin">
 						<text class="username" @click="login">登录/注册</text>
 					</view>
 					<view class="info-box" v-else>
@@ -74,26 +74,10 @@
 		},
 		computed: mapState(['hasLogin', 'userInfo']),
 		methods: {
-			authDetail(url){
-				if (navigateFlag) {
-					return;
-				}
-				navigateFlag = true;
-				if(!this.hasLogin){
-					uni.navigateTo({
-						url: '/pages/login/login',
-						animationType: 'zoom-fade-out',
-						animationDuration: 300
-					});
-				}else{
-					uni.navigateTo({
-						url: url
-					});
-				}
-				
-				setTimeout(() => {
-					navigateFlag = false;
-				}, 200)
+			login(){
+				uni.navigateTo({
+					url: '/pages/main/login'
+				});
 			},
 			toSetting(){
 				uni.navigateTo({
@@ -116,7 +100,7 @@ page{
 	flex-direction: column;
 	background-image: linear-gradient(45deg, #d41a1a, #FF8D39);
 	width: 750rpx;
-	padding: 50rpx 30rpx 40rpx 30rpx;
+	padding: 150rpx 30rpx 40rpx 30rpx;
 	
 }
 .user-header{

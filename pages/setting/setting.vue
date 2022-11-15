@@ -11,7 +11,7 @@
 		<!-- <view class="content-padded">
 			<t-button text="退出登录" type="warning" size="lg" shape="circle" @click="onLogout"></t-button>
 		</view> -->
-		<t-gap height="20" bgColor="#f8f8f9"></t-gap>
+		<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 		<text class="logout" @click="onLogout">退出登录</text>
 	</view>
 </template>

@@ -115,8 +115,8 @@
 					url: 'v1/events',
 					data: this.requestParams,
 					success: (res) => {
+						console.log(res)
 						const data = res.data.data;
-						console.log(data)
 						if(this.requestParams.page > 1){
 							if(data.length <= 0){
 								this.loadingStatus = 'nodata'

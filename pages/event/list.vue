@@ -103,9 +103,10 @@
 		},
 		methods: {
 			loadData() {
-				if (this.isLoading) {
+				/* if (this.isLoading) {
 					return;
-				}
+				} */
+				console.log('load data')
 			
 				this.isLoading = true;
 				this.isNoData = false;
@@ -115,8 +116,9 @@
 					url: 'v1/events',
 					data: this.requestParams,
 					success: (res) => {
-						const data = res.data.data;
-						console.log(data)
+						console.log(res)
+						const data = res.data;
+						//console.log(data)
 						if(this.requestParams.page > 1){
 							if(data.length <= 0){
 								this.loadingStatus = 'nodata'
@@ -124,7 +126,7 @@
 								this.dataList = this.dataList.concat(data);
 							}
 						}else{
-							this.isNoData = (data.length <= 0);
+							//this.isNoData = (data.length <= 0);
 							this.dataList = data;
 						}
 						this.requestParams.page++;

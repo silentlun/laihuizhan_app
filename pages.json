@@ -111,11 +111,29 @@
 		    }
 		    
 		}
+        ,{
+            "path" : "pages/main/contact",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "联系方式",
+                "enablePullDownRefresh": false
+            }
+            
+        }
 		,{
 		    "path" : "pages/main/login",
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "登录",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,{
+		    "path" : "pages/main/login-bind",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "绑定手机",
 		        "enablePullDownRefresh": false
 		    }
 		    
@@ -211,14 +229,15 @@
             
         }
         ,{
-            "path" : "pages/main/contact",
+            "path" : "pages/merchant/case-view",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "联系方式",
+                "navigationBarTitleText": "案例详情",
                 "enablePullDownRefresh": false
             }
             
         }
+        
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

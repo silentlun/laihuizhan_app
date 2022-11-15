@@ -1,36 +1,47 @@
-const baseUrl = 'http://api.taibo.cn/'
-const webUrl = 'http://www.taibo.cn/'
-const zkUrl = 'http://tiu.taibo.cn/'
+/* const baseUrl = 'http://api.taibo.cn/' */
+const webUrl = 'http://www.laihuizhan.com/'
 
-//const baseUrl = 'http://192.168.1.252:8099/'
-//const webUrl = 'http://192.168.1.252:8091/'
-//const zkUrl = 'http://192.168.1.252:8095/'
 
-//const baseUrl = 'http://192.168.0.150:8080/'
-
+let baseUrl;
+if (process.env.NODE_ENV === 'development') {
+	console.log('开发环境')
+	baseUrl = 'http://api.demo.com/'
+} else {
+	console.log('生产环境')
+	baseUrl = 'http://api.laihuizhan.com/'
+}
 
 export default async function() {
+	
 	const Debug = false
 	//请求拦截
 	uni.addInterceptor('request', {
 		invoke(args) {
 			const url = args.url;
-			if (url.indexOf('https://') === 0 || url.indexOf('http://') === 0) {
-			} else {
+			var urlReg = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+			if(!urlReg.test(url)){
 				args.url = baseUrl + url
 			}
-			//console.log(args.url)
-			//args.header = {Authorization:'Bearer ' + uni.getStorageSync('token')}
 			args.header = args.header || {};
 			Object.assign(args.header, {Authorization:'Bearer ' + uni.getStorageSync('token')});
 			//console.log(args)
 		},
 		success:(e) => {
-			//console.log('request success', e)
-			//if(e.data.code == 200) e.data = e.data.data
+			if(e.data.code == 200){
+				e.data = e.data.data
+			}else{
+				uni.showToast({
+					title: e.data.message,
+					icon: 'error',
+				});
+			}
 		},
 		fail:(err) => {
-			//console.log('fail', err)
+			console.log('fail', err)
+			uni.showToast({
+				title: '数据获取失败',
+				icon: 'error',
+			});
 		},
 		complete:(res) => {
 			//console.log('complete', res)
@@ -40,8 +51,7 @@ export default async function() {
 	getApp({
 		allowDefault: true
 	}).globalData = {
-		appUrl: webUrl,
-		zkUrl: zkUrl
+		webUrl: webUrl
 	}
 	//自定义路由拦截
 	//需要登录的页面 */

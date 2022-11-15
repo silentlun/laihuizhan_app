@@ -44,9 +44,10 @@
 	.footer-seat {
 		/* #ifndef APP-NVUE */
 		width: 100%;
+		/* #endif */
 		height: 100rpx;
 		margin-bottom: env(safe-area-inset-bottom);
-		/* #ifndef APP-NVUE */
+		
 	}
 	/* #ifndef APP-NVUE */
 	.footer::before {
@@ -59,5 +60,5 @@
 		-webkit-transform: scaleY(0.5);
 		transform: scaleY(0.5);
 	}
-	/* #ifndef APP-NVUE */
+	/* #endif */
 </style>

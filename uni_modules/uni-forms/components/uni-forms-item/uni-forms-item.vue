@@ -473,6 +473,7 @@
 		margin-bottom: 22px;
 		/* #endif */
 		flex-direction: row;
+		align-items: center;
 
 		&__label {
 			display: flex;
