@@ -1,22 +1,41 @@
 <template>
-	<view class="page">
+	<view class="page ">
+		<view class="searchbar">
+			<!-- <view class="searchbar-city">
+				<view>
+					<text class="searchbar-city-text">{{ city }}</text>
+				</view>
+				<uni-icons type="arrowdown" color="#666" size="14" />
+			</view> -->
+			<view class="searchbar-input-view" @click="toSearch">
+				<uni-search-bar placeholder="搜索关键词" radius="60" readonly></uni-search-bar>
+			</view>
+		</view>
 		<t-swiper :data="focusData" @click="newsDetail"></t-swiper>
-		<t-section title="热门服务" link="/pages/merchant/list" showMore></t-section>
-		<uni-list :border="false">
+		<!-- <t-section title="热门服务" link="/pages/merchant/list" showMore></t-section> -->
+		<lun-gap height="20" bgColor="#ffffff"></lun-gap>
+		<uni-grid :column="4" :highlight="true" @change="toService" :showBorder="false"  :square="false">
+			<uni-grid-item v-for="(item, index) in categorys" :index="index" :key="index">
+				<category-item :data="item"></category-item>
+			</uni-grid-item>
+		</uni-grid>
+		<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
+		<!-- <uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in venuesData" :key="index">
 				<company-item :data="item" @click="showDetail(item)"></company-item>
 			</uni-list-cell>
-		</uni-list>
+		</uni-list> -->
 		<t-section title="热门场地" link="/pages/venues/list" showMore></t-section>
-		<uni-list>
+		<uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in venuesData" :key="index">
-				<venues-item :data="item"></venues-item>
+				<venues-item :data="item" @click="toVenuesDetail(item)"></venues-item>
 			</uni-list-cell>
 		</uni-list>
+		<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 		<t-section title="热门活动" link="/pages/event/list" showMore></t-section>
-		<uni-list>
+		<uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in eventData" :key="index">
-				<event-item :data="item"></event-item>
+				<event-item :data="item" @click="toEventDetail(item)"></event-item>
 			</uni-list-cell>
 		</uni-list>
 	</view>
@@ -36,26 +55,121 @@
 					thumb: '/static/23.jpg',
 					title: '3333',
 				}],
-				current: 0,
-				mode: 'round',
-				eventData: [
-					{id:1, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'},
-					{id:2, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'},
-					{id:3, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'},
-					{id:4, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'}
-				],
-				venuesData: [
-					{id:1, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']},
-					{id:2, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']},
-					{id:3, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']},
-					{id:4, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']}
-				],
+				categorys: [],
+				/* categorys: [
+					{id:1, catname:'类目名称', image:"/static/22.jpg"},
+					{id:2, catname:'类目名称', image:"/static/21.jpg"},
+					{id:3, catname:'类目名称', image:"/static/23.jpg"},
+					{id:4, catname:'类目名称', image:"/static/22.jpg"},
+					{id:5, catname:'类目名称', image:"/static/21.jpg"},
+					{id:6, catname:'类目名称', image:"/static/23.jpg"},
+					{id:7, catname:'类目名称', image:"/static/23.jpg"},
+					{id:0, catname:'更多服务', image:"/static/23111.jpg"},
+				], */
+				eventData: [],
+				venuesData: [],
+				city: '北京',
+				searchbarFixed: false,
 			}
 		},
-		methods: {
-			newsDetail(e) {
-				this.current = e.detail.current;
+		onPageScroll: function (e) {
+			if(e.scrollTop > 80){
+				this.searchbarFixed = true
+			}else{
+				this.searchbarFixed = false
 			}
+		},
+		onLoad() {
+			this.loadData();
+		},
+		methods: {
+			loadData(){
+				uni.request({
+					url: 'v1/sites/banner',
+					success: (res) => {
+						//console.log(res.data)
+						this.focusData = res.data
+					}
+				})
+				uni.request({
+					url: 'v1/merchants/home',
+					data: {'per-page':7},
+					success: (res) => {
+						console.log(res.data)
+						this.categorys = res.data
+						this.categorys = this.categorys.concat([{id:0, catname:'更多服务', image:"/static/23111.jpg"}])
+					}
+				})
+				uni.request({
+					url: 'v1/events/home',
+					success: (res) => {
+						//console.log(res.data)
+						this.eventData = res.data
+					}
+				})
+				uni.request({
+					url: 'v1/venues/home',
+					success: (res) => {
+						this.venuesData = res.data
+					}
+				})
+				
+			},
+			newsDetail(e) {
+				if(e.module == 1){
+					uni.navigateTo({
+						url: "/pages/merchant/view?id="+e.content_id
+					})
+				}else if(e.module == 2){
+					uni.navigateTo({
+						url: "/pages/venues/view?id="+e.content_id
+					})
+				}else if(e.module == 3){
+					uni.navigateTo({
+						url: "/pages/event/view?id="+e.content_id
+					})
+				}
+			},
+			toSearch() {
+				console.log('dssd')
+				uni.navigateTo({
+					url: "/pages/search/search"
+				})
+			},
+			toService: function (e) {
+				let {index} = e.detail
+				let catid = this.categorys[index].id
+				console.log(catid)
+				if(catid == 0){
+					uni.switchTab({
+						url: "/pages/tabbar/service"
+					})
+				}else{
+					uni.navigateTo({
+						url: "/pages/merchant/list?catid=" + catid
+					})
+				}
+				
+			},
+			toMerchantList: function (e) {
+				uni.navigateTo({
+					url: "/pages/merchant/list?catid=" + e.id
+				})
+			},
+			toVenuesDetail: function (e) {
+				uni.navigateTo({
+					url: "/pages/venues/view?id="+e.id
+				})
+			},
+			toEventDetail: function (e) {
+				uni.navigateTo({
+					url: "/pages/event/view?id="+e.id
+				})
+			},
+		},
+		onShareAppMessage(){
+		},
+		onShareTimeline(){
 		}
 	}
 </script>

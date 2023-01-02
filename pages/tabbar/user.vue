@@ -4,13 +4,13 @@
 			<view class="user-header">
 				<view class="user-info-box">
 					<view class="avatar-box">
-						<image class="avatar" :src="info.avatar" @click="authDetail('/pages/user/info')"></image>
+						<user-avatar :avatar="avatar" size="md" @click="goProfile"></user-avatar>
 					</view>
 					<view class="info-box" v-if="!hasLogin">
-						<text class="username" @click="login">登录/注册</text>
+						<text class="username" @click="toLogin">登录/注册</text>
 					</view>
 					<view class="info-box" v-else>
-						<text class="username">Hello, {{info.showname}}</text>
+						<text class="username" @click="goProfile">{{info.nickname}}</text>
 						<!-- <text class="groupname">{{info.groupname}}</text> -->
 					</view>
 				</view>
@@ -19,15 +19,15 @@
 			
 			<view class="follow-tabs">
 				<view class="follow-tabs-item">
-					<text class="item-num">0</text>
+					<text class="item-num">{{eventCount}}</text>
 					<text class="item-label">关注活动</text>
 				</view>
 				<view class="follow-tabs-item">
-					<text class="item-num">0</text>
+					<text class="item-num">{{venueCount}}</text>
 					<text class="item-label">关注场地</text>
 				</view>
 				<view class="follow-tabs-item">
-					<text class="item-num">0</text>
+					<text class="item-num">{{merchantCount}}</text>
 					<text class="item-label">关注服务</text>
 				</view>
 			</view>
@@ -44,8 +44,8 @@
 						</template>
 					</uni-list-item>
 					<uni-list-item title="我的企业" to="/pages/user/company/company" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'medal'}" link="navigateTo"></uni-list-item>
-					<uni-list-item title="我的投诉" to="/pages/news/history" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'notification'}" link="navigateTo"></uni-list-item>
 					<uni-list-item title="我的关注" to="/pages/user/follow" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'star'}" link="navigateTo"></uni-list-item>
+					<uni-list-item title="我的投诉" to="/pages/user/feedback" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'notification'}" link="navigateTo"></uni-list-item>
 				</uni-list>
 			</view>
 		</view>
@@ -57,31 +57,95 @@
 	export default {
 		data() {
 			return {
-				info:{
-					avatar:'/static/user_defalut.jpg',
-					groupname: '企业认证',
-					amount:0,
-					point:0,
-					thyd1:0,
-					thyd299:0
-				},
-				coverTransform: 'translateY(40px)',
-				property:'transform',
-				timingFunction:'ease-out',
-				duration:'0.1',
-				moving: false,
+				userInfo:{},
+				useravatar:'../../static/user_defalut.jpg',
+				unionid:null,
+				eventCount: 0,
+				venueCount: 0,
+				merchantCount: 0,
 			}
 		},
-		computed: mapState(['hasLogin', 'userInfo']),
+		onLoad() {
+			uni.$on('upAvatar', (data)=>{
+				console.log(data.avatar)
+				if(data.avatar){
+					this.avatar = data.avatar;
+				}
+			})
+			//this.loadUserInfo();
+		},
+		onShow() {
+			//this.loadUserInfo();
+			if(this.hasLogin){
+				this.loadCount()
+			}
+		},
+		computed: mapState(['avatar', 'hasLogin', 'token', 'info']),
 		methods: {
-			login(){
+			...mapMutations(['login', 'upavatar']),
+			onLogin() {
+				wx.login({
+					success:(res) => {
+						//console.log(res)
+						if (res.code) {
+							//发起网络请求
+							uni.request({
+								url: "v1/sites/login",
+								method: 'POST',
+								data: {code: res.code},
+								success: (result) => {
+									console.log(JSON.stringify(result))
+									let data = result.data
+									if(data.code == 200){
+										this.login(data.userInfo)
+										this.upavatar(data.userInfo.avatar)
+									}else{
+										this.unionid = data.unionid
+									}
+								},
+								fail: () => {
+									uni.showToast({
+										icon: 'error',
+										title: '登录失败',
+										duration: 2000
+									});
+								}
+							})
+						} else {
+							console.log('登录失败！' + res.errMsg)
+						}
+					}
+				})
+			},
+			toLogin(){
 				uni.navigateTo({
-					url: '/pages/main/login'
+					url: '/pages/main/login?unionid='+this.unionid
 				});
 			},
 			toSetting(){
 				uni.navigateTo({
 					url: "/pages/setting/setting"
+				})
+			},
+			goProfile: function (e) {
+				uni.navigateTo({
+					url: "/pages/setting/profile"
+				})
+			},
+			loadUserInfo(){
+				if (!this.hasLogin) {
+					//this.avatar = '../../static/user_defalut.jpg';
+				}
+			},
+			loadCount(){
+				uni.request({
+					url: "v1/users/favorite-count",
+					success: (result) => {
+						let data = result.data
+						this.eventCount = data.eventCount
+						this.venueCount = data.venueCount
+						this.merchantCount = data.merchantCount
+					}
 				})
 			}
 		}
@@ -100,7 +164,11 @@ page{
 	flex-direction: column;
 	background-image: linear-gradient(45deg, #d41a1a, #FF8D39);
 	width: 750rpx;
-	padding: 150rpx 30rpx 40rpx 30rpx;
+	padding-top: calc(88rpx + var(--status-bar-height) + env(safe-area-inset-top));
+	/* padding-top: env(safe-area-inset-top); */
+	padding-left: 30rpx;
+	padding-right: 30rpx;
+	padding-bottom: 40rpx;
 	
 }
 .user-header{
@@ -115,10 +183,14 @@ page{
 	align-items: center;
 	
 }
+.avatar-box{
+	width: 120rpx;
+	margin-right: 20rpx;
+}
 .avatar{
-	width: 90rpx;
-	height: 90rpx;
-	border-radius: 100rpx;
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 120rpx;
 	margin-right: 20rpx;
 }
 .info-box{

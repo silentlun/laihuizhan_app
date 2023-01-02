@@ -508,6 +508,7 @@
 			flex: 1;
 			/* #ifndef APP-NVUE */
 			box-sizing: border-box;
+			width: 100%;
 			/* #endif */
 			flex-direction: row;
 

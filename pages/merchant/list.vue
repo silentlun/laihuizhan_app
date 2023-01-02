@@ -1,10 +1,17 @@
 <template>
-	<view>
+	<view class="page">
+		<t-dropdown>
+			<t-dropdown-item v-model="requestParams.province" :list="provinces" title="地区" :showtype="2" @click="choose"></t-dropdown-item>
+			<t-dropdown-item v-model="requestParams.catid" :list="categories" :title="catname" :showtype="2" @click="choose"></t-dropdown-item>
+			
+		</t-dropdown>
+		<lun-gap height="110" bgColor="#f8f8f9"></lun-gap>
 		<t-list>
 			<t-list-cell v-for="(item, index) in dataList" :key="index">
 				<company-item :data="item" @click="showDetail(item)"></company-item>
 			</t-list-cell>
 		</t-list>
+		<lun-prompt class="no-data" title="暂无相关数据" v-if="isNoData"></lun-prompt>
 	</view>
 </template>
 
@@ -12,18 +19,60 @@
 	export default {
 		data() {
 			return {
-				dataList: [
-					{id:1, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'},
-					{id:2, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'},
-					{id:3, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'},
-					{id:4, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'}
-				],
+				dataList: [],
+				provinces:[{
+					'name':'全部',
+					'value':''
+				}],
+				categories:[{
+					'name':'全部',
+					'value':''
+				}],
+				catname: '类目',
+				isLoading: false,
+				loadingText: '加载中...',
+				loadingStatus: 'loading',
+				isNoData: false,
+				requestParams: {
+					catid: '',
+					province: '',
+					page: 1,
+				},
 			}
 		},
-		onLoad() {
-			//this.loadData()
+		onLoad(e) {
+			this.requestParams.catid = e.catid
+			this.loadData()
+			this.loadType()
+		},
+		onReachBottom(){
+			this.loadData();
 		},
 		methods: {
+			loadType() {
+				uni.request({
+					url: 'v1/sites/regions',
+					success: (res) => {
+						this.provinces = this.provinces.concat(res.data)
+					}
+				})
+				uni.request({
+					url: 'v1/merchants/category',
+					success: (res) => {
+						this.categories = this.categories.concat(res.data)
+						let childs = this.categories.filter(item => {
+							return item.value == this.requestParams.catid
+						})
+						console.log(childs)
+						this.catname = childs[0].name
+					}
+				})
+			},
+			choose() {
+				this.requestParams.page = 1;
+				console.log('dssd')
+				this.loadData();
+			},
 			loadData() {
 				if (this.isLoading) {
 					return;
@@ -34,10 +83,10 @@
 				this.loadingStatus = 'loading'
 			
 				uni.request({
-					url: 'v1/events',
+					url: 'v1/merchants',
 					data: this.requestParams,
 					success: (res) => {
-						const data = res.data.data;
+						const data = res.data;
 						console.log(data)
 						if(this.requestParams.page > 1){
 							if(data.length <= 0){

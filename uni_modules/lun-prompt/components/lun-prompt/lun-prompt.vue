@@ -54,7 +54,7 @@
 	.lun-prompt {
 		/* #ifndef APP-NVUE */
 		display: flex;
-		height: 100%;
+		height: 70%;
 		/* #endif */
 		flex-direction: column;
 		align-items: center;
@@ -68,9 +68,9 @@
 	}
 
 	.lun-prompt__title {
-		font-size: 32rpx;
+		font-size: 28rpx;
 		color: #AAAAAA;
-		margin: 4rpx 0
+		margin: 10rpx 0
 	}
 
 	.lun-prompt__text {

@@ -9,10 +9,10 @@
 				<uni-icons type="star" :size="18" color="#333"></uni-icons>
 				<text class="foot-nav-text">关注</text>
 			</view>
-			<view class="foot-nav-item" hover-class="opcity" :hover-stay-time="150" @click="shareClick">
+			<button class="foot-nav-item share-btn" hover-class="opcity" :hover-stay-time="150" open-type="share">
 				<t-icons type="share" :size="16" color='#333'></t-icons>
 				<text class="foot-nav-text">分享</text>
-			</view>
+			</button>
 		</view>
 		<view class="foot-nav-right">
 			<slot name="right">
@@ -87,5 +87,15 @@
 	
 	.opacity {
 		opacity: 0.5;
+	}
+	.share-btn{
+		background-color: #fff;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		line-height: 1.3;
+	}
+	.share-btn::after{
+		border: 0;
 	}
 </style>

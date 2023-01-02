@@ -4,30 +4,8 @@
             "path" : "pages/tabbar/index",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false,
-				"app-plus" : {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "rgba(231, 231, 231,.7)",
-							"borderRadius": "14px",
-							"placeholder": "输入关键词搜索",
-							"disabled": true,
-							"placeholderColor": "#999999"
-						},
-						"buttons": [{
-							"text": "",
-							"fontSize": "14px",
-							"width":"20",
-							"float":"left"
-						},{
-							"text": "",
-							"fontSize": "14px",
-							"width":"20",
-							"float":"right"
-						}]
-					}
-				}
+                "navigationBarTitleText": "莱荟展",
+                "enablePullDownRefresh": false
             }
             
         }
@@ -89,6 +67,15 @@
 		    }
 		    
 		}
+		,{
+		    "path" : "pages/venues/detail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
             "path" : "pages/merchant/list",
             "style" :                                                                                    
@@ -103,11 +90,7 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "服务商介绍",
-		        "enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#fff",
-				"navigationBarTextStyle": "black",
-				"onReachBottomDistance": 50,
-				"navigationStyle": "custom"
+		        "enablePullDownRefresh": false
 		    }
 		    
 		}
@@ -133,7 +116,7 @@
 		    "path" : "pages/main/login-bind",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "绑定手机",
+		        "navigationBarTitleText": "登录",
 		        "enablePullDownRefresh": false
 		    }
 		    
@@ -183,6 +166,15 @@
             }
             
         }
+		,{
+		    "path" : "pages/user/feedback-form",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "投诉举报",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
             "path" : "pages/setting/setting",
             "style" :                                                                                    
@@ -201,6 +193,15 @@
             }
             
         }
+		,{
+		    "path" : "pages/setting/avatar",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "修改头像",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
             "path" : "pages/setting/mobile",
             "style" :                                                                                    
@@ -238,6 +239,60 @@
             
         }
         
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/setting/mobile-bind",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "绑定手机号",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/venues/service",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "周边推荐",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/venues/service-view",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "服务详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/venues/event",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "活动排期",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/event/merchant",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "举办方推荐",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

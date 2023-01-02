@@ -1,6 +1,6 @@
 /* #ifndef APP-NVUE */
 @font-face {
-	font-family: fesfont;
+	font-family: lunfont;
 	src: url('~@/static/iconfont.ttf');
 }
 *{
@@ -51,8 +51,49 @@ view{
 }
 .detail-content{
 	font-size: 32rpx;
-	line-height: 48rpx;
+	color: #333333;
+	line-height: 52rpx;
+}
+.ep{
+	margin-bottom: 30rpx;
 }
 .content-padded{
 	padding: 30rpx 60rpx;
 }
+.searchbar{
+	/* #ifndef APP-PLUS-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background-color: #ffffff;
+	
+}
+.searchbar-fixed{
+	position: fixed;
+	width: 100%;
+}
+.searchbar-city{
+	/* #ifndef APP-PLUS-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	margin-left: 30rpx;
+}
+.searchbar-city-text{
+	font-size: 28rpx;
+}
+.searchbar-input-view {
+	/* #ifndef APP-PLUS-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: column;
+	flex: 1;
+}
+

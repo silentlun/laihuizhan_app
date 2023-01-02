@@ -4,13 +4,8 @@
 		<view class="page-warp">
 			<text class="detail-title">{{data.title || ''}}</text>
 		</view>
-		
-		<uni-list :border="false">
-			<uni-list-item :subtitle="data.eventdate"></uni-list-item>
-			<uni-list-item :subtitle="data.address" :showArrow="true"></uni-list-item>
-		</uni-list>
-		
-		<t-section title="活动详情"></t-section>
+		<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
+		<t-section title="案例详情"></t-section>
 		<view class="page-warp" style="padding-bottom: 30px;">
 			<view class="detail-content">
 				<rich-text :nodes="htmlNodes"></rich-text>

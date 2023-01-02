@@ -4,9 +4,15 @@
 			<image class="media-logo" :src="data.thumb"></image>
 			<view class="media-body">
 				<text class="media-title">{{data.title}}</text>
-				<view class="media-info">
-					<text class="info-text icon"><uni-icons custom-prefix="lunfont" type="icon-time" size="10" color="#777"></uni-icons> {{data.start_date}} ~ {{data.end_date}}</text>
-					<text class="media-foot-addr icon"><uni-icons type="location" size="12" color="#777"></uni-icons> {{data.venue}}</text>
+				<view class="media-info" v-if="isFav">
+					<view class="favor-box" @click.stop="onDelete">
+						<uni-icons type="trash" size="14" color="#777"></uni-icons>
+						<text class="favor-text">删除</text>
+					</view>
+				</view>
+				<view class="media-info" v-else>
+					<text class="info-text icon">&#xe681; {{data.start_date}}</text>
+					<text class="media-foot-addr icon">&#xe677; {{data.province}}</text>
 				</view>
 			</view>
 		</view>
@@ -27,7 +33,11 @@
 			index:{
 				type:Number,
 				default:0
-			}
+			},
+			isFav: {
+				type: [Boolean, String],
+				default: false
+			},
 		},
 		computed: {
 		    isBorder() {
@@ -40,6 +50,9 @@
 		    },
 			onClick() {
 				this.$emit('click')
+			},
+			onDelete(e) {
+			    this.$emit('close');
 			}
 		}
 	}
@@ -47,7 +60,7 @@
 
 <style lang="scss" scoped>
 	.icon{
-		font-family:icontaibo;
+		font-family: "lunfont" !important;
 	}
 	.event-media {
         width: 750rpx;
@@ -91,7 +104,7 @@
 		
 	}
 	.media-title {
-		font-size: 32rpx;
+		font-size: 30rpx;
 		color: #333;
 		line-height: 40rpx;
 		text-overflow: ellipsis;
@@ -106,11 +119,12 @@
 		flex-direction: column;
 		justify-content: space-between;
 		width: 390rpx;
+		margin-top: 10rpx;
 	}
 	.info-text {
-		color: #777;
-		font-size: 20rpx;
-		margin-bottom: 16rpx;
+		color: #909497;
+		font-size: 24rpx;
+		margin-bottom: 8rpx;
 	}
 	.info-price{
 		color: $uni-color-warning;
@@ -125,8 +139,8 @@
 		margin-top: 10rpx;
 	}
 	.media-foot-addr{
-		font-size: 20rpx;
-		color: #777;
+		font-size: 24rpx;
+		color: #909497;
 		/* #ifndef APP-NVUE */
 		lines: 1;
 		/* #endif */
@@ -153,5 +167,15 @@
 	.btn-green{
 		color: #1AAD19;
 		border-color: #1AAD19;
+	}
+	.favor-box{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.favor-text {
+		color: #909497;
+		font-size: 24rpx;
 	}
 </style>

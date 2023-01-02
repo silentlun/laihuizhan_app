@@ -18,12 +18,13 @@
 			</uni-forms>
 		</view>
 		<view class="content-padded">
-			<t-button text="确认修改" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
+			<t-button text="确认修改" type="warning" size="lg" shape="circle" :disabled="!formData.email" @click="formSubmit"></t-button>
 		</view>
 	</view>
 </template>
 
 <script>
+	var time = 60;
 	export default {
 		data() {
 			return {
@@ -56,26 +57,29 @@
 				this.$refs.valiForm.validate().then(res => {
 					console.log('success', res);
 					uni.request({
-						url: "v1/users/changepwd",
+						url: "v1/users/security-email",
 						method: 'POST',
 						data: this.formData,
-						header: {
-							'content-type': 'application/x-www-form-urlencoded',
-						},
 						success: (res) => {
-							console.log(JSON.stringify(res))
-							if (res.statusCode == 200) {
-								if(res.data.data.status == 1){
+							console.log(res)
+							if (res.data.code == 200) {
+								uni.showToast({
+									icon:'success',
+									title: '修改成功',
+									duration: 2000,
+								})
+								setTimeout(()=>{
 									uni.navigateBack({
 									    delta: 1
-									});
-								}
-								uni.showToast({
-									icon:'none',
-									title: res.data.data.message,
-									duration: 2000,
-								});
+									})
+								}, 2000)
 								
+							}else{
+								uni.showToast({
+									icon:'error',
+									title: res.data.message,
+									duration: 2000,
+								})
 							}
 						}
 					})
@@ -84,6 +88,52 @@
 				})
 				
 			},
+			sendSms(){
+				//this.countdown();
+				let formData = this.formData;
+				var myreg = /^\w+@[a-z0-9]+\.[a-z]+$/i;
+				if(!myreg.test(formData.email)){
+					uni.showToast({
+						icon:'none',
+					    title: '请输入有效的邮箱',
+					    duration: 2000
+					});
+					return false;
+				}
+				uni.request({
+					url: 'v1/users/send-verify-email',
+					data: formData,
+					method: 'POST',
+					success: (res) => {
+						console.log(res)
+						if (res.data.code == 200) {
+							this.countdown();
+						} else {
+							uni.showToast({
+								icon: 'none',
+							    title: res.data.message
+							});
+						}
+					},
+					fail: (data, code) => {
+						console.log('fail' + JSON.stringify(data));
+					}
+				})
+			},
+			countdown() {
+				console.log('ss')
+				this.isDisabled = true;
+				let interval = setInterval(() => {
+					this.buttonName = time + '秒后重发';
+					time--;
+					if (time < 0) {
+						this.buttonName = "获取验证码";
+						time = 60;
+						this.isDisabled = false;
+						clearInterval(interval);
+					}
+				}, 1000);
+			}
 		}
 	}
 </script>
@@ -98,7 +148,7 @@
 .btn-code{
 		font-size: 24rpx;
 		color: $uni-color-warning;
-		width: 120rpx;
+		width: 140rpx;
 		height: 50rpx;
 		line-height:50rpx;
 	}

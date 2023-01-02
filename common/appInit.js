@@ -1,5 +1,5 @@
 /* const baseUrl = 'http://api.taibo.cn/' */
-const webUrl = 'http://www.laihuizhan.com/'
+const webUrl = 'https://www.laihuizhan.com/'
 
 
 let baseUrl;
@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'development') {
 	baseUrl = 'http://api.demo.com/'
 } else {
 	console.log('生产环境')
-	baseUrl = 'http://api.laihuizhan.com/'
+	baseUrl = 'https://api.laihuizhan.com/'
 }
 
 export default async function() {
@@ -32,9 +32,36 @@ export default async function() {
 			}else{
 				uni.showToast({
 					title: e.data.message,
-					icon: 'error',
+					icon: 'none',
+					duration: 2000,
 				});
 			}
+		},
+		fail:(err) => {
+			console.log('fail', err)
+			uni.showToast({
+				title: '数据获取失败',
+				icon: 'error',
+			});
+		},
+		complete:(res) => {
+			//console.log('complete', res)
+		}
+	})
+	//上传拦截
+	uni.addInterceptor('uploadFile', {
+		invoke(args) {
+			const url = args.url;
+			var urlReg = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+			if(!urlReg.test(url)){
+				args.url = baseUrl + url
+			}
+			args.header = args.header || {};
+			Object.assign(args.header, {Authorization:'Bearer ' + uni.getStorageSync('token')});
+			//console.log(args)
+		},
+		success:(e) => {
+			console.log('success', e)
 		},
 		fail:(err) => {
 			console.log('fail', err)
@@ -57,9 +84,8 @@ export default async function() {
 	//需要登录的页面 */
 	const needLogin = [
 		{"pattern":/^\/pages\/user.*/},	//支持正则表达式
-		{"pattern":/^\/pages\/message.*/},
-		"/pages/event/order",
-		"/pages/zhiku/pdf",
+		{"pattern":/^\/pages\/setting.*/},
+		"/pages/main/contact",
 	];
 	//路由拦截
 	let list = ["navigateTo", "redirectTo", "reLaunch", "switchTab"];

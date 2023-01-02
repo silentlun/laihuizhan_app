@@ -5,11 +5,11 @@
 			  @click="changePopup">
 			<slot name="title" v-if="$slots.title"></slot>
 			<block v-else>
-				<view class="selected__name">{{tabtitle ? tabtitle : selectItem.text}}</view>
+				<view class="selected__name">{{tabtitle ? tabtitle : selectItem.name}}</view>
 				<view class="selected__icon"
 					  :class="showClass === 'show'? 'up' : 'down'"
 				>
-					<span class="nav-item-icon">&#xe661;</span>
+					<uni-icons type="bottom" color="#777"></uni-icons>
 				</view>
 			</block>
 		</view>
@@ -69,6 +69,10 @@
 			}
 		},
 		watch: {
+			title(newValue, oldValue) {
+				console.log(newValue);
+				this.tabtitle = newValue
+			}
 		},
 		mounted() {
 			this.showList = this.active;
@@ -88,7 +92,8 @@
 				this.$emit('input', item.value)
 				this.$emit('click');
 				this.closePopup()
-				this.tabtitle = item.value ? item.value : this.title
+				this.tabtitle = item.name
+				//this.tabtitle = item.value ? item.name : this.title
 			},
 			changePopup() {
 				if(this.showList) {

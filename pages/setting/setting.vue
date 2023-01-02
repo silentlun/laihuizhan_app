@@ -3,8 +3,8 @@
 		<uni-list :border="false">
 			<uni-list-item title="编辑资料" link="navigateTo" to="/pages/setting/profile"></uni-list-item>
 			<uni-list-item title="重设密码" link="navigateTo" to="/pages/setting/password"></uni-list-item>
-			<uni-list-item title="手机号" link="navigateTo" to="/pages/setting/mobile"></uni-list-item>
-			<uni-list-item title="邮箱" link="navigateTo" to="/pages/setting/email"></uni-list-item>
+			<uni-list-item title="手机号" :rightText="userInfo.mobile" link="navigateTo" @click="toEditMobile"></uni-list-item>
+			<uni-list-item title="邮箱" :rightText="userInfo.email" link="navigateTo" to="/pages/setting/email"></uni-list-item>
 			<!-- <t-list-item title="账号安全" link="navigateTo" to="/pages/setting/security"></t-list-item> -->
 		</uni-list>
 		
@@ -21,12 +21,12 @@
 	export default {
 		data() {
 			return {
-				showMessage: false,
-				isOpen: false,
-				//pushServer:pushServer,
-				pushIsOn: false,
+				userInfo: {},
 				token: uni.getStorageSync('token'),
 			}
+		},
+		onShow() {
+			this.loadUserinfo()
 		},
 		computed: mapState(['hasLogin', 'info']),
 		methods: {
@@ -38,6 +38,19 @@
 				});
 				
 			},
+			loadUserinfo() {
+				uni.request({
+					url: "v1/users/userinfo",
+					success: (res) => {
+						this.userInfo = res.data.userInfo
+					}
+				})
+			},
+			toEditMobile(){
+				uni.navigateTo({
+					url: "/pages/setting/mobile?mobile="+this.userInfo.mobile
+				})
+			}
 		}
 	}
 </script>

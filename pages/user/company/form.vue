@@ -33,6 +33,7 @@
 	export default {
 		data() {
 			return {
+				id: 0,
 				formData:{},
 				editAvatarStatus:false,
 				rules: {
@@ -73,59 +74,55 @@
 						}]
 					}
 				},
+				apiUrl: 'v1/users/company-create',
 			}
 		},
-		onLoad() {
+		onLoad(e) {
 			//this.loadUserInfo();
+			if(e.id){
+				this.id = e.id
+				this.loadInfo(e.id)
+			}
 		},
 		computed: mapState(['avatar', 'hasLogin', 'token', 'info']),
 		methods: {
-			...mapMutations(['upavatar', 'updateInfo']),
-			loadUserInfo(){
+			loadInfo(id){
 				uni.request({
-					url: 'v1/users/' + this.info.id,
+					url: 'v1/users/company-create',
+					data: {id:id},
 					success: (res) => {
-						if (res.statusCode == 200) {
-							const data = res.data.data;
-							console.log(res)
-							this.formData = data;
-							this.formData.introduction = data.profile.introduction;
-							this.formData.tips = '点击编辑'
-						}
+						this.formData = res.data
 					}
 				})
 			},
 			formSubmit() {
-				this.$refs.valiForm.validate().then(res => {
-					console.log('success', res);
-					uni.showToast({
-						title: `校验通过`
-					})
+				this.$refs.valiForm.validate().then(result => {
 					uni.showLoading({
 						title: '保存中'
 					});
 					uni.request({
-						url: 'v1/users/'+this.info.id,
-						method: 'PUT',
+						url: 'v1/users/company-create?id='+this.id,
+						method: 'POST',
 						data: this.formData,
-						header: {
-							'content-type': 'application/x-www-form-urlencoded'
-						},
 						success: (res) => {
-							uni.hideLoading();
-							if (res.statusCode == 200) {
-								if(res.data.data.status==1){
-									uni.showToast({
-									    title: '保存成功',
-									    duration: 2000
-									});
-									
-								}else{
-									uni.showToast({
-										icon:'none',
-									    title: res.data.message,
-									});
-								}
+							uni.hideLoading(); 
+							if(res.data.code == 200){
+								setTimeout(()=>{
+									uni.navigateBack({
+									    delta: 1
+									})
+								}, 2000)
+								uni.showToast({
+								    title: res.data.message,
+								    duration: 2000,
+									icon:'success',
+								});
+								
+							}else{
+								uni.showToast({
+									icon:'none',
+								    title: res.data.message,
+								});
 							}
 						},
 						fail: () => {

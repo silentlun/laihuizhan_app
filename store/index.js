@@ -8,7 +8,6 @@ const store = new Vuex.Store({
         hasLogin: false,
         token: null,
 		avatar:null,
-		userFlag:false,
 		info:null
     },
     mutations: {
@@ -26,19 +25,11 @@ const store = new Vuex.Store({
 			state.info = null;
 			state.avatar = null;
             state.hasLogin = false;
-			state.userFlag = false;
 			uni.removeStorageSync('token');
         },
 		upavatar(state,avatar) {
 			state.avatar = avatar;
 		},
-		setFlag(state,flag) {
-			if(Number(flag) < 5){
-				state.userFlag = false
-			}else{
-				state.userFlag = true
-			}
-		}
     }
 })
 

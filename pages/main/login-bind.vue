@@ -20,7 +20,14 @@
 		</uni-forms>
 		</view>
 		<view class="content-padded">
-			<t-button text="确认绑定" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
+			<t-button text="登录" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
+		</view>
+		<view class="login-footer">
+			<checkbox-group @change="checkboxChange">
+				<label>
+					<checkbox value="1" />我已阅读、理解并同意<text class="link-text">《莱荟展用户协议》</text>
+				</label>
+			</checkbox-group>
 		</view>
 	</view>
 </template>
@@ -31,9 +38,16 @@
 	export default {
 		data() {
 			return {
-				formData:{},
-				buttonName: "发送验证码",
+				formData:{
+					loginType: 1,
+					unionid:'',
+					openid:'',
+					mobile:'',
+					smsCode:'',
+				},
+				buttonName: "获取验证码",
 				isDisabled:false,
+				agreement: null,
 				rules: {
 					mobile: {
 						rules: [{
@@ -54,33 +68,44 @@
 				},
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			this.formData.unionid = e.unionid
+			this.formData.openid = e.openid
+			console.log(e)
 		},
 		methods: {
 			...mapMutations(['login', 'upavatar']),
 			formSubmit(){
-				this.$refs.valiForm.validate().then(res => {
-					console.log('success', res);
+				if(!this.agreement){
+					uni.showToast({
+						icon: 'error',
+						title: '请同意用户协议',
+						duration: 2000
+					});
+					return false;
+				}
+				this.$refs.valiForm.validate().then(result => {
+					console.log('success', result);
 					uni.showLoading({
 						title: '提交中'
 					});
 					uni.request({
-						url: "v1/sites/login",
+						url: "v1/sites/signup",
 						method: 'POST',
 						data: this.formData,
 						success: (res) => {
 							console.log(JSON.stringify(res))
-							if(res.code == 200){
-								this.login(res.userInfo)
-								this.upavatar(res.userInfo.avatar)
+							if(res.data.code == 200){
+								this.login(res.data.userInfo)
+								this.upavatar(res.data.userInfo.avatar)
 								uni.switchTab({
-								    url: '/pages/tabbar/index'
+								    url: '/pages/tabbar/user'
 								});
 								//uni.navigateBack()
 							}else{
 								uni.showToast({
 									icon: 'none',
-								    title: res.message
+								    title: res.data.message
 								});
 							}
 						},
@@ -121,12 +146,12 @@
 					}, */
 					success: (res) => {
 						console.log(res)
-						if (res.code == 200) {
+						if (res.data.code == 200) {
 							this.countdown();
 						} else {
 							uni.showToast({
 								icon: 'none',
-							    title: res.message
+							    title: res.data.message
 							});
 						}
 					},
@@ -148,6 +173,11 @@
 						clearInterval(interval);
 					}
 				}, 1000);
+			},
+			checkboxChange: function (e) {
+				console.log(e.detail.value)
+				const values = e.detail.value
+				this.agreement = values[0]
 			}
 			
 		}
@@ -174,7 +204,7 @@
 .btn-code{
 		font-size: 24rpx;
 		color: $uni-color-warning;
-		width: 120rpx;
+		width: 140rpx;
 		height: 50rpx;
 		line-height:50rpx;
 	}
@@ -184,6 +214,40 @@
 	.content-padded{
 		display: flex;
 		flex-direction: column;
+	}
+	.login-footer{
+		padding: 60rpx;
+		font-size: 24rpx;
+		color: #909497;
+	}
+	.link-text{
+		color: #007AFF;
+	}
+	/* 未选中的背景样式 */
+	checkbox .wx-checkbox-input{
+	  width: 30rpx; 
+	  height: 30rpx; 
+	  border-radius: 50%;
+	}
+	
+	/* 选中后的背景样式 */
+	checkbox .wx-checkbox-input.wx-checkbox-input-checked{
+	  border-color: #37C674;
+	  background: #37C674;
+	}
+	
+	/* 选中后的勾子样式 */
+	checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+	  width: 30rpx;
+	  height: 30rpx;
+	  line-height: 30rpx;
+	  border-radius: 50%;
+	  text-align: center;
+	  font-size:24rpx; 
+	  color:#FFF; 
+	  background: transparent;
+	  transform:translate(-50%, -50%) scale(1);
+	  -webkit-transform:translate(-50%, -50%) scale(1);
 	}
 
 </style>

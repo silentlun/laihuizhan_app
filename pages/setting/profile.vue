@@ -1,12 +1,19 @@
 <template>
 	<view class="profile-input-group">
-		<user-avatar :data="formData" :avatar="avatar" @click="editAvatar"></user-avatar>
-		<uni-forms ref="valiForm" :rules="rules" :modelValue="formData" label-position="top" label-width="100%">
+		<view class="header-avater">
+			<user-avatar :avatar="avatar" size="lg" @click="editAvatar"></user-avatar>
+			<text class="header-avater-text" @click="editAvatar">点击编辑头像</text>
+		</view>
+		
+		<uni-forms ref="valiForm" :rules="rules" :modelValue="formData">
 			<uni-forms-item label="昵称" name="nickname" required>
-				<uni-easyinput v-model="formData.nickname" placeholder="昵称" />
+				<uni-easyinput v-model="formData.nickname" placeholder="昵称" :clearable="false" />
 			</uni-forms-item>
 			<uni-forms-item label="性别" name="gender">
 				<uni-data-checkbox v-model="formData.gender" :localdata="genders"></uni-data-checkbox>
+			</uni-forms-item>
+			<uni-forms-item label="身份" name="shenfen">
+				<uni-data-checkbox v-model="formData.shenfen" :localdata="shenfens"></uni-data-checkbox>
 			</uni-forms-item>
 		</uni-forms>
 		
@@ -22,9 +29,7 @@
 	export default {
 		data() {
 			return {
-				formData:{
-					tips: '点击更换',
-				},
+				formData:{},
 				editAvatarStatus:false,
 				genders: [{
 					text: '先生',
@@ -35,6 +40,19 @@
 				}, {
 					text: '保密',
 					value: '保密'
+				}],
+				shenfens: [{
+					text: '参展商',
+					value: 1
+				}, {
+					text: '服务商',
+					value: 2
+				}, {
+					text: '举办机构',
+					value: 3
+				}, {
+					text: '其他',
+					value: 4
 				}],
 				rules: {
 					nickname: {
@@ -60,18 +78,7 @@
 			}
 		},
 		onLoad() {
-			/* this.loadUserInfo();
-			uni.$on('updateAvatar', (data)=>{
-				if(data.avatar){
-					this.editAvatarStatus = true
-					this.formData.avatar = data.avatar;
-					this.avatar = data.avatar;
-					this.upavatar(data.avatar)
-				}
-			}) */
-		},
-		onUnload() {
-			uni.$off('updateAvatar')
+			this.loadUserInfo();
 		},
 		computed: mapState(['avatar', 'hasLogin', 'token', 'info']),
 		methods: {
@@ -80,23 +87,16 @@
 				uni.request({
 					url: 'v1/users/' + this.info.id,
 					success: (res) => {
-						if (res.statusCode == 200) {
-							const data = res.data.data;
-							console.log(res)
-							this.formData = data;
-							this.formData.introduction = data.profile.introduction;
-							this.formData.tips = '点击更换'
-						}
+						const data = res.data;
+						console.log(res)
+						this.formData = data;
 					}
 				})
 			},
 			formSubmit: function(e) {
 				uni.hideKeyboard();
-				this.$refs.valiForm.validate().then(res => {
-					console.log('success', res);
-					uni.showToast({
-						title: `校验通过`
-					})
+				this.$refs.valiForm.validate().then(result => {
+					console.log('success', result);
 					uni.showLoading({
 						title: '保存中'
 					});
@@ -104,31 +104,20 @@
 						url: 'v1/users/'+this.info.id,
 						method: 'PUT',
 						data: this.formData,
-						header: {
-							'content-type': 'application/x-www-form-urlencoded'
-						},
 						success: (res) => {
 							uni.hideLoading();
-							if (res.statusCode == 200) {
-								if(res.data.data.status==1){
-									let userInfo = {
-										id:this.info.id,
-										groupid:this.info.groupid,
-										username:this.formData.username,
-										avatar:this.formData.avatar
-									};
-									this.updateInfo(userInfo)
-									uni.showToast({
-									    title: '保存成功',
-									    duration: 2000
-									});
-									
-								}else{
-									uni.showToast({
-										icon:'none',
-									    title: res.data.message,
-									});
-								}
+							if(res.data.code == 200){
+								this.updateInfo(this.formData)
+								uni.showToast({
+								    title: '保存成功',
+								    duration: 2000
+								});
+								
+							}else{
+								uni.showToast({
+									icon:'none',
+								    title: res.data.message,
+								});
 							}
 						},
 						fail: () => {
@@ -146,13 +135,26 @@
 			},
 			
 			editAvatar() {
-				uni.chooseImage({
-					sourceType: ["camera", "album"],
+				/* uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success: res => {
+						const tempFilePaths = res.tempFilePaths[0];
+						uni.navigateTo({
+							url: 'avatar?picurl='+tempFilePaths
+						});
+					}
+				}); */
+				uni.chooseMedia({
+					mediaType: ['image'],
+					sourceType: ['album', 'camera'],
 					sizeType: "compressed",
 					count: 1,
 					success: (res) => {
+						let sourceImageUrl = res.tempFiles[0].tempFilePath
 						uni.navigateTo({
-							url: 'avatar?picurl='+encodeURIComponent(res.tempFilePaths[0])
+							url: 'avatar?picurl='+sourceImageUrl
 						});
 					}
 				})
@@ -171,10 +173,22 @@
 
 <style>
 	.profile-input-group{
+		display: flex;
 		flex-direction: column;
 		width: 750rpx;
 		padding-left: 30rpx;
 		padding-right: 30rpx;
 		padding-top: 60rpx;
+	}
+	.header-avater{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 60rpx;
+	}
+	.header-avater-text{
+		font-size: 24rpx;
+		color: #777;
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-gray">
-		<template v-if="isNoData">
+		<template v-if="!isNoData">
 			<uni-list-cell v-for="(item, index) in dataList" :key="item.id">
 				<t-card :data="item" @click="showDetail(item)" :index="index">
 					<template v-slot:header>
@@ -8,20 +8,20 @@
 					</template>
 					<template v-slot:body>
 						<view class="company-info">
-							<text class="company-text">纳税识别码：{{item.body}}</text>
-							<text class="company-text">开户行：{{item.body}}</text>
-							<text class="company-text">账号：{{item.body}}</text>
+							<text class="company-text">纳税识别码：{{item.code}}</text>
+							<text class="company-text">开户行：{{item.bank_name}}</text>
+							<text class="company-text">账号：{{item.bank_code}}</text>
 						</view>
 						
 					</template>
 					<template v-slot:footer>
 						<view class="handle-box">
-							<view class="handle-item">
-								<t-icons type="delete" size="11" color="#999999"></t-icons>
+							<view class="handle-item" @click.stop="onUpdate(item)">
+								<uni-icons type="compose" size="11" color="#999999"></uni-icons>
 								<text class="handle-item-text">修改</text>
 							</view>
-							<view class="handle-item">
-								<t-icons type="delete" size="11" color="#999999"></t-icons>
+							<view class="handle-item" @click.stop="onDelete(index,item)">
+								<uni-icons type="trash" size="11" color="#999999"></uni-icons>
 								<text class="handle-item-text">删除</text>
 							</view>
 						</view>
@@ -33,9 +33,9 @@
 			</uni-list-cell>
 		</template>
 		<lun-prompt class="no-data" title="暂无相关数据" v-else></lun-prompt>
-		<t-footer>
-			<view class="create-btn"><t-button text="+ 添加企业" shape="circle" size="md" @click="toForm"></t-button></view>
-		</t-footer>
+		<lun-footer>
+			<view class="create-btn"><t-button text="+ 添加企业" type="warning" shape="circle" size="md" @click="toForm"></t-button></view>
+		</lun-footer>
 	</view>
 </template>
 
@@ -43,9 +43,7 @@
 	export default {
 		data() {
 			return {
-				dataList:[
-					{id:1,title:"北京盛世泰伯网络技术有限公司",body:"dsffsdsfdsfdsdf"}
-				],
+				dataList:[],
 				isLoading: false,
 				loadingText: '加载中...',
 				loadingStatus: 'loading',
@@ -53,17 +51,10 @@
 				requestParams: {
 					page: 1,
 				},
-				showActionSheet: false,
-				maskClosable: true,
-				tips: "确认清空搜索历史吗？",
-				itemList: [],
-				color: "#9a9a9a",
-				size: 26,
-				isCancel: true
 			}
 		},
-		onLoad(e) {
-			//this.loadData()
+		onLoad() {
+			this.loadData()
 		},
 		methods: {
 			loadData() {
@@ -76,20 +67,20 @@
 				this.loadingStatus = 'loading'
 			
 				uni.request({
-					url: 'v1/users/comment',
+					url: 'v1/users/company',
 					data: this.requestParams,
 					success: (res) => {
-						const data = res.data.data;
+						const data = res.data;
 						console.log(data)
 						if(this.requestParams.page > 1){
 							if(data.length <= 0){
 								this.loadingStatus = 'nodata'
 							}else{
-								this.dataList = this.dataList.concat(this.setTime(data));
+								this.dataList = this.dataList.concat(data);
 							}
 						}else{
 							this.isNoData = (data.length <= 0);
-							this.dataList = this.setTime(data);
+							this.dataList = data;
 						}
 						this.requestParams.page++;
 						
@@ -128,6 +119,39 @@
 			},
 			onDelete(i,item){
 				let that = this
+				uni.showActionSheet({
+					alertText: '确定要删除吗？',
+					itemList: ['删除'],
+					success: (res) => {
+						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+						uni.request({
+							url: 'v1/users/company-delete',
+							method: 'POST',
+							data: {id:item.id},
+							success: (res) => {
+								if(res.data.code == 200) {
+									that.dataList.splice(i,1);
+									uni.showToast({
+									    title: '删除成功',
+									    icon: 'success'
+									});
+								}else{
+									uni.showToast({
+									    title: '删除失败',
+									    icon: 'error'
+									});
+								}
+							}
+						})
+					},
+					fail: (res) => {
+						console.log(res.errMsg);
+					}
+				});
+				
+			},
+			onDelete22(i,item){
+				let that = this
 				uni.showModal({
 					content: "确定删除评论吗？",
 					success: function (res) {
@@ -161,17 +185,14 @@
 					}
 				})
 			},
-			itemClick: function(e) {
-				let index = e.index;
-				this.closeActionSheet();
-				this.tui.toast(`您点击的按钮索引为：${index}`)
-			},
-			closeActionSheet: function() {
-				this.showActionSheet = false
+			onUpdate: function(e) {
+				uni.navigateTo({
+					url: "./form?id=" + e.id
+				})
 			},
 			toForm: function (e) {
 				uni.navigateTo({
-					url: "form?id="
+					url: "./form"
 				})
 			},
 		}

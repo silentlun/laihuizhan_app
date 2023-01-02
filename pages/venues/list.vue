@@ -1,67 +1,9 @@
 <template>
 	<view>
 		<t-dropdown>
-			<t-dropdown-item v-model="requestParams.t" :list="provinces" title="地区" :showtype="2" @click="choose"></t-dropdown-item>
-			<t-dropdown-item v-model="requestParams.s" :list="categories" title="行业" :showtype="2" @click="choose"></t-dropdown-item>
-			<t-dropdown-item v-model="requestParams.d" title="日期" :showtype="2" @click="choose">
-				<view class="date-list">
-					<view class="date-year">
-						<text class="item active">全部</text>
-						<text class="item">2022</text>
-						<text class="item">2023</text>
-					</view>
-					<view class="date-month">
-						<view class="menu-item">
-							<text class="item-name active">1月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">2月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">3月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">4月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">5月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">6月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">7月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">8月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">9月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">10月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">11月</text>
-							<text class="item-icon"></text>
-						</view>
-						<view class="menu-item">
-							<text class="item-name active">12月</text>
-							<text class="item-icon"></text>
-						</view>
-					</view>
-				</view>
-			</t-dropdown-item>
+			<t-dropdown-item v-model="requestParams.province" :list="provinces" title="地区" :showtype="2" @click="choose"></t-dropdown-item>
+			<t-dropdown-item v-model="requestParams.catid" :list="categories" title="功能" :showtype="2" @click="choose"></t-dropdown-item>
+			
 		</t-dropdown>
 		<lun-gap height="110" bgColor="#f8f8f9"></lun-gap>
 		<uni-list>
@@ -69,6 +11,7 @@
 				<venues-item :data="item" @click="showDetail(item)"></venues-item>
 			</uni-list-cell>
 		</uni-list>
+		<lun-prompt class="no-data" title="暂无相关数据" v-if="isNoData"></lun-prompt>
 	</view>
 </template>
 
@@ -76,32 +19,52 @@
 	export default {
 		data() {
 			return {
-				dataList: [
-					{id:1, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']},
-					{id:2, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']},
-					{id:3, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']},
-					{id:4, title: '中国国际展览中心（顺义）馆', thumb: '/static/23.jpg', address:'北京市顺义区天竺地区裕祥路88号', tags:['会议活动','汽车展览']}
-				],
-				provinces:[
-					{code:23234, name: '北京'},
-					{code:23234, name: '北京'},
-					{code:23234, name: '北京'},
-					{code:23234, name: '北京'}
-				],
-				categories:[],
+				dataList: [],
+				provinces:[{
+					'name':'全部',
+					'value':''
+				}],
+				categories:[{
+					'name':'全部',
+					'value':''
+				}],
 				isLoading: false,
 				loadingText: '加载中...',
 				loadingStatus: 'loading',
 				isNoData: false,
 				requestParams: {
+					catid: '',
+					province: '',
 					page: 1,
 				},
 			}
 		},
 		onLoad() {
+			this.loadType()
 			this.loadData()
 		},
+		onReachBottom(){
+			this.loadData();
+		},
 		methods: {
+			loadType() {
+				uni.request({
+					url: 'v1/sites/regions',
+					success: (res) => {
+						this.provinces = this.provinces.concat(res.data)
+					}
+				})
+				uni.request({
+					url: 'v1/venues/category',
+					success: (res) => {
+						this.categories = this.categories.concat(res.data)
+					}
+				})
+			},
+			choose() {
+				this.requestParams.page = 1;
+				this.loadData();
+			},
 			loadData() {
 				if (this.isLoading) {
 					return;
@@ -112,11 +75,11 @@
 				this.loadingStatus = 'loading'
 			
 				uni.request({
-					url: 'v1/events',
+					url: 'v1/venues',
 					data: this.requestParams,
 					success: (res) => {
 						console.log(res)
-						const data = res.data.data;
+						const data = res.data;
 						if(this.requestParams.page > 1){
 							if(data.length <= 0){
 								this.loadingStatus = 'nodata'

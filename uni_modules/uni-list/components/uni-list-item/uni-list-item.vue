@@ -278,9 +278,9 @@
 </script>
 
 <style lang="scss">
-	$uni-font-size-sm:12px;
-	$uni-font-size-base:14px;
-	$uni-font-size-lg:16px;
+	$uni-font-size-sm:24rpx;
+	$uni-font-size-base:28rpx;
+	$uni-font-size-lg:32rpx;
 	$uni-spacing-col-lg: 12px;
 	$uni-spacing-row-lg: 15px;
 	$uni-img-size-sm:20px;

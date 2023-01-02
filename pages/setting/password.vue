@@ -60,26 +60,29 @@
 				this.$refs.valiForm.validate().then(res => {
 					console.log('success', res);
 					uni.request({
-						url: "v1/users/changepwd",
+						url: "v1/users/security-password",
 						method: 'POST',
 						data: this.formData,
-						header: {
-							'content-type': 'application/x-www-form-urlencoded',
-						},
 						success: (res) => {
 							console.log(JSON.stringify(res))
-							if (res.statusCode == 200) {
-								if(res.data.data.status == 1){
+							if (res.data.code == 200) {
+								uni.showToast({
+									icon:'success',
+									title: '修改成功',
+									duration: 2000,
+								})
+								setTimeout(()=>{
 									uni.navigateBack({
 									    delta: 1
-									});
-								}
-								uni.showToast({
-									icon:'none',
-									title: res.data.data.message,
-									duration: 2000,
-								});
+									})
+								}, 2000)
 								
+							}else{
+								uni.showToast({
+									icon:'error',
+									title: res.data.message,
+									duration: 2000,
+								})
 							}
 						}
 					})

@@ -127,7 +127,7 @@
 	}
 	.size-lg{
 		font-size: 32rpx;
-		padding: 24rpx 30rpx;
+		padding: 24rpx 60rpx;
 	}
 	.size-xl{
 		font-size: 36rpx;

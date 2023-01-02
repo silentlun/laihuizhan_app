@@ -4,11 +4,11 @@
 			<view class="user-header">
 				<view class="user-info-box">
 					<view class="avatar-box">
-						<image class="avatar" :src="info.avatar" @click="authDetail('/pages/user/info')"></image>
+						<image class="avatar" :src="data.logo"></image>
 					</view>
 					<view class="info-box">
-						<text class="username">店铺名称电风扇</text>
-						<text class="groupname">{{info.groupname}}</text>
+						<text class="username">{{data.title}}</text>
+						<text class="groupname">{{data.category.catname}}</text>
 					</view>
 				</view>
 				
@@ -17,11 +17,11 @@
 				<view class="follow-tabs">
 					<view class="follow-tabs-item">
 						<text class="item-label">热度</text>
-						<text class="item-num">2314</text>
+						<text class="item-num">{{data.views}}</text>
 					</view>
 					<view class="follow-tabs-item">
 						<text class="item-label">粉丝数</text>
-						<text class="item-num">2314</text>
+						<text class="item-num">{{followCount}}</text>
 					</view>
 				</view>
 				<!-- <view class="btn-tabs">
@@ -32,7 +32,7 @@
 			
 		</view>
 		<view class="page-warp merchant-warp">
-			<view class="feedback-box">
+			<view class="feedback-box" @click="onFeedback">
 				<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">投诉</text>
 			</view>
 		</view>
@@ -45,20 +45,25 @@
 			<tui-tabs :tabs="navbar" :currentTab="currentTab>1?0:currentTab" @change="change" itemWidth="50%"></tui-tabs>
 			</view> -->
 			
-			<view>
-				<p>【区域与行业】</p><p>① 11月7日，国家发展改革委发布《关于进一步完善政策环境加大力度支持民间投资发展的意见》，鼓励民间资本积极参与国家创新平台建设，支持民营企业承担国家重大科技战略任务，鼓励平台企业加快人工智能、云计算、区块链、操作系统、处理器等领域重点项目建设。（国家发改委官微）</p>
+			<view class="detail-content">
+				<rich-text :nodes="htmlNodes"></rich-text>
 			</view>
 		</view>
 		<t-section title="服务案例"></t-section>
 		<t-list>
 			<t-list-cell v-for="(item, index) in dataList" :key="index">
-				<event-item :data="item" @click="showDetail(item)"></event-item>
+				<view class="case-media" @click="showDetail(item)">
+					<image class="case-media-img" :src="item.thumb"></image>
+					<view class="case-media-body">
+						<text class="case-media-title">{{item.title}}</text>
+					</view>
+				</view>
 			</t-list-cell>
 		</t-list>
 		
-		<t-footer>
-			<t-button text="联系服务商" shape="circle" size="md"></t-button>
-		</t-footer>
+		<lun-footer>
+			<lun-footer-nav :active="isFollow" @favClick="onFollow" @buttonClick="toContact"></lun-footer-nav>
+		</lun-footer>
 	</view>
 </template>
 
@@ -72,14 +77,9 @@
 	export default {
 		data() {
 			return {
-				info:{
-					avatar:'/static/user_defalut.jpg',
-					groupname: '企业认证',
-					amount:0,
-					point:0,
-					thyd1:0,
-					thyd299:0
-				},
+				id:0,
+				data:{},
+				followCount: 0,
 				navbar: [{
 					name: "服务商简介"
 				}, {
@@ -93,18 +93,120 @@
 					{id:3, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'},
 					{id:4, title: '方式方法是否萨达是发达', thumb: '/static/23.jpg', start_date:'2022-11-11', end_date:'2022-11-11', venue:'国家展览馆'}
 				],
+				isFollow: false
 			}
 		},
 		onLoad(e) {
 			this.id = e.id
-			//this.loadDetail()
-			this.htmlNodes = htmlParser(content);
+			this.loadDetail()
+			this.loadFavoriteStatus()
+			//this.htmlNodes = htmlParser(content);
 		},
 		computed: mapState(['hasLogin']),
 		methods: {
+			loadDetail(){
+				uni.request({
+					url: 'v1/merchants/' + this.id,
+					success: (res) => {
+						const data = res.data.detail;
+						console.log(res)
+						this.data = data;
+						let content = data.content.replace(/\<p/gi, '<p class="ep"');
+						this.htmlNodes = htmlParser(content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" '));
+						
+					}
+				})
+			},
+			loadFavoriteStatus(){
+				uni.request({
+					url: 'v1/users/favorite-status',
+					data: {module: 1, id:this.id},
+					success: (res) => {
+						this.followCount = res.data.followCount
+						this.isFollow = res.data.isFollow
+					}
+				})
+			},
+			toContact(){
+				if(!this.hasLogin){
+					uni.showModal({
+						content: '请先登录账号',
+						confirmText:'立即登录',
+						success: function (res) {
+							if (res.confirm) {
+								uni.navigateTo({url: '/pages/main/login'});
+							}
+						}
+					});
+					return false
+				}
+				uni.makePhoneCall({
+					phoneNumber: this.data.sale_mobile
+				});
+			},
 			change(e) {
 				this.currentTab = e.index
 			},
+			onFollow(){
+				if(!this.hasLogin){
+					uni.showModal({
+						content: '请先登录账号',
+						confirmText:'立即登录',
+						success: function (res) {
+							if (res.confirm) {
+								uni.navigateTo({url: '/pages/main/login'});
+							}
+						}
+					});
+					return false
+				}
+				let formData = {
+					module: 1,
+					content_id: this.id,
+				}
+				uni.request({
+					url: "v1/users/favorite-create",
+					method: 'POST',
+					data: formData,
+					success: (res) => {
+						console.log(JSON.stringify(res))
+						let data = res.data
+						if(data.code == 200){
+							this.isFollow = !this.isFollow
+						}
+					},
+				})
+			},
+			showDetail: function (e) {
+				uni.navigateTo({
+					url: "./case-view?id="+e.id
+				})
+			},
+			onFeedback(){
+				if(this.hasLogin){
+					uni.navigateTo({
+						url: '/pages/user/feedback-form?module=1&id='+this.id
+					});
+				}else{
+					uni.showModal({
+						content: '请先登录账号',
+						confirmText:'立即登录',
+						success: function (res) {
+							if (res.confirm) {
+								uni.navigateTo({url: '/pages/main/login'});
+							}
+						}
+					});
+				}
+			},
+		},
+		onShareAppMessage(){
+			return {
+				title: this.data.title,
+				path: '/pages/merchant/view?id='+this.id,
+			}
+		},
+		onShareTimeline(){
 		}
 	}
 </script>
@@ -216,5 +318,44 @@
 	border-radius: 60rpx;
 	padding: 4rpx 20rpx;
 }
+.detail-content{
+	margin-bottom: 40rpx;
+}
 
+	.case-media {
+        width: 750rpx;
+        padding: 20rpx 30rpx;
+		background-color: #FFFFFF;
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		justify-content: space-between;
+    }
+
+	.case-media-img {
+		width: 240rpx;
+		height: 150rpx;
+		margin-right: 20rpx;
+		border-radius: 2px;
+	}
+	.case-media-body {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: space-between;
+		flex: 1;
+		
+	}
+	.case-media-title {
+		font-size: 30rpx;
+		color: #333;
+		line-height: 40rpx;
+		text-overflow: ellipsis;
+		/* #ifdef APP-NVUE */
+		lines: 3;
+		/* #endif */
+	}
 </style>

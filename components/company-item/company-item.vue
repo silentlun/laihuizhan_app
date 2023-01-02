@@ -1,20 +1,18 @@
 <template>
 	<view class="qy-item" @click="bindClick">
-		<image class="qy-logo" :src="data.thumb"></image>
+		<image class="qy-logo" :src="data.logo"></image>
 		<view class="qy-list-body">
 			<text class="qy-title">{{data.title}}</text>
-			<text class="qy-desc">{{data.title}}</text>
-			<view class="qy-desc-foot">
-				<text class="lable">{{data.stageid}}站台设计</text>
-				<text class="lable">{{data.typeid}}</text>
+			<text class="qy-desc">{{data.address}}</text>
+			<view class="qy-desc-foot" v-if="!isFav">
+				<text class="lable">{{data.category.catname}}</text>
 			</view>
-		</view>
-		<view class="qy-list-date" v-if="showbtn">
-			<text class="qy-btn">了解详情</text>
-		</view>
-		<view class="qy-list-date" v-else>
-			<text class="qy-date">{{data.cldate}}</text>
-			<text class="qy-date">{{data.stageid}}</text>
+			<view class="qy-desc-foot" v-else>
+				<view class="favor-box" @click.stop="onDelete">
+					<uni-icons type="trash" size="14" color="#777"></uni-icons>
+					<text class="favor-text">删除</text>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -33,10 +31,17 @@
 				type: [Boolean, String],
 				default: false
 			},
+			isFav: {
+				type: [Boolean, String],
+				default: false
+			},
 		},
 		methods: {
 			bindClick() {
 				this.$emit('click');
+			},
+			onDelete(e) {
+			    this.$emit('close');
 			}
 		}
 	}
@@ -147,6 +152,16 @@
 		border-radius: 30rpx;
 		background-color: #EEEEEE;
 		margin-right: 10rpx;
+	}
+	.favor-box{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.favor-text {
+		color: #909497;
+		font-size: 24rpx;
 	}
 
 </style>

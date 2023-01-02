@@ -1,41 +1,32 @@
 <template>
 	<view class="page bg-gray">
-		<template v-if="isNoData">
+		<uni-list>
 			<uni-list-cell v-for="(item, index) in dataList" :key="item.id">
 				<t-card :data="item" @click="showDetail(item)" :index="index">
 					<template v-slot:header>
-						<text class="company-title">{{item.title}}</text>
+						<view class="feedback-header">
+							<text class="feedback-title">{{item.type}}</text>
+							<text class="info-text">{{item.created_at}}</text>
+						</view>
 					</template>
 					<template v-slot:body>
-						<view class="company-info">
-							<text class="company-text">纳税识别码：{{item.body}}</text>
-							<text class="company-text">开户行：{{item.body}}</text>
-							<text class="company-text">账号：{{item.body}}</text>
+						<view class="feedback-body">
+							<text class="feed-content">{{item.content}}</text>
+							<view class="tui-flex-pic">
+								<image v-for="(img,i) in item.images" :key="i" :src="img" mode="widthFix"></image>
+							</view>
 						</view>
-						
 					</template>
 					<template v-slot:footer>
-						<view class="handle-box">
-							<view class="handle-item">
-								<t-icons type="delete" size="11" color="#999999"></t-icons>
-								<text class="handle-item-text">修改</text>
-							</view>
-							<view class="handle-item">
-								<t-icons type="delete" size="11" color="#999999"></t-icons>
-								<text class="handle-item-text">删除</text>
-							</view>
-						</view>
 					</template>
 				</t-card>
 			</uni-list-cell>
 			<uni-list-cell v-if="isLoading || dataList.length > 4">
 				<uni-load-more :status="loadingStatus" />
 			</uni-list-cell>
-		</template>
-		<lun-prompt class="no-data" title="暂无相关数据" v-else></lun-prompt>
-		<t-footer>
-			<view class="create-btn"><t-button text="+ 添加企业" shape="circle" size="md" @click="toForm"></t-button></view>
-		</t-footer>
+		</uni-list>
+		<lun-prompt class="no-data" title="暂无相关数据" v-if="isNoData"></lun-prompt>
+		
 	</view>
 </template>
 
@@ -43,9 +34,7 @@
 	export default {
 		data() {
 			return {
-				dataList:[
-					{id:1,title:"北京盛世泰伯网络技术有限公司",body:"dsffsdsfdsfdsdf"}
-				],
+				dataList:[],
 				isLoading: false,
 				loadingText: '加载中...',
 				loadingStatus: 'loading',
@@ -53,17 +42,13 @@
 				requestParams: {
 					page: 1,
 				},
-				showActionSheet: false,
-				maskClosable: true,
-				tips: "确认清空搜索历史吗？",
-				itemList: [],
-				color: "#9a9a9a",
-				size: 26,
-				isCancel: true
 			}
 		},
 		onLoad(e) {
-			//this.loadData()
+			this.loadData()
+		},
+		onReachBottom(){
+			this.loadData();
 		},
 		methods: {
 			loadData() {
@@ -76,20 +61,20 @@
 				this.loadingStatus = 'loading'
 			
 				uni.request({
-					url: 'v1/users/comment',
+					url: 'v1/users/feedback',
 					data: this.requestParams,
 					success: (res) => {
-						const data = res.data.data;
+						const data = res.data;
 						console.log(data)
 						if(this.requestParams.page > 1){
 							if(data.length <= 0){
 								this.loadingStatus = 'nodata'
 							}else{
-								this.dataList = this.dataList.concat(this.setTime(data));
+								this.dataList = this.dataList.concat(data);
 							}
 						}else{
 							this.isNoData = (data.length <= 0);
-							this.dataList = this.setTime(data);
+							this.dataList = data;
 						}
 						this.requestParams.page++;
 						
@@ -113,19 +98,7 @@
 				})
 				//this.showActionSheet = true;
 			},
-			setTime: function (items) {
-				var newItems = [];
-				items.forEach((e) => {
-					newItems.push({
-						id: e.id,
-						title: dateUtils.formatToString(e.usercreated_at),
-						body: e.content,
-						moreText: e.comment.title,
-						contentid: e.id,
-					});
-				});
-				return newItems;
-			},
+			
 			onDelete(i,item){
 				let that = this
 				uni.showModal({
@@ -161,57 +134,67 @@
 					}
 				})
 			},
-			itemClick: function(e) {
-				let index = e.index;
-				this.closeActionSheet();
-				this.tui.toast(`您点击的按钮索引为：${index}`)
-			},
-			closeActionSheet: function() {
-				this.showActionSheet = false
-			},
-			toForm: function (e) {
-				uni.navigateTo({
-					url: "form?id="
-				})
-			},
 		}
 	}
 </script>
 
 <style>
-	.company-title{
-		font-size: 32rpx;
-		color: #333;
+	.feedback-header{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
 		padding: 20rpx;
 	}
-	.company-info{
+	.feedback-title{
+		font-size: 32rpx;
+		color: #333;
+		
+	}
+	.info-text{
+		color: #777;
+		font-size: 24rpx;
+	}
+	.feedback-body{
 		display: flex;
 		flex-direction: column;
-		padding: 0 20rpx 20rpx;
+		padding: 20rpx 30rpx;
 	}
-	.company-text {
-		color: #999999;
-		font-size: 24rpx;
+	.feed-content {
+		font-size: 28rpx;
 		line-height: 48rpx;
 	}
-	.handle-box{
+	.tui-flex-pic {
 		display: flex;
 		flex-direction: row;
-		justify-content: flex-end;
-		align-items: center;
-		padding: 20rpx 0;
-		border-top: #e9eaec solid 1rpx;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		margin-top: 10rpx;
 	}
-	.handle-item{
-		/* display: flex;
+	
+	.tui-flex-pic image {
+		width: 32%;
+		margin-bottom: 2%;
+		margin-right: 10rpx;
+	}
+	
+	.tui-content {
+		padding: 0rpx 30rpx 20rpx 120rpx;
+		box-sizing: border-box;
+		font-size: 34rpx;
+		font-weight: 400;
+		color: #333;
+	}
+	.footer-box{
+		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
-		align-items: center; */
-		margin-right: 20rpx;
+		align-items: center;
+		padding: 0 30rpx 20rpx 30rpx;
 	}
-	.handle-item-text{
-		color: #999999;
-		font-size: 20rpx;
+	.footer-box-text{
+		color: #777;
+		font-size: 24rpx;
 		line-height: 40rpx;
 	}
 	.create-btn{

@@ -1,24 +1,13 @@
 <template>
 	<view>
 		<uni-list>
-			<uni-list-item subtitle="名称" :rightText="data.contact_company"></uni-list-item>
-			<uni-list-item subtitle="地址" :rightText="data.contact_address"></uni-list-item>
-			<uni-list-item subtitle="电话">
-				<template v-slot:footer>
-					<view class="tel-list">
-						<text class="tel-item">{{data.contact_mobile}}</text>
-						<text class="tel-item">{{data.contact_mobile}}</text>
-						<text class="tel-item">{{data.contact_mobile}}</text>
-						<text class="tel-item">{{data.contact_mobile}}</text>
-					</view>
-				</template>
-			</uni-list-item>
-			<uni-list-item subtitle="邮箱" :rightText="data.contact_email"></uni-list-item>
+			<uni-list-item v-for="(item, index) in data.contact" :key="index" :subtitle="item.label" :rightText="item.title" @click="onCall(item.title)" clickable></uni-list-item>
+			
 		</uni-list>
 		<view class="contact-orther">
-			<image class="contact-orther-img" src="../../static/21.jpg" :show-menu-by-longpress="true"></image>
-			<text class="contact-orther-text">长按识别二维码关注我们</text>
-			<text class="contact-orther-text">浏览官方网站：{{data.contact_website}}</text>
+			<image v-if="data.qrcode" class="contact-orther-img" :src="data.qrcode" :show-menu-by-longpress="true"></image>
+			<text v-if="data.qrcode" class="contact-orther-text">长按识别二维码关注我们</text>
+			<text v-if="data.website" class="contact-orther-text" user-select>浏览官方网站：{{data.website}}</text>
 		</view>
 	</view>
 </template>
@@ -28,18 +17,11 @@
 	export default {
 		data() {
 			return {
-				data: {
-					contact_company: '中国科学协会',
-					contact_name: '',
-					contact_mobile: '150013210034',
-					contact_email: '32342432432@qq.com',
-					contact_address: '发的啥地方撒德萨发送到发送到范德萨打分撒旦法',
-					contact_qrcode: '',
-					contact_website: 'http://www.laizhanhui.com/',
-				},
+				data: {},
 			}
 		},
 		onLoad(e) {
+			this.data = JSON.parse(decodeURIComponent(e.detail));
 			//this.data = e.detail
 			//this.loadDetail()
 			//this.htmlNodes = htmlParser(content);
@@ -47,15 +29,18 @@
 		computed: mapState(['hasLogin']),
 		methods: {
 			onClickImg(){
-				uni.canIUse('request.object.method.GET');
 				uni.previewImage({
 					urls: this.data.contact_qrcode,
 				});
 			},
-			onCall(){
-				uni.makePhoneCall({
-					phoneNumber: '114' //仅为示例
-				});
+			onCall(mobile){
+				var myreg = /(^[0-9]{3,4}\-[0-9]{7,8}$)|(^[0-9]{7,8}$)|(^\([0-9]{3,4}\)[0-9]{3,8}$)|(^[1][3,4,5,6,7,8,9][0-9]{9}$)/;
+				if(myreg.test(mobile)){
+					uni.makePhoneCall({
+						phoneNumber: mobile
+					});
+				}
+				console.log('call tel')
 			}
 		}
 	}

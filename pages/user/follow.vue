@@ -1,89 +1,26 @@
 <template>
 	<view class="container">
-		<tui-tabs :tabs="navBars" :currentTab="currentTab" @change="swichNav" itemWidth="50%"></tui-tabs>
+		<tui-tabs :tabs="navBars" :currentTab="currentTab" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
 		<swiper class="tab-content" :current="currentTab" duration="300" @change="switchTab" :style="{height:winHeight+'px'}">
-			<swiper-item v-for="(item,index) in navBars" :key="index">
-				<scroll-view scroll-y class="scoll-y">
-					<!--start 内容部分可直接删除-->
-					<view class="list-view">
-						<view class="list-cell list-item" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">温故知"心"习近平这些话要牢记</view>
-							
-							<view class="sub-title">
-								<text class="badge b-red">要闻</text>
-								<text class="sub-content">央视网新闻</text>
-							</view>
-						</view>
-
-						<view class="list-cell list-item" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">美国会表决通过新驻华大使 月底有望赴华</view>
-							<view class="sub-title">
-								<text class="badge b-blue">朋友都看过</text>
-								<text class="sub-content">百科故事大全</text>
-							</view>
-						</view>
-
-
-						<view class="list-cell list-item" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">哪些专业毕业后收入高?计算机、金融专业排前列金融专业排前列金融专业排前列金融专业排前列金融专业排前列</view>
-							
-							<view class="sub-title">
-								<text class="badge b-orange">本地资讯</text>
-								<text class="sub-content">粤港精英联盟</text>
-							</view>
-						</view>
-
-						<view class="list-cell list-item" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">科创板交易系统准备就绪,不存在首批名单</view>
-							<view class="sub-title">
-								<!-- <text class="badge b-blue">朋友都看过</text> -->
-								<text class="sub-content">百科故事大全</text>
-							</view>
-						</view>
-
-
-						<view class="list-cell list-item" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">开户大战燎原！加急上线科创板预约开户</view>
-							
-							<view class="sub-title">
-								<!-- <text class="badge b-orange">本地资讯</text> -->
-								<text class="sub-content">粤港精英联盟</text>
-							</view>
-						</view>
-
-						<view class="list-cell list-item" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">3.07财经早报┃头条：推进改革开放创新增进民生福祉，促进经济社会持续健康发展促进经济社会持续健康发展</view>
-							<view class="sub-title">
-								<text class="badge b-green">互联网精英看过</text>
-								<text class="sub-content">百科故事大全</text>
-							</view>
-						</view>
-
-
-						<view class="list-cell list-item" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">哪些专业毕业后收入高?计算机、金融专业排前列金融专业排前列</view>
-							
-							<view class="sub-title">
-								<text class="badge b-orange">本地资讯</text>
-								<text class="sub-content">粤港精英联盟</text>
-							</view>
-						</view>
-
-						<view class="list-cell" hover-class="hover" :hover-stay-time="150" @tap="detail">
-							<view class="cell-title">触手直播“和平精英”星联赛Jstar夺冠 大热</view>
-							
-							<view class="sub-title">
-								<text class="badge b-red">要闻</text>
-								<text class="sub-content">粤港精英联盟</text>
-							</view>
-						</view>
-
-					</view>
-					<!--end 内容部分可直接删除-->
+			<swiper-item v-for="(item,tabindex) in navBars" :key="tabindex">
+				<scroll-view scroll-y class="scoll-y" @scrolltolower="loadMore">
+					<uni-list>
+						<uni-list-cell v-for="(item, index) in dataList[currentTab].data" :key="index">
+							<template v-if="item.module == 3">
+								<event-item :data="item.event" @click="eventDetail(item)" :index="index" @close="close(index,item)" isFav></event-item>
+							</template>
+							<template v-if="item.module == 2">
+								<venues-item :data="item.venue" @click="venueDetail(item)" :index="index" @close="close(index,item)" isFav></venues-item>
+							</template>
+							<template v-if="item.module == 1">
+								<company-item :data="item.merchant" @click="companyDetail(item)" :index="index" @close="close(index,item)" isFav></company-item>
+							</template>
+						</uni-list-cell>
+					</uni-list>
+					<lun-prompt class="no-data" title="暂无相关数据" v-if="dataList[currentTab].isNoData"></lun-prompt>
 				</scroll-view>
 			</swiper-item>
 		</swiper>
-
 	</view>
 </template>
 
@@ -91,15 +28,23 @@
 	export default {
 		data() {
 			return {
+				dataList: [],
 				navBars: [{
-					name: "活动"
+					name: "活动",
+					module: 3,
+					expand: 'event',
 				}, {
-					name: "场地"
+					name: "场地",
+					module: 2,
+					expand: 'venue',
 				}, {
-					name: "服务"
+					name: "服务",
+					module: 1,
+					expand: 'merchant',
 				}],
 				winHeight: "", //窗口高度
 				currentTab: 0, //预设当前项的值
+				currentModule: 3,
 				scrollLeft: 0 //tab标题的滚动条位置
 			}
 		},
@@ -112,27 +57,121 @@
 					that.winHeight = calc;
 				}
 			});
+			this.navBars.forEach((tabBar) => {
+				this.dataList.push({
+					data: [],
+					isLoading: false,
+					loadingText: '加载中...',
+					loadingStatus: 'loading',
+					isNoData: false,
+					page: 1,
+				});
+			});
+			this.loadData()
 		},
 		methods: {
 			// 滚动切换标签样式
 			switchTab: function(e) {
 				let that = this;
 				this.currentTab = e.detail.current;
-				//this.checkCor();
+				console.log(this.currentTab)
+				this.loadData()
 			},
 			// 点击标题切换当前页时改变样式
 			swichNav: function(e) {
-				let cur = e.currentTarget.dataset.current;
-				if (this.currentTab == cur) {
+				if (this.currentTab == e.index) {
 					return false;
 				} else {
-					this.currentTab = cur
+					this.currentTab = e.index
+					this.currentModule = this.navBars[e.index].module
+					this.loadData()
 				}
 			},
-			
-			detail(e) {
+			loadData(){
+				console.log('load data')
+				let activeTab = this.dataList[this.currentTab]
+				if (activeTab.isLoading) {
+					return;
+				}
+				activeTab.isLoading = true;
+				activeTab.isNoData = false;
+				let params = {
+					module: this.navBars[this.currentTab].module,
+					expand: this.navBars[this.currentTab].expand,
+					page: activeTab.page
+				}
+				uni.request({
+					url: 'v1/users/favorite',
+					data: params,
+					success: (res) => {
+						console.log(res.data)
+						const data = res.data;
+						//console.log(data)
+						if(activeTab.page > 1){
+							if(data.length <= 0){
+								activeTab.loadingStatus = 'nodata'
+							}else{
+								activeTab.data = activeTab.data.concat(data);
+							}
+						}else{
+							activeTab.isNoData = (data.length <= 0);
+							activeTab.data = data;
+						}
+						activeTab.page++;
+						
+					}
+				});
+			},
+			loadMore(e) {
+				this.loadData();
+				/* setTimeout(() => {
+					this.loadData();
+				}, 4000); */
+				
+			},
+			eventDetail: function (e) {
 				uni.navigateTo({
-					url: '../extend-view/newsDetail/newsDetail'
+					url: "/pages/event/view?id=" + e.content_id
+				})
+			},
+			venueDetail: function (e) {
+				uni.navigateTo({
+					url: "/pages/venues/view?id=" + e.content_id
+				})
+			},
+			companyDetail: function (e) {
+				uni.navigateTo({
+					url: "/pages/merchant/view?id=" + e.content_id
+				})
+			},
+			close(i,item){
+				let that = this
+				let activeTab = this.dataList[this.currentTab]
+				uni.showModal({
+					content: "确定取消关注吗？",
+					success: function (res) {
+						if (res.confirm) {
+							uni.request({
+								url: 'v1/users/favorite-delete',
+								method: 'POST',
+								data: {id:item.id},
+								success: (res) => {
+									if(res.data.code == 200) {
+										activeTab.data.splice(i,1);
+										uni.showToast({
+										    title: '取消成功',
+										    icon: 'success'
+										});
+									}else{
+										uni.showToast({
+										    title: '取消失败',
+										    icon: 'error'
+										});
+									}
+								}
+							})
+						}
+					}
 				})
 			}
 		}

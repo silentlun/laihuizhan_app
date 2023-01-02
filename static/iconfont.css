@@ -1,6 +1,6 @@
 @font-face {
   font-family: "lunfont"; /* Project id 3766356 */
-  src: url('/static/iconfont.ttf?t=1668225209024') format('truetype');
+  src: url('~@/static/iconfont.ttf') format('truetype');
 }
 
 .lunfont {
@@ -9,6 +9,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-map:before {
+  content: "\e677";
+}
+
+.icon-search:before {
+  content: "\e67d";
 }
 
 .icon-phone:before {

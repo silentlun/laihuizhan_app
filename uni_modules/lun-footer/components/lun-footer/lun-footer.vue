@@ -27,9 +27,10 @@
 		right: 0;
 		padding-left: 30rpx;
 		padding-right: 30rpx;
+		padding-top: 20rpx;
 		/* #ifndef APP-NVUE */
 		display: flex;
-		padding-bottom: env(safe-area-inset-bottom);
+		padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
 		/* #endif */
 		/* #ifdef APP-NVUE */
 		border-top: 1rpx solid #eaeef1;
@@ -37,7 +38,6 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 750rpx;
-		height: 100rpx;
 		background: rgba(255, 255, 255, 0.98);
 	}
 	
@@ -45,7 +45,7 @@
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		/* #endif */
-		height: 100rpx;
+		height: calc(100rpx + env(safe-area-inset-bottom));
 		margin-bottom: env(safe-area-inset-bottom);
 		
 	}

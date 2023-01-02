@@ -4,10 +4,17 @@
 			<image class="media-logo" :src="data.thumb"></image>
 			<view class="media-body">
 				<text class="media-title">{{data.title}}</text>
-				<view class="media-info">
-					<text class="media-foot-addr icon"><uni-icons type="location" size="12" color="#777"></uni-icons> {{data.address}}</text>
+				<view class="media-info" v-if="isFav">
+					<view class="favor-box" @click.stop="onDelete">
+						<uni-icons type="trash" size="14" color="#777"></uni-icons>
+						<text class="favor-text">删除</text>
+					</view>
+				</view>
+				<view class="media-info" v-else>
+					<text class="media-foot-addr icon">&#xe677; {{data.address}}</text>
 					<view class="info-tag">
-						<uni-tag text="标签" type="warning" size="mini" :circle="true" :inverted="true"></uni-tag>
+						<uni-tag class="tag-item" v-for="(tag,i) in data.tagValues" :key="i" :text="tag" type="error" size="small" :circle="true" :inverted="true"></uni-tag>
+						
 					</view>
 				</view>
 			</view>
@@ -29,7 +36,11 @@
 			index:{
 				type:Number,
 				default:0
-			}
+			},
+			isFav: {
+				type: [Boolean, String],
+				default: false
+			},
 		},
 		computed: {
 		    isBorder() {
@@ -42,6 +53,9 @@
 		    },
 			onClick() {
 				this.$emit('click')
+			},
+			onDelete(e) {
+			    this.$emit('close');
 			}
 		}
 	}
@@ -49,7 +63,7 @@
 
 <style lang="scss" scoped>
 	.icon{
-		font-family:icontaibo;
+		font-family: "lunfont" !important;
 	}
 	.venues-media {
         width: 750rpx;
@@ -127,8 +141,8 @@
 		margin-top: 10rpx;
 	}
 	.media-foot-addr{
-		font-size: 20rpx;
-		color: #777;
+		font-size: 24rpx;
+		color: #909497;
 		/* #ifndef APP-NVUE */
 		lines: 1;
 		/* #endif */
@@ -148,5 +162,18 @@
 		display: flex;
 		flex-direction: row;
 		margin-top: 10rpx;
+	}
+	.tag-item{
+		margin-right: 10rpx;
+	}
+	.favor-box{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.favor-text {
+		color: #909497;
+		font-size: 24rpx;
 	}
 </style>
