@@ -5,8 +5,8 @@
 			<text class="detail-title">{{data.title || ''}}</text>
 			<view class="detail-box-wrap">
 				<view class="detail-info">
-					<text class="detail-count">浏览 23423</text>
-					<text class="detail-count">收藏 23423</text>
+					<text class="detail-count">浏览 {{data.views}}</text>
+					<text class="detail-count">收藏 {{data.favnum}}</text>
 				</view>
 				<view class="feedback-box" @click="onFeedback">
 					<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">举报</text>
@@ -112,14 +112,17 @@
 				console.log("src: " + src);
 			},
 			loadFavoriteStatus(){
-				uni.request({
-					url: 'v1/users/favorite-status',
-					data: {module: 3, id:this.id},
-					success: (res) => {
-						this.followCount = res.data.followCount
-						this.isFollow = res.data.isFollow
-					}
-				})
+				if(this.hasLogin){
+					uni.request({
+						url: 'v1/users/favorite-status',
+						data: {module: 3, id:this.id},
+						success: (res) => {
+							this.followCount = res.data.followCount
+							this.isFollow = res.data.isFollow
+						}
+					})
+				}
+				
 			},
 			toContact(){
 				if(!this.hasLogin){
@@ -151,6 +154,11 @@
 			toVenue(id){
 				console.log(id)
 				if(!id){
+					uni.showToast({
+						title: '暂未更新',
+						icon: 'error',
+						duration: 2000
+					});
 					return false;
 				}
 				uni.navigateTo({
@@ -158,7 +166,18 @@
 				});
 			},
 			onFollow(){
-				
+				if(!this.hasLogin){
+					uni.showModal({
+						content: '请先登录账号',
+						confirmText:'立即登录',
+						success: function (res) {
+							if (res.confirm) {
+								uni.navigateTo({url: '/pages/main/login'});
+							}
+						}
+					});
+					return false
+				}
 				let formData = {
 					module: 3,
 					content_id: this.id,
@@ -335,7 +354,23 @@
 		line-height: 42rpx;
 		margin-bottom: 16rpx;
 	}
-	
+	.tags-list{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: wrap;
+		margin: 10rpx 0;
+	}
+	.tag-item{
+		font-size: 24rpx;
+		color: #ff7510;
+		line-height: 24rpx;
+		border: solid 1rpx #ff7510;
+		border-radius: 90rpx;
+		padding: 10rpx 30rpx;
+		margin-right: 30rpx;
+		margin-top: 20rpx;
+	}
 	.service-list{
 		display: flex;
 		justify-content: space-between;

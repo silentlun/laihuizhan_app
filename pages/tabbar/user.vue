@@ -36,16 +36,18 @@
 			<!-- <image class="arc" src="/static/arc.png" mode="widthFix"></image> -->
 			<view class="my-card">
 				<uni-list :border="false">
-					<uni-list-item title="我的订单" to="/pages/user/insurance-order" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'list'}" link="navigateTo">
+					<uni-list-item title="保险服务" to="/pages/user/insurance-order" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'list'}" link="navigateTo">
 						<template v-slot:header>
 							<view class="list-item-icon">
-								<uni-icons color="#000000" custom-prefix="lunfont" type="icon-form" size="20"></uni-icons>
+								<uni-icons color="#000000" custom-prefix="lunfont" type="icon-baoxian" size="20"></uni-icons>
 							</view>
 						</template>
 					</uni-list-item>
 					<uni-list-item title="我的企业" to="/pages/user/company/company" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'medal'}" link="navigateTo"></uni-list-item>
 					<uni-list-item title="我的关注" to="/pages/user/follow" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'star'}" link="navigateTo"></uni-list-item>
 					<uni-list-item title="我的投诉" to="/pages/user/feedback" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'notification'}" link="navigateTo"></uni-list-item>
+					<uni-list-item title="服务入驻" @click="goDetail('http://www.laihuizhan.com/page/kefu')" clickable showArrow :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'shop'}"></uni-list-item>
+					<uni-list-item title="联系我们" to="/pages/main/aboutus" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'contact'}" link="navigateTo"></uni-list-item>
 				</uni-list>
 			</view>
 		</view>
@@ -147,7 +149,13 @@
 						this.merchantCount = data.merchantCount
 					}
 				})
-			}
+			},
+			goDetail(e){
+				console.log(e)
+				uni.navigateTo({
+					url: "/pages/main/webview?url=" + encodeURIComponent(e)
+				})
+			},
 		}
 	}
 </script>

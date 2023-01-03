@@ -5,16 +5,16 @@
 			<text class="detail-title">{{data.title || ''}}</text>
 			<view class="detail-box-wrap">
 				<view class="detail-info">
-					<text class="detail-count">浏览 23423</text>
-					<text class="detail-count">收藏 23423</text>
+					<text class="detail-count">浏览 {{data.views}}</text>
+					<text class="detail-count">收藏 {{data.favnum}}</text>
 				</view>
 				<view class="feedback-box" @click="onFeedback">
 					<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">举报</text>
 				</view>
 			</view>
 			<view class="detail-info">
-				<text class="detail-count">展览面积 23423平米</text>
-				<text class="detail-count">会议面积 23423平米</text>
+				<text class="detail-count" v-if="data.acreage_zhanlan > 0">展览面积 {{data.acreage_zhanlan}}平米</text>
+				<text class="detail-count" v-if="data.acreage_huiyi > 0">会议面积 {{data.acreage_huiyi}}平米</text>
 			</view>
 			<view class="tags-list">
 				<text class="tag-item" v-for="(tag,i) in data.tagValues" :key="i">{{tag}}</text>
@@ -156,14 +156,16 @@
 				})
 			},
 			loadFavoriteStatus(){
-				uni.request({
-					url: 'v1/users/favorite-status',
-					data: {module: 2, id:this.id},
-					success: (res) => {
-						this.followCount = res.data.followCount
-						this.isFollow = res.data.isFollow
-					}
-				})
+				if(this.hasLogin){
+					uni.request({
+						url: 'v1/users/favorite-status',
+						data: {module: 2, id:this.id},
+						success: (res) => {
+							this.followCount = res.data.followCount
+							this.isFollow = res.data.isFollow
+						}
+					})
+				}
 			},
 			showDetail: function (e) {
 				uni.navigateTo({
@@ -304,6 +306,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+		margin-bottom: 20rpx;
 	}
 	.detail-info{
 		display: flex;
@@ -332,7 +335,7 @@
 		flex-direction: row;
 		align-items: center;
 		flex-wrap: wrap;
-		margin-top: 30rpx;
+		margin-bottom: 20rpx;
 	}
 	.tag-item{
 		font-size: 24rpx;
@@ -342,7 +345,7 @@
 		border-radius: 90rpx;
 		padding: 10rpx 30rpx;
 		margin-right: 30rpx;
-		margin-bottom: 20rpx;
+		margin-top: 20rpx;
 	}
 	.service-list{
 		display: flex;

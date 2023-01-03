@@ -11,6 +11,58 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-baoxian:before {
+  content: "\e602";
+}
+
+.icon-locationfill:before {
+  content: "\e650";
+}
+
+.icon-taxi:before {
+  content: "\e65d";
+}
+
+.icon-send:before {
+  content: "\e675";
+}
+
+.icon-shop:before {
+  content: "\e679";
+}
+
+.icon-shopfill:before {
+  content: "\e697";
+}
+
+.icon-discoverfill:before {
+  content: "\e6ba";
+}
+
+.icon-activity:before {
+  content: "\e6c5";
+}
+
+.icon-service:before {
+  content: "\e6ff";
+}
+
+.icon-servicefill:before {
+  content: "\e737";
+}
+
+.icon-repairfill:before {
+  content: "\e73a";
+}
+
+.icon-activityfill:before {
+  content: "\e775";
+}
+
+.icon-circlefill:before {
+  content: "\e7b0";
+}
+
 .icon-map:before {
   content: "\e677";
 }
