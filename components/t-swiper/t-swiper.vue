@@ -1,5 +1,5 @@
 <template>
-	<swiper class="slider" indicator-dots="true" circular="true" indicator-color="#666666" indicator-active-color="#999999">
+	<swiper class="slider" indicator-dots="true" circular="true" indicator-color="#666666" indicator-active-color="#999999" autoplay>
 		<swiper-item class="slider-item" v-for="(item,s) in data" :key="s" @click="onClick(item)">
 			<image class="slider-item-image" :src="item.thumb"></image>
 			<text class="slide-item-title">{{item.title}}</text>

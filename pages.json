@@ -316,7 +316,19 @@
 			    "pagePath" : "pages/tabbar/service",
 			    "iconPath" : "static/shop.png",
 			    "selectedIconPath" : "static/shop_fill.png",
-			    "text" : "会展服务"
+			    "text" : "服务"
+			},
+			{
+			    "pagePath" : "pages/venues/list",
+			    "iconPath" : "static/venue.png",
+			    "selectedIconPath" : "static/venue_fill.png",
+			    "text" : "场地"
+			},
+			{
+			    "pagePath" : "pages/event/list",
+			    "iconPath" : "static/event.png",
+			    "selectedIconPath" : "static/event_fill.png",
+			    "text" : "活动"
 			},
 	        {
 	            "pagePath" : "pages/tabbar/user",

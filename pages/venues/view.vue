@@ -3,8 +3,18 @@
 		<image class="page-banner" :src="data.thumb" mode="scaleToFill"></image>
 		<view class="page-warp">
 			<text class="detail-title">{{data.title || ''}}</text>
-			<view class="feedback-box" @click="onFeedback">
-				<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">举报</text>
+			<view class="detail-box-wrap">
+				<view class="detail-info">
+					<text class="detail-count">浏览 23423</text>
+					<text class="detail-count">收藏 23423</text>
+				</view>
+				<view class="feedback-box" @click="onFeedback">
+					<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">举报</text>
+				</view>
+			</view>
+			<view class="detail-info">
+				<text class="detail-count">展览面积 23423平米</text>
+				<text class="detail-count">会议面积 23423平米</text>
 			</view>
 			<view class="tags-list">
 				<text class="tag-item" v-for="(tag,i) in data.tagValues" :key="i">{{tag}}</text>
@@ -289,6 +299,23 @@
 </script>
 
 <style scoped>
+	.detail-box-wrap{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.detail-info{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.detail-count{
+		font-size: 24rpx;
+		color: #777;
+		margin-right: 30rpx;
+	}
 	.feedback-box{
 		display: flex;
 		flex-direction: row;

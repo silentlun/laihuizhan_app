@@ -3,8 +3,17 @@
 		<image class="page-banner" :src="data.thumb" mode="scaleToFill"></image>
 		<view class="page-warp">
 			<text class="detail-title">{{data.title || ''}}</text>
-			<view class="feedback-box" @click="onFeedback">
-				<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">举报</text>
+			<view class="detail-box-wrap">
+				<view class="detail-info">
+					<text class="detail-count">浏览 23423</text>
+					<text class="detail-count">收藏 23423</text>
+				</view>
+				<view class="feedback-box" @click="onFeedback">
+					<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">举报</text>
+				</view>
+			</view>
+			<view class="tags-list">
+				<text class="tag-item" v-for="(tag,i) in data.tags" :key="i">{{tag}}</text>
 			</view>
 		</view>
 		
@@ -226,72 +235,22 @@
 
 <style>
 @import url("@/components/feng-parse/parse.css");
-.event-warp{
-		width: 750rpx;
-		padding: 0 30rpx;
-		display: flex;
-		flex-direction: column;
-	}
-	.event-title{
-		font-size: 38rpx;
-		font-weight: 700;
-		line-height: 44rpx;
-		padding-top: 20rpx;
-		padding-bottom: 20rpx;
-	}
-	.content{
-		font-size: 32upx;
-		line-height: 1.5;
-	}
-	.ep{
-		margin-bottom: 30upx;
-	}
-	.content img{
-		width: 100%;
-	}
-	.foot-event{
+	.detail-box-wrap{
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		background-color: #FFFFFF;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		width: 750rpx;
-		height: 100rpx;
-		padding-left: 30rpx;
-		padding-right: 40rpx;
 	}
-	/* #ifndef APP-NVUE */
-	.foot-event:after {
-		position: absolute;
-		top: 0;
-		right: 0;
-		left: 0;
-		height: 1px;
-		content: '';
-		-webkit-transform: scaleY(0.5);
-		transform: scaleY(0.5);
-		background-color: $uni-border-color;
-	}
-	
-	/* #endif */
-	.foot-btn{
-		font-size: 28rpx;
-		text-align: center;
-		color: #FFFFFF;
-		background-color: $uni-color-warning;
-		border-radius: 60rpx;
-		padding: 15rpx 50rpx;
-	}
-	.disabled{background: #ddd; color: #333;}
-	.foot-share{
-		width: 120rpx;
+	.detail-info{
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
+		align-items: center;
+	}
+	.detail-count{
+		font-size: 24rpx;
+		color: #777;
+		margin-right: 30rpx;
 	}
 	.feedback-box{
 		display: flex;

@@ -25,14 +25,14 @@
 				<company-item :data="item" @click="showDetail(item)"></company-item>
 			</uni-list-cell>
 		</uni-list> -->
-		<t-section title="热门场地" link="/pages/venues/list" showMore></t-section>
+		<t-section title="热门场地"></t-section>
 		<uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in venuesData" :key="index">
 				<venues-item :data="item" @click="toVenuesDetail(item)"></venues-item>
 			</uni-list-cell>
 		</uni-list>
 		<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
-		<t-section title="热门活动" link="/pages/event/list" showMore></t-section>
+		<t-section title="热门活动"></t-section>
 		<uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in eventData" :key="index">
 				<event-item :data="item" @click="toEventDetail(item)"></event-item>

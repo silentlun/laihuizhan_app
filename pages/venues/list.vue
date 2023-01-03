@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="page">
 		<t-dropdown>
 			<t-dropdown-item v-model="requestParams.province" :list="provinces" title="地区" :showtype="2" @click="choose"></t-dropdown-item>
 			<t-dropdown-item v-model="requestParams.catid" :list="categories" title="功能" :showtype="2" @click="choose"></t-dropdown-item>
