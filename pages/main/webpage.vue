@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="page-warp">
 		<view class="detail-content">
 			<u-parse :content="data.content" @preview="preview" />
 		</view>
@@ -45,6 +45,9 @@
 	}
 </script>
 
-<style>
+<style scoped>
 @import url("@/components/feng-parse/parse.css");
+.page-warp{
+	padding: 60rpx 30rpx;
+}
 </style>

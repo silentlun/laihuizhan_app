@@ -22,7 +22,6 @@
 		},
 		methods: {
 			goDetail(id, title){
-				console.log(e)
 				uni.navigateTo({
 					url: "/pages/main/webpage?id=" + id + "&title=" + title
 				})

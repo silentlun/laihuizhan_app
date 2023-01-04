@@ -46,7 +46,7 @@
 					<uni-list-item title="我的企业" to="/pages/user/company/company" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'medal'}" link="navigateTo"></uni-list-item>
 					<uni-list-item title="我的关注" to="/pages/user/follow" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'star'}" link="navigateTo"></uni-list-item>
 					<uni-list-item title="我的投诉" to="/pages/user/feedback" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'notification'}" link="navigateTo"></uni-list-item>
-					<uni-list-item title="服务入驻" @click="goDetail('http://www.laihuizhan.com/page/kefu')" clickable showArrow :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'shop'}"></uni-list-item>
+					<uni-list-item title="服务入驻" @click="goDetail(4, '服务入驻')" clickable showArrow :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'shop'}"></uni-list-item>
 					<uni-list-item title="联系我们" to="/pages/main/aboutus" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'contact'}" link="navigateTo"></uni-list-item>
 				</uni-list>
 			</view>
@@ -150,10 +150,9 @@
 					}
 				})
 			},
-			goDetail(e){
-				console.log(e)
+			goDetail(id, title){
 				uni.navigateTo({
-					url: "/pages/main/webview?url=" + encodeURIComponent(e)
+					url: "/pages/main/webpage?id=" + id + "&title=" + title
 				})
 			},
 		}
