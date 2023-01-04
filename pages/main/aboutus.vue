@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<uni-list :border="false">
-			<uni-list-item title="关于我们" @click="goDetail('http://www.laihuizhan.com/page/aboutus')" clickable showArrow></uni-list-item>
-			<uni-list-item title="商务合作" @click="goDetail('http://www.laihuizhan.com/page/cooperation')" clickable showArrow></uni-list-item>
-			<uni-list-item title="微信客服" @click="goDetail('http://www.laihuizhan.com/page/kefu')" clickable showArrow></uni-list-item>
+			<uni-list-item title="关于我们" @click="goDetail(1, '关于我们')" clickable showArrow></uni-list-item>
+			<uni-list-item title="商务合作" @click="goDetail(2, '商务合作')" clickable showArrow></uni-list-item>
+			<uni-list-item title="微信客服" @click="goDetail(3, '微信客服')" clickable showArrow></uni-list-item>
 			<uni-list-item showArrow>
 				<template v-slot:body>
 					<button class="kefu-btn" open-type="contact" bindcontact="handleContact" session-from="sessionFrom">在线客服</button>
@@ -21,10 +21,10 @@
 			}
 		},
 		methods: {
-			goDetail(e){
+			goDetail(id, title){
 				console.log(e)
 				uni.navigateTo({
-					url: "/pages/main/webview?url=" + encodeURIComponent(e)
+					url: "/pages/main/webpage?id=" + id + "&title=" + title
 				})
 			},
 			handleContact(e) {
