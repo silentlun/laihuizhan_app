@@ -109,7 +109,7 @@
 <style lang="scss" scoped>
 	$uni-primary: #5677fc !default;
 	$uni-success: #18bc37 !default;
-	$uni-warning: #ff9900 !default;
+	$uni-warning: #ff7510 !default;
 	$uni-error: #ed3f14 !default;
 	$uni-info: #eeeeee !default;
 
@@ -121,7 +121,7 @@
 	.uni-tag {
 		line-height: 28rpx;
 		font-size: 24rpx;
-		font-weight: 200;
+		/* font-weight: 200; */
 		padding: $tag-default-pd;
 		color: #585858;
 		border-radius: 3px;

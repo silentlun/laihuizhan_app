@@ -21,13 +21,16 @@
 			}
 		},
 		onLoad(e) {
-			let payload = {};
-			try {
+			this.content = '';
+			let payload = JSON.parse(decodeURIComponent(e.detail));
+			/* try {
 				payload = JSON.parse(decodeURIComponent(e.detail));
 			} catch (error) {
 				payload = JSON.parse(e.detail);
-			}
+			} */
+			
 			this.content = payload.content
+			console.log(this.content)
 			uni.setNavigationBarTitle({
 				title: payload.title
 			})

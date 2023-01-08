@@ -133,14 +133,14 @@
 						console.log(res)
 						this.data = data;
 						//this.eventdate = data.start_date +'—'+ data.end_date;
-						let content = data.content.replace(/\<p/gi, '<p class="ep"');
-						this.data.content = content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
+						//let content = data.content.replace(/\<p/gi, '<p class="ep"');
+						//this.data.content = content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
 						//this.htmlNodes = htmlParser(content);
-						let jiaotong = data.jiaotong.replace(/\<p/gi, '<p class="ep"');
-						this.data.jiaotong = jiaotong.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
+						//let jiaotong = data.jiaotong.replace(/\<p/gi, '<p class="ep"');
+						//this.data.jiaotong = jiaotong.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
 						//this.jiaotong = htmlParser(jiaotong);
-						let sheshi = data.sheshi.replace(/\<p/gi, '<p class="ep"');
-						this.data.sheshi = sheshi.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
+						//let sheshi = data.sheshi.replace(/\<p/gi, '<p class="ep"');
+						//this.data.sheshi = sheshi.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
 						//this.sheshi = htmlParser(sheshi);
 						
 					}
@@ -274,6 +274,7 @@
 					title: title,
 					content: content,
 				}
+				console.log(detail)
 				uni.navigateTo({
 					url: './detail?detail=' + encodeURIComponent(JSON.stringify(detail))
 				});

@@ -24,6 +24,9 @@
 						<text class="item-num">{{followCount}}</text>
 					</view>
 				</view>
+				<view class="feedback-box" @click="onFeedback">
+					<uni-icons type="notification" color="#fff" size="16"></uni-icons><text class="feedback-text">投诉</text>
+				</view>
 				<!-- <view class="btn-tabs">
 					<text class="btn"><t-icons type="settings" color="#fff" size="12"></t-icons> 投诉</text>
 					<text class="btn"><t-icons type="settings" color="#fff" size="12"></t-icons> 关注</text>
@@ -31,14 +34,15 @@
 			</view>
 			
 		</view>
-		<view class="page-warp merchant-warp">
+		<!-- <view class="page-warp merchant-warp">
 			<view class="feedback-box" @click="onFeedback">
 				<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">投诉</text>
 			</view>
-		</view>
+		</view> -->
 		<!-- <t-list>
 			<t-list-item :subtitle="'北京市朝阳区的说法发随叫随到发'" :showArrow="true"></t-list-item>
 		</t-list> -->
+		<view class="merchant-warp">
 		<t-section title="服务商简介"></t-section>
 		<view class="page-warp">
 			<!-- <view class="tabs">
@@ -48,6 +52,7 @@
 			<view class="detail-content">
 				<rich-text :nodes="htmlNodes"></rich-text>
 			</view>
+		</view>
 		</view>
 		<t-section title="服务案例"></t-section>
 		<t-list>
@@ -305,7 +310,7 @@
 }
 .feedback-text{
 	font-size: 24rpx;
-	color: #777;
+	color: #fff;
 }
 .tabs{
 	position: sticky;

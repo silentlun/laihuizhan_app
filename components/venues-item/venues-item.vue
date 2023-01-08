@@ -13,7 +13,7 @@
 				<view class="media-info" v-else>
 					<text class="media-foot-addr icon">&#xe677; {{data.address}}</text>
 					<view class="info-tag">
-						<uni-tag class="tag-item" v-for="(tag,i) in data.tagValues" :key="i" :text="tag" type="error" size="small" :circle="true" :inverted="true"></uni-tag>
+						<uni-tag class="tag-item" v-for="(tag,i) in data.tagValues" :key="i" :text="tag" type="warning" size="small" :circle="true" :inverted="true"></uni-tag>
 						
 					</view>
 				</view>

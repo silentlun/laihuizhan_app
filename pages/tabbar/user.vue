@@ -169,13 +169,14 @@ page{
 .user-section{
 	display: flex;
 	flex-direction: column;
-	background-image: linear-gradient(45deg, #d41a1a, #FF8D39);
+	background-image: linear-gradient(#d41a1a, #FF8D39);
 	width: 750rpx;
-	padding-top: calc(88rpx + var(--status-bar-height) + env(safe-area-inset-top));
+	/* padding-top: calc(88rpx + var(--status-bar-height) + env(safe-area-inset-top)); */
 	/* padding-top: env(safe-area-inset-top); */
 	padding-left: 30rpx;
 	padding-right: 30rpx;
 	padding-bottom: 40rpx;
+	padding-top: 30rpx;
 	
 }
 .user-header{
