@@ -17,11 +17,14 @@
 					<text class="btn-code" :class="{'btn-code-disabled':isDisabled}" @click="sendSms">{{buttonName}}</text>
 				</template>
 			</uni-forms-item>
+			<uni-forms-item>
+				<view class="content-padded">
+					<t-button text="登录" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
+				</view>
+			</uni-forms-item>
 		</uni-forms>
 		</view>
-		<view class="content-padded">
-			<t-button text="登录" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
-		</view>
+		
 		<view class="login-footer">
 			<checkbox-group @change="checkboxChange">
 				<label>

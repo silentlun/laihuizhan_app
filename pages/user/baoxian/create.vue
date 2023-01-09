@@ -1,79 +1,24 @@
 <template>
 	<view>
-		<uni-forms ref="valiForm" :rules="rules" :modelValue="formData" label-width="240rpx" border>
-			<uni-group margin-top="20">
-				<template v-slot:title>
-					<t-section title="投保人信息"></t-section>
+		<uni-list>
+			<uni-list-item showArrow>
+				<template v-slot:body>
+					<text class="slot-box slot-text">投保人</text>
 				</template>
-				<uni-forms-item label="投保企业名称" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="投保企业名称" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="统一社会信用码" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="统一社会信用码" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="投保企业类型" name="shenfen">
-					<uni-data-checkbox v-model="formData.shenfen" :localdata="shenfens"></uni-data-checkbox>
-				</uni-forms-item>
-			</uni-group>
-			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
-			<uni-group>
-				<template v-slot:title>
-					<t-section title="会展活动信息"></t-section>
+				<template v-slot:footer>
+					<text class="right-text">北京盛世泰伯网络技术有限公司</text>
 				</template>
-				<uni-forms-item label="投保企业名称" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="投保企业名称" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="统一社会信用码" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="统一社会信用码" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="投保企业类型" name="shenfen">
-					<uni-data-checkbox v-model="formData.shenfen" :localdata="shenfens"></uni-data-checkbox>
-				</uni-forms-item>
-			</uni-group>
-			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
-			<uni-group>
-				<template v-slot:title>
-					<t-section title="展位信息"></t-section>
+			</uni-list-item>
+			<uni-list-item showArrow>
+				<template v-slot:body>
+					<text class="slot-box slot-text">投保企业类型</text>
 				</template>
-				<uni-forms-item label="投保企业名称" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="投保企业名称" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="统一社会信用码" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="统一社会信用码" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="投保企业类型" name="shenfen">
-					<uni-data-checkbox v-model="formData.shenfen" :localdata="shenfens"></uni-data-checkbox>
-				</uni-forms-item>
-			</uni-group>
-			<uni-group>
-				<template v-slot:title>
-					<t-section title="发票信息"></t-section>
+				<template v-slot:footer>
+					<text class="right-text">展商</text>
 				</template>
-				<uni-forms-item label="投保企业名称" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="投保企业名称" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="统一社会信用码" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="统一社会信用码" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="投保企业类型" name="shenfen">
-					<uni-data-checkbox v-model="formData.shenfen" :localdata="shenfens"></uni-data-checkbox>
-				</uni-forms-item>
-			</uni-group>
-			<uni-group>
-				<template v-slot:title>
-					<t-section title="联系人"></t-section>
-				</template>
-				<uni-forms-item label="投保企业名称" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="投保企业名称" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="统一社会信用码" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="统一社会信用码" :clearable="false" :inputBorder="false" />
-				</uni-forms-item>
-				<uni-forms-item label="投保企业类型" name="shenfen">
-					<uni-data-checkbox v-model="formData.shenfen" :localdata="shenfens"></uni-data-checkbox>
-				</uni-forms-item>
-			</uni-group>
-		</uni-forms>
+			</uni-list-item>
+			<uni-list-item showArrow title="列表文字" rightText="右侧文字" />
+		</uni-list>
 		
 		<view class="content-padded">
 			<t-button text="保存" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
@@ -86,7 +31,11 @@
 	export default {
 		data() {
 			return {
-				formData:{},
+				index:0,
+				formData:{
+					type: 1,
+				},
+				showType: '参展商',
 				shenfens: [{
 					text: '参展商',
 					value: 1
@@ -159,6 +108,12 @@
 				})
 				
 			},
+			bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.detail.value)
+				let index = e.detail.value;
+				this.showType = this.shenfens[index].text
+				console.log(this.showType)
+			},
 		}
 	}
 </script>
@@ -166,6 +121,34 @@
 <style>
 	.form-list{
 		padding: 0 30rpx;
+	}
+	.form-select{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+	}
+	.body-text{
+		font-size: 28rpx;
+		color: #666;
+	}
+	.slot-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.slot-text {
+		flex: 1;
+		font-size: 28rpx;
+		color: #666;
+		margin-right: 10px;
+	}
+	.right-text{
+		font-size: 28rpx;
+		color: #000;
 	}
 
 </style>
