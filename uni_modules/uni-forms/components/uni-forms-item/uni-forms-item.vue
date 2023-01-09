@@ -70,6 +70,10 @@
 				from: 'uniForm',
 				default: null
 			},
+			group: {
+				from: 'uniGroup',
+				default: null
+			},
 		},
 		props: {
 			// 表单校验规则
@@ -587,9 +591,9 @@
 
 	.uni-forms-item--border {
 		margin-bottom: 0;
-		padding: 10px 0;
+		padding: 8rpx 0;
 		// padding-bottom: 0;
-		border-bottom: 1px #eee solid;
+		border-top: 1px #eee solid;
 
 		/* #ifndef APP-NVUE */
 		.uni-forms-item__content {
@@ -625,7 +629,7 @@
 
 	.is-first-border {
 		/* #ifndef APP-NVUE */
-		/* border: none; */
+		border: none;
 		/* #endif */
 		/* #ifdef APP-NVUE */
 		border-width: 0;

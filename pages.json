@@ -318,6 +318,33 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/baoxian/baoxian",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "莱荟展保险服务",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/baoxian/create",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "填写保单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/baoxian/view",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "确认保单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -34,16 +34,16 @@
 		</view> -->
 		<!-- <lun-gap height="20" bg-color="#f8f8f9"></lun-gap> -->
 		<view class="nav-list">
-			<view class="nav-item" @click="toDetail('场地介绍', data.content)">
+			<view class="nav-item" @click="toDetail(1)">
 				<text class="nav-item-name">场地介绍</text>
 				<text class="nav-item-icon">&#xe697;</text>
 			</view>
-			<view class="nav-item" @click="toDetail('抵达交通', data.jiaotong)">
+			<view class="nav-item" @click="toDetail(2)">
 				<text class="nav-item-name">抵达交通</text>
 				<text class="nav-item-icon">&#xe65d;</text>
 			</view>
 			
-			<view class="nav-item" @click="toDetail('功能/设施', data.sheshi)">
+			<view class="nav-item" @click="toDetail(3)">
 				<text class="nav-item-name">功能/设施</text>
 				<text class="nav-item-icon">&#xe73a;</text>
 			</view>
@@ -269,7 +269,12 @@
 					});
 				}
 			},
-			toDetail(title, content){
+			toDetail(type){
+				uni.navigateTo({
+					url: './detail?type=' + type + '&id=' + this.id
+				});
+			},
+			toDetail2(title, content){
 				let detail = {
 					title: title,
 					content: content,
