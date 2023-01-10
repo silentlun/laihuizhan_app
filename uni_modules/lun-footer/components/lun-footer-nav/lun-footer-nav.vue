@@ -56,7 +56,9 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		width: 690rpx;
+		width: 750rpx;
+		height: 100rpx;
+		padding: 0 30rpx;
 	}
 	.foot-nav-left{
 		display: flex;

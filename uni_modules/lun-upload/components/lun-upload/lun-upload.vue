@@ -397,7 +397,7 @@
 	}
 
 	.tui-upload-add {
-		font-size: 68rpx;
+		font-size: 48rpx;
 		font-weight: 100;
 		color: #888;
 		background-color: #F7F7F7;

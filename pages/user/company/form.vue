@@ -107,6 +107,9 @@
 						success: (res) => {
 							uni.hideLoading(); 
 							if(res.data.code == 200){
+								uni.$emit('update', {
+									status: 200
+								})
 								setTimeout(()=>{
 									uni.navigateBack({
 									    delta: 1

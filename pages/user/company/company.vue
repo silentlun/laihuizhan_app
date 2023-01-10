@@ -17,11 +17,15 @@
 					<template v-slot:footer>
 						<view class="handle-box">
 							<view class="handle-item" @click.stop="onUpdate(item)">
-								<uni-icons type="compose" size="11" color="#999999"></uni-icons>
+								<uni-icons type="compose" size="12" color="#999999"></uni-icons>
 								<text class="handle-item-text">修改</text>
 							</view>
-							<view class="handle-item" @click.stop="onDelete(index,item)">
-								<uni-icons type="trash" size="11" color="#999999"></uni-icons>
+							<view class="handle-item" v-if="emitType" @click.stop="onImport(item)">
+								<uni-icons type="trash" size="12" color="#999999"></uni-icons>
+								<text class="handle-item-text">使用</text>
+							</view>
+							<view class="handle-item" v-else @click.stop="onDelete(index,item)">
+								<uni-icons type="trash" size="12" color="#999999"></uni-icons>
 								<text class="handle-item-text">删除</text>
 							</view>
 						</view>
@@ -43,6 +47,7 @@
 	export default {
 		data() {
 			return {
+				emitType: '',
 				dataList:[],
 				isLoading: false,
 				loadingText: '加载中...',
@@ -53,8 +58,18 @@
 				},
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.type) this.emitType = e.type
 			this.loadData()
+			uni.$on('update', (data) => {
+				if(data.status == 200){
+					this.requestParams.page = 1
+					this.loadData()
+				}
+			})
+		},
+		onUnload() {
+			uni.$off('update')
 		},
 		methods: {
 			loadData() {
@@ -103,19 +118,6 @@
 					url: "/pages/news/show?id="+e.id
 				})
 				//this.showActionSheet = true;
-			},
-			setTime: function (items) {
-				var newItems = [];
-				items.forEach((e) => {
-					newItems.push({
-						id: e.id,
-						title: dateUtils.formatToString(e.usercreated_at),
-						body: e.content,
-						moreText: e.comment.title,
-						contentid: e.id,
-					});
-				});
-				return newItems;
 			},
 			onDelete(i,item){
 				let that = this
@@ -190,6 +192,11 @@
 					url: "./form?id=" + e.id
 				})
 			},
+			onImport: function(e) {
+				console.log(e)
+				uni.$emit(this.emitType, e)
+				uni.navigateBack();
+			},
 			toForm: function (e) {
 				uni.navigateTo({
 					url: "./form"
@@ -232,13 +239,15 @@
 	}
 	.handle-item-text{
 		color: #999999;
-		font-size: 20rpx;
+		font-size: 24rpx;
 		line-height: 40rpx;
 	}
 	.create-btn{
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+		align-items: center;
 		width: 100%;
+		height: 100rpx;
 	}
 </style>

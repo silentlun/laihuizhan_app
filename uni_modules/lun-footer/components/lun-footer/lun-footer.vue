@@ -25,12 +25,10 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		padding-left: 30rpx;
-		padding-right: 30rpx;
-		padding-top: 20rpx;
 		/* #ifndef APP-NVUE */
 		display: flex;
-		padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+		/* padding-bottom: calc(20rpx + env(safe-area-inset-bottom)); */
+		padding-bottom: env(safe-area-inset-bottom);
 		/* #endif */
 		/* #ifdef APP-NVUE */
 		border-top: 1rpx solid #eaeef1;
