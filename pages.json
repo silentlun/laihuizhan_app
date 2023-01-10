@@ -345,6 +345,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/baoxian/event",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

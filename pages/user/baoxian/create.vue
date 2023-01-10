@@ -26,7 +26,7 @@
 				</template>
 				<uni-forms-item label="投保企业名称" name="nickname" label-width="100px">
 					<view class="custom-input" @click="onCompany('toubao')">
-						<text class="custom-input-text" :class="{'custom-input-placeholder':formData.invoice_title == ''}">{{formData.insure_name || '请选择'}}</text>
+						<text class="custom-input-text" :class="{'custom-input-placeholder':insureNameLength == 0}">{{formData.insure_name || '请选择'}}</text>
 						<uni-icons type="right"></uni-icons>
 					</view>
 				</uni-forms-item>
@@ -38,7 +38,7 @@
 				<uni-forms-item label="投保企业类型" name="shenfen" label-width="100px">
 					<view class="form-select">
 						<picker @change="bindPickerChange" :value="typeIndex" range-key="text" :range="types">
-							<view class="uni-input">{{types[typeIndex].text}}</view>
+							<view class="custom-input-text">{{types[typeIndex].text}}</view>
 						</picker>
 						<uni-icons type="right"></uni-icons>
 					</view>
@@ -49,43 +49,55 @@
 				<template v-slot:title>
 					<lun-section title="会展活动信息">
 						<template v-slot:right>
-							<t-button text="快速导入" type="warning" size="sm" @click="formSubmit"></t-button>
+							<t-button text="快速导入信息" type="warning" size="sm" @click="onEvent"></t-button>
 						</template>
 					</lun-section>
 				</template>
 				<uni-forms-item label="活动名称" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.events.title" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 				<uni-forms-item label="举办城市" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.events.city" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 				<uni-forms-item label="举办场地" name="shenfen">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.events.venue" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 				<uni-forms-item label="举办地址" name="shenfen">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.events.address" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 				<uni-forms-item label="保险开始日期" name="shenfen" label-width="100px">
-					<uni-datetime-picker type="date" :clear-icon="false" v-model="single" :border="false" />
+					<picker mode="date" :value="formData.start_date" :start="startDate" :end="endDate" @change="bindStartDateChange">
+						<view class="custom-input">
+							<uni-icons type="calendar" size="20" color="#999"></uni-icons>
+							<text class="custom-input-date" :class="{'custom-input-placeholder':formData.start_date == ''}">{{formData.start_date || '选择日期'}}</text>
+							
+						</view>
+					</picker>
 				</uni-forms-item>
 				<uni-forms-item label="保险截止日期" name="shenfen" label-width="100px">
-					<uni-datetime-picker type="date" :clear-icon="false" v-model="single" :border="false" />
+					<picker mode="date" :value="formData.end_date" :start="startDate" :end="endDate" @change="bindEndDateChange">
+						<view class="custom-input">
+							<uni-icons type="calendar" size="20" color="#999"></uni-icons>
+							<text class="custom-input-date" :class="{'custom-input-placeholder':formData.end_date == ''}">{{formData.end_date || '选择日期'}}</text>
+							
+						</view>
+					</picker>
 				</uni-forms-item>
 			</uni-group>
 			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 			<lun-section title="展位信息"></lun-section>
 			<uni-group v-for="(item,index) in dynamicLists" :key="index" :title="standName(index)" top="0">
 				<uni-forms-item label="展位类型" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-data-checkbox mode="tag" v-model="formData.stands[index].type" :localdata="zwTypes"></uni-data-checkbox>
 				</uni-forms-item>
 				<uni-forms-item label="展位号" name="nickname">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.stands[index].code" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 				<uni-forms-item label="面积(平米)" name="shenfen" label-width="90px">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.stands[index].area" @input="calcPrice" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 				<uni-forms-item :label="typeLabel" name="shenfen" label-width="90px">
-					<uni-easyinput v-model="formData.nickname" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.stands[index].name" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 			</uni-group>
 			<uni-forms-item v-if="typeIndex == 1">
@@ -101,25 +113,14 @@
 				<uni-forms-item label="发票类型" name="shenfen">
 					<view class="form-select">
 						<picker @change="bindFpChange" :value="fpIndex" range-key="text" :range="fpTypes">
-							<view class="uni-input">{{fpTypes[fpIndex].text}}</view>
+							<view class="custom-input-text">{{fpTypes[fpIndex].text}}</view>
 						</picker>
 						<uni-icons type="right"></uni-icons>
 					</view>
 				</uni-forms-item>
-				<uni-forms-item label="地区" name="shenfen">
-					<view class="form-select">
-						<picker mode="region" @change="bindRegionChange" :value="region">
-						    <view class="picker">
-						      当前选择：{{region[0]}}-{{region[1]}}-{{region[2]}}
-						    </view>
-						  </picker>
-						<uni-icons type="right"></uni-icons>
-					</view>
-				</uni-forms-item>
-				
 				<uni-forms-item label="发票抬头" name="nickname">
 					<view class="custom-input" @click="onCompany('fapiao')">
-						<text class="custom-input-text" :class="{'custom-input-placeholder':!formData.invoice_title}">{{formData.invoice_title || '请选择'}}</text>
+						<text class="custom-input-text" :class="{'custom-input-placeholder':invoiceTitleLength == 0}">{{formData.invoice_title || '请选择'}}</text>
 						<uni-icons type="right"></uni-icons>
 					</view>
 				</uni-forms-item>
@@ -145,9 +146,9 @@
 			<view class="foot-order">
 				<view class="foot-order-price">
 					<text class="foot-order-price-prefix">￥</text>
-					<text class="foot-order-price-num">4000</text>
+					<text class="foot-order-price-num">{{formData.total_fee}}</text>
 				</view>
-				<view class="foot-order-btn">
+				<view class="foot-order-btn" @click="formSubmit">
 					<text class="foot-order-btn-text">立即投保</text>
 				</view>
 				
@@ -160,18 +161,20 @@
 	import { mapState,mapMutations } from 'vuex'
 	export default {
 		data() {
+			const currentDate = this.getDate({
+				format: true
+			})
 			return {
-				region: ['广东省', '广州市', '海珠区'],
-				single:'',
-				qyIndex: 0,
-				
+				date: '',
 				formData:{
 					insure_name:'',
 					insure_code:'',
 					insure_file:'',
 					insure_type:1,
 					events:{},
-					stands:{},
+					start_date:'',
+					end_date:'',
+					stands:[{type: '', code:'',area:'',name:''}],
 					invoice_type:1,
 					invoice_title:'',
 					invoice_code:'',
@@ -204,6 +207,13 @@
 					text: '专用发票',
 					value: 2
 				}],
+				zwTypes: [{
+					text: '室内',
+					value: '室内'
+				}, {
+					text: '室外',
+					value: '室外'
+				}],
 				dynamicLists: [],
 				rules: {
 					nickname: {
@@ -229,9 +239,18 @@
 			}
 		},
 		onLoad(e) {
+			uni.request({
+				url: "v1/users/userinfo",
+				success: (res) => {
+					let userInfo = res.data.userInfo
+					this.formData.mobile = userInfo.mobile
+					this.formData.email = userInfo.email
+				}
+			})
 			this.dynamicLists.push({
 				id: Date.now()
 			})
+			//this.formData.stands.push(this.stand)
 			uni.$on('toubao', (data) => {
 				this.formData.insure_name = data.title
 				this.formData.insure_code = data.code
@@ -241,15 +260,50 @@
 				this.formData.invoice_title = data.title
 				this.formData.invoice_code = data.code
 			})
+			uni.$on('huodong', (data) => {
+				this.formData.events = data
+				this.formData.start_date = data.startDate
+				this.formData.end_date = data.endDate
+			})
 		},
 		onUnload() {
-			uni.$off('toubao')
-			uni.$off('fapiao')
+			uni.$off()
 		},
-		computed: mapState(['avatar', 'hasLogin', 'token', 'info']),
+		computed:{
+			...mapState(['avatar', 'hasLogin', 'token', 'info']),
+			insureNameLength() {
+				return this.formData.insure_name.length
+			},
+			invoiceTitleLength(){
+				return this.formData.invoice_title.length
+			},
+			startDate() {
+				return this.getDate('start');
+			},
+			endDate() {
+				return this.getDate('end');
+			}
+		},
 		methods: {
+			getDate(type) {
+				const date = new Date();
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+	
+				if (type === 'start') {
+					year = year;
+				} else if (type === 'end') {
+					year = year + 2;
+				}
+				month = month > 9 ? month : '0' + month;
+				day = day > 9 ? day : '0' + day;
+				return `${year}-${month}-${day}`;
+			},
 			formSubmit: function(e) {
 				uni.hideKeyboard();
+				console.log(JSON.stringify(this.formData))
+				return false;
 				this.$refs.valiForm.validate().then(result => {
 					console.log('success', result);
 					uni.showLoading({
@@ -297,10 +351,21 @@
 				this.fpIndex = e.detail.value
 				this.formData.invoice_type = this.fpTypes[this.fpIndex].value
 			},
+			bindStartDateChange: function(e) {
+				this.formData.start_date = e.detail.value
+			},
+			bindEndDateChange: function(e) {
+				this.formData.end_date = e.detail.value
+			},
+			calcPrice: function(e){
+				console.log('输入内容：', e);
+				this.formData.total_fee = e
+			},
 			onAdd() {
 				this.dynamicLists.push({
 					id: Date.now()
 				})
+				this.formData.stands.push({type: '', code:'',area:'',name:''})
 			},
 			standName(index){
 				if(this.typeIndex == 1){
@@ -311,6 +376,11 @@
 			onCompany(type){
 				uni.navigateTo({
 					url: "/pages/user/company/company?type="+type
+				})
+			},
+			onEvent(type){
+				uni.navigateTo({
+					url: "/pages/user/baoxian/event"
 				})
 			},
 		}
@@ -342,8 +412,14 @@
 	}
 	.custom-input-text{
 		font-size: 28rpx;
-		color: #000;
+		color: #333;
 		flex: 1;
+	}
+	.custom-input-date{
+		font-size: 28rpx;
+		color: #333;
+		flex: 1;
+		padding: 0 16rpx;
 	}
 	.custom-input-placeholder {
 		color: #999;

@@ -17,15 +17,12 @@
 					<template v-slot:footer>
 						<view class="handle-box">
 							<view class="handle-item" @click.stop="onUpdate(item)">
-								<uni-icons type="compose" size="12" color="#999999"></uni-icons>
 								<text class="handle-item-text">修改</text>
 							</view>
 							<view class="handle-item" v-if="emitType" @click.stop="onImport(item)">
-								<uni-icons type="trash" size="12" color="#999999"></uni-icons>
 								<text class="handle-item-text">使用</text>
 							</view>
 							<view class="handle-item" v-else @click.stop="onDelete(index,item)">
-								<uni-icons type="trash" size="12" color="#999999"></uni-icons>
 								<text class="handle-item-text">删除</text>
 							</view>
 						</view>
@@ -231,16 +228,21 @@
 		border-top: #e9eaec solid 1rpx;
 	}
 	.handle-item{
-		/* display: flex;
+		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
-		align-items: center; */
+		align-items: center;
 		margin-right: 20rpx;
+		border: #e54d42 solid 1rpx;
+		background-color: #fadbd9;
+		border-radius: 4rpx;
+		padding: 8rpx 16rpx;
 	}
 	.handle-item-text{
-		color: #999999;
+		color: #e54d42;
 		font-size: 24rpx;
-		line-height: 40rpx;
+		line-height: 1;
+		/* line-height: 40rpx; */
 	}
 	.create-btn{
 		display: flex;
