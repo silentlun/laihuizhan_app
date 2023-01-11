@@ -222,7 +222,7 @@ export default {
 			type: Object,
 			default() {
 				return {
-					color: '#333',
+					color: '#000',
 					backgroundColor: '#fff',
 					disableColor: '#F7F6F6',
 					borderColor: '#e5e5e5'

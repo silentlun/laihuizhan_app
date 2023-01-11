@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<t-swiper :data="focusData" @click="newsDetail"></t-swiper>
-		<!-- <t-section title="热门服务" link="/pages/merchant/list" showMore></t-section> -->
+		<!-- <lun-section title="热门服务" link="/pages/merchant/list" showMore></lun-section> -->
 		<lun-gap height="20" bgColor="#ffffff"></lun-gap>
 		<uni-grid :column="4" :highlight="true" @change="toService" :showBorder="false"  :square="false">
 			<uni-grid-item v-for="(item, index) in categorys" :index="index" :key="index">
@@ -25,14 +25,14 @@
 				<company-item :data="item" @click="showDetail(item)"></company-item>
 			</uni-list-cell>
 		</uni-list> -->
-		<t-section title="热门场地"></t-section>
+		<lun-section title="热门场地"></lun-section>
 		<uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in venuesData" :key="index">
 				<venues-item :data="item" @click="toVenuesDetail(item)"></venues-item>
 			</uni-list-cell>
 		</uni-list>
 		<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
-		<t-section title="热门活动"></t-section>
+		<lun-section title="热门活动"></lun-section>
 		<uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in eventData" :key="index">
 				<event-item :data="item" @click="toEventDetail(item)"></event-item>

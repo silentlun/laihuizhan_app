@@ -47,7 +47,7 @@
 			
 		</view> -->
 		
-		<t-section title="活动详情"></t-section>
+		<lun-section title="活动详情"></lun-section>
 		<view class="page-warp" style="padding-bottom: 30px;">
 			<view class="detail-content">
 				<!-- <rich-text @click="showImg" :nodes="htmlNodes"></rich-text> -->

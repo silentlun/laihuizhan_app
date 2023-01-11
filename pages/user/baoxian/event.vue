@@ -1,5 +1,6 @@
 <template>
-	<view>
+	<view class="page">
+		<uni-search-bar focus radius="100" @confirm="onSearch" v-model="requestParams.q" cancelText="搜索" clearButton="auto" cancelButton="always" @cancel="onSearch"></uni-search-bar>
 		<uni-list>
 			<uni-list-cell v-for="(item, index) in dataList" :key="index">
 				<event-item :data="item" @click="onImport(item)"></event-item>
@@ -19,9 +20,7 @@
 				loadingStatus: 'loading',
 				isNoData: false,
 				requestParams: {
-					catid: '',
-					province: '',
-					daterange: '',
+					q: '',
 					page: 1,
 				},
 			}
@@ -84,6 +83,16 @@
 				}
 				uni.$emit('huodong', data)
 				uni.navigateBack();
+			},
+			onSearch(){
+				if(!this.requestParams.q){
+					uni.showToast({
+						title: '请输入关键词',
+						duration: 2000
+					})
+					return false
+				}
+				this.loadData()
 			},
 		}
 	}

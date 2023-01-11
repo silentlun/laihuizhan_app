@@ -36,7 +36,7 @@
 			<!-- <image class="arc" src="/static/arc.png" mode="widthFix"></image> -->
 			<view class="my-card">
 				<uni-list :border="false">
-					<uni-list-item title="保险服务" to="/pages/user/baoxian/create" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'list'}" link="navigateTo">
+					<uni-list-item title="保险服务" to="/pages/user/baoxian/baoxian" :show-extra-icon="true" :extra-icon="{color: '#000000',size: '22',type: 'list'}" link="navigateTo">
 						<template v-slot:header>
 							<view class="list-item-icon">
 								<uni-icons color="#000000" custom-prefix="lunfont" type="icon-baoxian" size="20"></uni-icons>

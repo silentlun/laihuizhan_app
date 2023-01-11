@@ -349,7 +349,7 @@
             "path" : "pages/user/baoxian/event",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "会展活动",
                 "enablePullDownRefresh": false
             }
             

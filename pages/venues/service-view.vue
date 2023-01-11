@@ -6,7 +6,7 @@
 		</view>
 		
 		<lun-gap height="20" bg-color="#f8f8f9"></lun-gap>
-		<t-section title="服务介绍"></t-section>
+		<lun-section title="服务介绍"></lun-section>
 		<view class="page-warp" style="padding-bottom: 50px;">
 			<view class="detail-content">
 				<rich-text :nodes="htmlNodes"></rich-text>

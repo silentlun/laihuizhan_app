@@ -32,7 +32,7 @@
 				</uni-forms-item>
 				<uni-forms-item label="营业执照图片" name="nickname" label-width="100px">
 					<view class="form-img">
-						<lun-upload limit="1" width="120" height="120" :serverUrl="serverUrl" @complete="result" @remove="remove"></lun-upload>
+						<lun-upload limit="1" width="120" height="120" :serverUrl="serverUrl" @complete="result" ></lun-upload>
 					</view>
 				</uni-forms-item>
 				<uni-forms-item label="投保企业类型" name="shenfen" label-width="100px">
@@ -108,7 +108,7 @@
 			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 			<uni-group top="0">
 				<template v-slot:title>
-					<t-section title="发票信息"></t-section>
+					<lun-section title="发票信息"></lun-section>
 				</template>
 				<uni-forms-item label="发票类型" name="shenfen">
 					<view class="form-select">
@@ -128,16 +128,16 @@
 			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 			<uni-group top="0">
 				<template v-slot:title>
-					<t-section title="联系人"></t-section>
+					<lun-section title="联系人"></lun-section>
 				</template>
-				<uni-forms-item label="联系人" name="username">
-					<uni-easyinput v-model="formData.username" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+				<uni-forms-item label="联系人姓名" name="username" label-width="90px">
+					<uni-easyinput v-model="formData.username" placeholder="请输入姓名" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
-				<uni-forms-item label="手机号码" name="mobile">
-					<uni-easyinput v-model="formData.mobile" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+				<uni-forms-item label="联系人手机" name="mobile" label-width="90px">
+					<uni-easyinput v-model="formData.mobile" placeholder="请输入手机号" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 				<uni-forms-item label="电子邮箱" name="email">
-					<uni-easyinput v-model="formData.email" placeholder="请输入内容" :clearable="false" :inputBorder="false" />
+					<uni-easyinput v-model="formData.email" placeholder="请输入邮箱" :clearable="false" :inputBorder="false" />
 				</uni-forms-item>
 			</uni-group>
 		</uni-forms>
@@ -158,6 +158,7 @@
 </template>
 
 <script>
+	var validate = require("@/common/formValidation.js")
 	import { mapState,mapMutations } from 'vuex'
 	export default {
 		data() {
@@ -165,17 +166,18 @@
 				format: true
 			})
 			return {
+				serverUrl: "v1/users/feedback-upload",
 				date: '',
 				formData:{
 					insure_name:'',
 					insure_code:'',
 					insure_file:'',
-					insure_type:1,
-					events:{},
+					insure_type:'参展商',
+					events:{title:'',city:'',venue:'',address:''},
 					start_date:'',
 					end_date:'',
 					stands:[{type: '', code:'',area:'',name:''}],
-					invoice_type:1,
+					invoice_type:'普通发票',
 					invoice_title:'',
 					invoice_code:'',
 					invoice_address:'',
@@ -215,27 +217,6 @@
 					value: '室外'
 				}],
 				dynamicLists: [],
-				rules: {
-					nickname: {
-						rules: [{
-							required: true,
-							maximum: 20,
-							minimum: 2,
-							errorMessage: '昵称不能为空'
-							
-						},{
-							validateFunction: (rule, value, data, callback) => {
-								return new Promise((resolve, reject) => {
-									if(value.length > 1 && value.length < 20){
-										resolve()
-									}else{
-										reject(new Error('昵称长度必须介于2至20个字符之间'))
-									}
-								})
-							}
-						}]
-					},
-				},
 			}
 		},
 		onLoad(e) {
@@ -254,7 +235,6 @@
 			uni.$on('toubao', (data) => {
 				this.formData.insure_name = data.title
 				this.formData.insure_code = data.code
-				console.log(this.formData)
 			})
 			uni.$on('fapiao', (data) => {
 				this.formData.invoice_title = data.title
@@ -301,55 +281,96 @@
 				return `${year}-${month}-${day}`;
 			},
 			formSubmit: function(e) {
-				uni.hideKeyboard();
-				console.log(JSON.stringify(this.formData))
-				return false;
-				this.$refs.valiForm.validate().then(result => {
-					console.log('success', result);
-					uni.showLoading({
-						title: '保存中'
+				let events = this.formData.events
+				for (const key in events){
+				    //console.log(`${key} : ${events[key]}`)
+					if(!events[key] && key == 'title'){
+						uni.showToast({
+							icon:'none',
+						    title: '请输入活动名称'
+						})
+						return false
+					}
+					if(!events[key] && key == 'city'){
+						uni.showToast({
+							icon:'none',
+						    title: '请输入举办城市'
+						})
+						return false
+					}
+				}
+				console.log('success')
+				return false
+				let rules = [{
+					name: "insure_name",
+					rule: ["required"],
+					msg: ["请输入投保人信息"]
+				},{
+					name: "insure_file",
+					rule: ["required"],
+					msg: ["请上传营业执照"]
+				},{
+					name: "start_date",
+					rule: ["required"],
+					msg: ["请输入保单开始日期"]
+				},{
+					name: "end_date",
+					rule: ["required"],
+					msg: ["请输入保单截止日期"]
+				},{
+					name: "invoice_title",
+					rule: ["required"],
+					msg: ["请输入发票抬头"]
+				},{
+					name: "username",
+					rule: ["required"],
+					msg: ["请输入联系人姓名"]
+				},{
+					name: "mobile",
+					rule: ["required", "isMobile"],
+					msg: ["请输入手机号", "请输入正确的手机号"]
+				},{
+					name: "email",
+					rule: ["required", "isEmail"],
+					msg: ["请输入电子邮箱", "请输入正确的邮箱"]
+				}];
+				//进行表单检查
+				let checkRes = validate.validation(this.formData, rules);
+				if (!checkRes) {
+					let events = this.formData.events
+					if(events.length == 0){
+						uni.showToast({
+							icon:'none',
+						    title: '请输入活动信息'
+						})
+						return false
+					}
+					/* if(!events.title){
+						uni.showToast({
+							icon:'none',
+						    title: '请输入活动名称'
+						})
+						return false
+					} */
+					uni.navigateTo({
+						url: "./view?detail=" + encodeURIComponent(JSON.stringify(this.formData))
+					})
+				} else {
+					uni.showToast({
+						icon:'none',
+					    title: checkRes
 					});
-					uni.request({
-						url: 'v1/users/'+this.info.id,
-						method: 'PUT',
-						data: this.formData,
-						success: (res) => {
-							uni.hideLoading();
-							if(res.data.code == 200){
-								this.updateInfo(this.formData)
-								uni.showToast({
-								    title: '保存成功',
-								    duration: 2000
-								});
-								
-							}else{
-								uni.showToast({
-									icon:'none',
-								    title: res.data.message,
-								});
-							}
-						},
-						fail: () => {
-							uni.hideLoading();
-							uni.showToast({
-								icon:'error',
-							    title: "修改失败",
-							});
-						}
-					});
-				}).catch(err => {
-					console.log('err', err);
-				})
+				}
 				
 			},
 			bindPickerChange: function(e) {
 				this.typeIndex = e.detail.value
 				this.typeLabel = this.types[this.typeIndex].label
-				this.formData.insure_type = this.types[this.typeIndex].value
+				this.formData.insure_type = this.types[this.typeIndex].text
 			},
 			bindFpChange: function(e){
 				this.fpIndex = e.detail.value
-				this.formData.invoice_type = this.fpTypes[this.fpIndex].value
+				this.formData.invoice_type = this.fpTypes[this.fpIndex].text
 			},
 			bindStartDateChange: function(e) {
 				this.formData.start_date = e.detail.value
@@ -380,8 +401,12 @@
 			},
 			onEvent(type){
 				uni.navigateTo({
-					url: "/pages/user/baoxian/event"
+					url: "./event"
 				})
+			},
+			result: function(e) {
+				console.log(e)
+				this.formData.insure_file = e.imgArr;
 			},
 		}
 	}
@@ -412,12 +437,12 @@
 	}
 	.custom-input-text{
 		font-size: 28rpx;
-		color: #333;
+		color: #000;
 		flex: 1;
 	}
 	.custom-input-date{
 		font-size: 28rpx;
-		color: #333;
+		color: #000;
 		flex: 1;
 		padding: 0 16rpx;
 	}
