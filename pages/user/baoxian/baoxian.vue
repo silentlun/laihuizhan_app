@@ -1,6 +1,9 @@
 <template>
-	<view>
-		<tui-tabs :tabs="navBars" :currentTab="100" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
+	<view class="page">
+		<tui-tabs :tabs="tabBars" :currentTab="100" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
+		<lun-footer>
+			<view class="footer-center-btn"><t-button text="立即投保" type="warning" shape="circle" size="lg" @click="toForm"></t-button></view>
+		</lun-footer>
 	</view>
 </template>
 
@@ -8,12 +11,12 @@
 	export default {
 		data() {
 			return {
-				navBars: [{
+				tabBars: [{
 					name: "我的保单",
-					url: 'event',
+					url: '/pages/user/baoxian/order',
 				}, {
 					name: "理赔报案",
-					url: 'venue',
+					url: '/pages/user/baoxian/order',
 				}],
 			}
 		},
@@ -22,10 +25,16 @@
 				if (this.currentTab == e.index) {
 					return false;
 				} else {
-					this.currentTab = e.index
-					this.currentModule = this.navBars[e.index].module
-					this.loadData()
+					let url = this.tabBars[e.index].url
+					uni.navigateTo({
+						url: url
+					})
 				}
+			},
+			toForm: function (e) {
+				uni.navigateTo({
+					url: "./create"
+				})
 			},
 		}
 	}

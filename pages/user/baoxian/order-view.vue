@@ -25,6 +25,11 @@
 						<text class="custom-input-text">{{formData.insure_type}}</text>
 					</view>
 				</uni-forms-item>
+				<uni-forms-item label="投保金额" label-width="100px">
+					<view class="custom-input">
+						<text class="custom-input-text">￥{{formData.total_fee}}</text>
+					</view>
+				</uni-forms-item>
 			</uni-group>
 			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 			<uni-group top="0">
@@ -124,20 +129,9 @@
 					</view>
 				</uni-forms-item>
 			</uni-group>
+			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 		</uni-forms>
-		<lun-gap height="40" bgColor="#f8f8f9"></lun-gap>
-		<lun-footer>
-			<view class="foot-order">
-				<view class="foot-order-price">
-					<text class="foot-order-price-prefix">￥</text>
-					<text class="foot-order-price-num">{{formData.total_fee}}</text>
-				</view>
-				<view class="foot-order-btn" @click="formSubmit">
-					<text class="foot-order-btn-text">立即投保</text>
-				</view>
-				
-			</view>
-		</lun-footer>
+		
 	</view>
 </template>
 
@@ -304,7 +298,7 @@
 	.foot-order-btn-text{
 		font-size: 32rpx;
 		color: #fff;
-		padding: 10rpx 80rpx;
+		padding: 10rpx 60rpx;
 	}
 
 </style>

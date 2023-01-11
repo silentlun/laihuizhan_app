@@ -83,7 +83,7 @@ export default async function() {
 	//自定义路由拦截
 	//需要登录的页面 */
 	const needLogin = [
-		{"pattern":/^\/pages\/user.*/},	//支持正则表达式
+		//{"pattern":/^\/pages\/user.*/},	//支持正则表达式
 		{"pattern":/^\/pages\/setting.*/},
 		"/pages/main/contact",
 	];

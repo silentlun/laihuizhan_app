@@ -96,4 +96,27 @@ view{
 	flex-direction: column;
 	flex: 1;
 }
+.text-danger{
+	color: #dc3545;
+}
+.text-warning{
+	color: #ff7900;
+}
+.text-blue{
+	color: #007bff;
+}
+.text-success{
+	color: #19be6b;
+}
+.text-muted {
+    color: #6c757d;
+}
+.footer-center-btn{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100rpx;
+}
 

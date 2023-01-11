@@ -35,7 +35,7 @@
 		</template>
 		<lun-prompt class="no-data" title="暂无相关数据" v-else></lun-prompt>
 		<lun-footer>
-			<view class="create-btn"><t-button text="+ 添加企业" type="warning" shape="circle" size="md" @click="toForm"></t-button></view>
+			<view class="footer-center-btn"><t-button text="+ 添加企业" type="warning" shape="circle" size="md" @click="toForm"></t-button></view>
 		</lun-footer>
 	</view>
 </template>
@@ -244,12 +244,5 @@
 		line-height: 1;
 		/* line-height: 40rpx; */
 	}
-	.create-btn{
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: 100rpx;
-	}
+	
 </style>

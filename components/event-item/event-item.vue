@@ -104,7 +104,7 @@
 		
 	}
 	.media-title {
-		font-size: 30rpx;
+		font-size: 32rpx;
 		color: #333;
 		line-height: 40rpx;
 		text-overflow: ellipsis;

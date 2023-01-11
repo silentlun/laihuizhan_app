@@ -1,16 +1,17 @@
 <template>
 	<view class="page bg-gray">
+		<tui-tabs :tabs="tabBars" :currentTab="tabIndex" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
 		<template v-if="!isNoData">
 			<uni-list-cell v-for="(item, index) in dataList" :key="item.id">
-				<t-card :data="item" @click="showDetail(item)" :index="index">
+				<t-card :data="item" :index="index">
 					<template v-slot:header>
-						<view class="order-header">
+						<view class="order-header" @click="showDetail(item)">
 							<text class="header-title">订单号：{{item.title}}</text>
-							<text class="header-label">进行中</text>
+							<text class="header-label text-success">保障中</text>
 						</view>
 					</template>
 					<template v-slot:body>
-						<view class="order-body">
+						<view class="order-body" @click="showDetail(item)">
 							<text class="order-body-text">活动名称：{{item.body}}</text>
 							<text class="order-body-text">场地：{{item.body}}</text>
 							<text class="order-body-text">展位号：{{item.body}}</text>
@@ -44,7 +45,6 @@
 			</uni-list-cell>
 		</template>
 		<lun-prompt class="no-data" title="暂无相关数据" v-else></lun-prompt>
-		
 	</view>
 </template>
 
@@ -52,9 +52,23 @@
 	export default {
 		data() {
 			return {
+				tabIndex: 0,
+				tabBars: [{
+					name: "全部",
+					url: 'v1/events/search'
+				}, {
+					name: "未开始",
+					url: 'v1/venues/search'
+				}, {
+					name: "保障中",
+					url: 'v1/merchants/search'
+				}, {
+					name: "已结束",
+					url: 'v1/merchants/search'
+				}],
 				dataList:[
-					{id:1,title:"北京盛世泰伯网络技术有限公司",body:"dsffsdsfdsfdsdf"},
-					{id:1,title:"北京盛世泰伯网络技术有限公司",body:"dsffsdsfdsfdsdf"}
+					{id:1,title:"233232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"}
 				],
 				isLoading: false,
 				loadingText: '加载中...',
@@ -76,6 +90,15 @@
 			//this.loadData()
 		},
 		methods: {
+			swichNav: function(e) {
+				console.log(e.index)
+				if (this.tabIndex == e.index) {
+					return false;
+				} else {
+					this.tabIndex = e.index
+					this.loadData()
+				}
+			},
 			loadData() {
 				if (this.isLoading) {
 					return;
@@ -118,8 +141,9 @@
 				this.loadData();
 			},
 			showDetail: function (e) {
+				console.log('view')
 				uni.navigateTo({
-					url: "/pages/news/show?id="+e.id
+					url: "./order-view?id="+e.id
 				})
 				//this.showActionSheet = true;
 			},
@@ -188,7 +212,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.order-header{
 		display: flex;
 		flex-direction: row;
@@ -202,7 +226,6 @@
 	}
 	.header-label{
 		font-size: 24rpx;
-		color: #777;
 	}
 	.order-body{
 		display: flex;

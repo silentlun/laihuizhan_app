@@ -63,7 +63,7 @@
 			this.form = this.getForm()
 			if (this.form) {
 				this.margin = true
-				//this.border = this.form.border
+				this.border = this.form.border
 			}
 		},
 		methods: {

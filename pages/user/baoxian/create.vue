@@ -102,7 +102,7 @@
 			</uni-group>
 			<uni-forms-item v-if="typeIndex == 1">
 				<view class="custom-input custom-input-center">
-					<t-button text="添加展位" type="warning" size="sm" @click="onAdd"></t-button>
+					<t-button text="添加展位" type="warning" size="md" @click="onAdd"></t-button>
 				</view>
 			</uni-forms-item>
 			<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
@@ -141,7 +141,7 @@
 				</uni-forms-item>
 			</uni-group>
 		</uni-forms>
-		<lun-gap height="40" bgColor="#f8f8f9"></lun-gap>
+		<lun-gap height="20" bgColor="#f8f8f9"></lun-gap>
 		<lun-footer>
 			<view class="foot-order">
 				<view class="foot-order-price">
@@ -173,7 +173,8 @@
 					insure_code:'',
 					insure_file:'',
 					insure_type:'参展商',
-					events:{title:'',city:'',venue:'',address:''},
+					//events:{title:'',city:'',venue:'',address:''},
+					events:{},
 					start_date:'',
 					end_date:'',
 					stands:[{type: '', code:'',area:'',name:''}],
@@ -281,9 +282,8 @@
 				return `${year}-${month}-${day}`;
 			},
 			formSubmit: function(e) {
-				let events = this.formData.events
+				/* let events = this.formData.events
 				for (const key in events){
-				    //console.log(`${key} : ${events[key]}`)
 					if(!events[key] && key == 'title'){
 						uni.showToast({
 							icon:'none',
@@ -300,16 +300,16 @@
 					}
 				}
 				console.log('success')
-				return false
+				return false */
 				let rules = [{
 					name: "insure_name",
 					rule: ["required"],
 					msg: ["请输入投保人信息"]
-				},{
+				}/* ,{
 					name: "insure_file",
 					rule: ["required"],
 					msg: ["请上传营业执照"]
-				},{
+				} */,{
 					name: "start_date",
 					rule: ["required"],
 					msg: ["请输入保单开始日期"]
@@ -327,18 +327,18 @@
 					msg: ["请输入联系人姓名"]
 				},{
 					name: "mobile",
-					rule: ["required", "isMobile"],
+					rule: ["required"],
 					msg: ["请输入手机号", "请输入正确的手机号"]
 				},{
 					name: "email",
-					rule: ["required", "isEmail"],
+					rule: ["required"],
 					msg: ["请输入电子邮箱", "请输入正确的邮箱"]
 				}];
 				//进行表单检查
 				let checkRes = validate.validation(this.formData, rules);
 				if (!checkRes) {
 					let events = this.formData.events
-					if(events.length == 0){
+					if(events.length < 4){
 						uni.showToast({
 							icon:'none',
 						    title: '请输入活动信息'
@@ -489,13 +489,14 @@
 		margin-left: 30rpx;
 	}
 	.foot-order-price-prefix{
-		font-size: 24rpx;
+		font-size: 28rpx;
 		color: #F01625;
 	}
 	.foot-order-price-num{
-		font-size: 36rpx;
+		font-size: 48rpx;
 		color: #F01625;
 		font-weight: 700;
+		line-height: 1;
 	}
 	.foot-order-btn{
 		display: flex;
@@ -507,7 +508,7 @@
 	.foot-order-btn-text{
 		font-size: 32rpx;
 		color: #fff;
-		padding: 10rpx 60rpx;
+		padding: 10rpx 80rpx;
 	}
 
 </style>
