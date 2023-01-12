@@ -15,11 +15,14 @@
 					<text class="btn-code" :class="{'btn-code-disabled':isDisabled}" @click="sendSms">{{buttonName}}</text>
 				</template>
 			</uni-forms-item>
+			<uni-forms-item>
+				<view class="content-padded">
+					<t-button text="确认修改" type="warning" size="lg" shape="circle" block :disabled="!formData.smsCode" @click="formSubmit"></t-button>
+				</view>
+			</uni-forms-item>
 		</uni-forms>
 		</view>
-		<view class="content-padded">
-			<t-button text="确认修改" type="warning" size="lg" shape="circle" :disabled="!formData.smsCode" @click="formSubmit"></t-button>
-		</view>
+		
 		
 	</view>
 </template>

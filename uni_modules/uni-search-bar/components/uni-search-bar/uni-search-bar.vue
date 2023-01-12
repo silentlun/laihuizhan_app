@@ -234,7 +234,7 @@
 		/* #endif */
 		flex-direction: row;
 		position: relative;
-		padding: 10px;
+		padding: 20rpx 30rpx;
 		// background-color: #fff;
 	}
 
@@ -287,7 +287,7 @@
 	}
 
 	.uni-searchbar__cancel {
-		padding-left: 10px;
+		padding-left: 15px;
 		line-height: $uni-searchbar-height;
 		font-size: 14px;
 		color: #333333;

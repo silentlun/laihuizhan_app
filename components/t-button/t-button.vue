@@ -1,5 +1,5 @@
 <template>
-	<text class="t-button" :class="[{'t-buttonbutton--disabled': disabled},'size-'+size, 'btn-'+shape, plain?'btn-outline btn-'+type+'-outline':'btn-'+type]" @click="onClick">{{text}}</text>
+	<text class="t-button" :class="[{'t-button-disabled': disabled,'t-button-block': block},'size-'+size, 'btn-'+shape, plain?'btn-outline btn-'+type+'-outline':'btn-'+type]" @click="onClick">{{text}}</text>
 </template>
 
 <script>
@@ -33,6 +33,10 @@
 				type: [Boolean, String],
 				default: false
 			},
+			block: {
+				type: [Boolean, String],
+				default: false
+			},
 		},
 		methods: {
 			onClick() {
@@ -45,14 +49,22 @@
 
 <style lang="scss" scoped>
 	.t-button{
+		/* #ifndef APP-NVUE */
+		display: inline-block;
+		/* #endif */
 		text-align: center;
 		opacity: 1;
 	}
 	.t-button:active{
 		opacity: 0.7;
 	}
-	.t-buttonbutton--disabled {
+	.t-button-disabled {
 		opacity: 0.7;
+	}
+	.t-button-block{
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
 	}
 	
 	.btn-gray{

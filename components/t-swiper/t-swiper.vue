@@ -29,26 +29,26 @@
 
 <style>
 	.slider {
-		width: 710rpx;
+		width: 690rpx;
 		height: 388rpx;
-		margin-left: 20rpx;
-		margin-right: 20rpx;
+		margin-left: 30rpx;
+		margin-right: 30rpx;
 	}
 	
 	.slider-item {
-		width: 710rpx;
+		width: 690rpx;
 		height: 388rpx;
 		position: relative;
 	}
 	
 	.slider-item-image {
-		width: 710rpx;
+		width: 690rpx;
 		height: 388rpx;
 		border-radius: 2px;
 	}
 	
 	.slide-item-title {
-		width: 710rpx;
+		width: 690rpx;
 		padding: 20rpx;
 		font-size: 28rpx;
 		text-align: left;

@@ -3,8 +3,8 @@
 		<uni-list :border="false">
 			<uni-list-item title="编辑资料" link="navigateTo" to="/pages/setting/profile"></uni-list-item>
 			<uni-list-item title="重设密码" link="navigateTo" to="/pages/setting/password"></uni-list-item>
-			<uni-list-item title="手机号" :rightText="userInfo.mobile" link="navigateTo" @click="toEditMobile"></uni-list-item>
-			<uni-list-item title="邮箱" :rightText="userInfo.email" link="navigateTo" to="/pages/setting/email"></uni-list-item>
+			<uni-list-item title="手机号" :rightText="userInfo.safe_mobile" link="navigateTo" @click="toEditMobile"></uni-list-item>
+			<uni-list-item title="邮箱" :rightText="userInfo.safe_email" link="navigateTo" to="/pages/setting/email"></uni-list-item>
 			<!-- <t-list-item title="账号安全" link="navigateTo" to="/pages/setting/security"></t-list-item> -->
 		</uni-list>
 		
@@ -48,7 +48,7 @@
 			},
 			toEditMobile(){
 				uni.navigateTo({
-					url: "/pages/setting/mobile?mobile="+this.userInfo.mobile
+					url: "/pages/setting/mobile?mobile="+this.userInfo.safe_mobile
 				})
 			}
 		}

@@ -5,9 +5,9 @@
 			<text class="header-avater-text" @click="editAvatar">点击编辑头像</text>
 		</view>
 		
-		<uni-forms ref="valiForm" :rules="rules" :modelValue="formData">
-			<uni-forms-item label="昵称" name="nickname" required>
-				<uni-easyinput v-model="formData.nickname" placeholder="昵称" :clearable="false" />
+		<uni-forms ref="valiForm" :rules="rules" :modelValue="formData" :border="true">
+			<uni-forms-item label="昵称" name="nickname">
+				<uni-easyinput v-model="formData.nickname" placeholder="昵称" :clearable="false" :inputBorder="false" />
 			</uni-forms-item>
 			<uni-forms-item label="性别" name="gender">
 				<uni-data-checkbox v-model="formData.gender" :localdata="genders"></uni-data-checkbox>
@@ -15,11 +15,14 @@
 			<uni-forms-item label="身份" name="shenfen">
 				<uni-data-checkbox v-model="formData.shenfen" :localdata="shenfens"></uni-data-checkbox>
 			</uni-forms-item>
+			<uni-forms-item>
+				<view class="content-padded">
+					<t-button text="保存" type="warning" size="lg" shape="circle" block @click="formSubmit"></t-button>
+				</view>
+			</uni-forms-item>
 		</uni-forms>
 		
-		<view class="content-padded">
-			<t-button text="保存" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
-		</view>
+		
 		
 	</view>
 </template>

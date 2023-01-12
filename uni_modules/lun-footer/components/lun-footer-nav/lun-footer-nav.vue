@@ -17,7 +17,7 @@
 		</view>
 		<view class="foot-nav-right">
 			<slot name="right">
-				<t-button :text="buttonText" type="warning" shape="circle" size="md" @click="buttonClick"></t-button>
+				<t-button :text="buttonText" type="warning" shape="circle" size="md" block @click="buttonClick"></t-button>
 			</slot>
 		</view>
 	</view>

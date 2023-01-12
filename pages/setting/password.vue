@@ -11,11 +11,14 @@
 				<uni-forms-item name="password_repeat">
 					<uni-easyinput type="password" v-model="formData.password_repeat" :inputBorder="false" placeholder="确认密码" />
 				</uni-forms-item>
+				<uni-forms-item>
+					<view class="content-padded">
+						<t-button text="确认修改" type="warning" size="lg" shape="circle" block @click="formSubmit"></t-button>
+					</view>
+				</uni-forms-item>
 			</uni-forms>
 		</view>
-		<view class="content-padded">
-			<t-button text="确认修改" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
-		</view>
+		
 	</view>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<uni-search-bar focus radius="100" @confirm="onSearch" v-model="requestParams.q" cancelText="搜索" clearButton="auto" cancelButton="always" @cancel="onSearch"></uni-search-bar>
+		<uni-search-bar radius="100" placeholder="输入关键词搜索" @confirm="onSearch" v-model="requestParams.q" cancelText="搜索" clearButton="auto" cancelButton="always" @cancel="onSearch"></uni-search-bar>
 		<uni-list>
 			<uni-list-cell v-for="(item, index) in dataList" :key="index">
 				<event-item :data="item" @click="onImport(item)"></event-item>
