@@ -2,15 +2,16 @@
 	<view class="foot-nav">
 		<view class="foot-nav-left">
 			<view class="foot-nav-item" hover-class="opcity" :hover-stay-time="150" v-if="active" @click="favClick">
-				<uni-icons type="star-filled" :size="18" color="#ff7510"></uni-icons>
+				<uni-icons type="star-filled" :size="20" color="#ff7510"></uni-icons>
 				<text class="foot-nav-text nav-active">已关注</text>
 			</view>
 			<view class="foot-nav-item" hover-class="opcity" :hover-stay-time="150" v-else @click="favClick">
-				<uni-icons type="star" :size="18" color="#333"></uni-icons>
+				<uni-icons type="star" :size="20" color="#333"></uni-icons>
 				<text class="foot-nav-text">关注</text>
 			</view>
 			<button class="foot-nav-item share-btn" hover-class="opcity" :hover-stay-time="150" open-type="share">
-				<t-icons type="share" :size="16" color='#333'></t-icons>
+				<!-- <t-icons type="share" :size="16" color='#333'></t-icons> -->
+				<uni-icons custom-prefix="lunfont" type="icon-share" :size="18" color="#333"></uni-icons>
 				<text class="foot-nav-text">分享</text>
 			</button>
 		</view>

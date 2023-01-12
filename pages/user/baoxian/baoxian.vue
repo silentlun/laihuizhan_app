@@ -1,6 +1,7 @@
 <template>
 	<view class="page">
 		<tui-tabs :tabs="tabBars" :currentTab="100" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
+		
 		<lun-footer>
 			<view class="footer-center-btn"><t-button text="立即投保" type="warning" shape="circle" size="lg" @click="toForm"></t-button></view>
 		</lun-footer>
@@ -41,5 +42,11 @@
 </script>
 
 <style>
-
+.list{
+	display: flex;
+	flex-direction: column;
+}
+.list view{
+	padding: 20rpx;
+}
 </style>

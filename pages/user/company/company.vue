@@ -119,6 +119,7 @@
 			onDelete(i,item){
 				let that = this
 				uni.showActionSheet({
+					title: '确定要删除吗？',
 					alertText: '确定要删除吗？',
 					itemList: ['删除'],
 					success: (res) => {
@@ -216,7 +217,7 @@
 	}
 	.company-text {
 		color: #999999;
-		font-size: 24rpx;
+		font-size: 28rpx;
 		line-height: 48rpx;
 	}
 	.handle-box{

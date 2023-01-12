@@ -97,7 +97,7 @@
 			//字体大小
 			size: {
 				type: Number,
-				default: 28
+				default: 32
 			},
 			//选中后 是否加粗 ，未选中则无效
 			bold:{

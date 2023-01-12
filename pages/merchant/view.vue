@@ -121,14 +121,16 @@
 				});
 			},
 			loadFavoriteStatus(){
-				uni.request({
-					url: 'v1/users/favorite-status',
-					data: {module: 1, id:this.id},
-					success: (res) => {
-						this.followCount = res.data.followCount
-						this.isFollow = res.data.isFollow
-					}
-				})
+				if(this.hasLogin){
+					uni.request({
+						url: 'v1/users/favorite-status',
+						data: {module: 1, id:this.id},
+						success: (res) => {
+							this.followCount = res.data.followCount
+							this.isFollow = res.data.isFollow
+						}
+					})
+				}
 			},
 			toContact(){
 				if(!this.hasLogin){

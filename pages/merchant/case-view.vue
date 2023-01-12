@@ -8,7 +8,7 @@
 		<lun-section title="案例详情"></lun-section>
 		<view class="page-warp" style="padding-bottom: 30px;">
 			<view class="detail-content">
-				<rich-text :nodes="htmlNodes"></rich-text>
+				<u-parse :content="data.content" @preview="preview" />
 			</view>
 			
 		</view>
@@ -19,12 +19,15 @@
 <script>
 	import { mapState,mapMutations } from 'vuex'
 	import htmlParser from '@/common/html-parser'
+	import uParse from "@/components/feng-parse/parse.vue"
 	export default {
+		components: {
+			uParse
+		},
 		data() {
 			return {
 				id:0,
 				data: {},
-				htmlNodes: [],
 			}
 		},
 		onLoad(e) {
@@ -41,9 +44,13 @@
 						const data = res.data;
 						console.log(res)
 						this.data = data;
-						this.htmlNodes = htmlParser(data.content);
+						this.data.content = data.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
 					}
 				})
+			},
+			preview(src, e) {
+				// do something
+				console.log("src: " + src);
 			},
 			toContact(){
 				uni.navigateTo({
@@ -55,6 +62,7 @@
 </script>
 
 <style>
+@import url("@/components/feng-parse/parse.css");
 .event-warp{
 		width: 750rpx;
 		padding: 0 30rpx;

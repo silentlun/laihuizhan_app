@@ -30,10 +30,10 @@
 							</view>
 							<view class="handle-box">
 								<view class="handle-item">
-									<t-button text="取消订单" size="xs" type="gray" shape="circle" plain></t-button>
+									<t-button text="取消订单" size="sm" type="gray" shape="circle" plain></t-button>
 								</view>
 								<view class="handle-item">
-									<t-button text="立即支付" size="xs" shape="circle"></t-button>
+									<t-button text="立即支付" size="sm" shape="circle"></t-button>
 								</view>
 							</view>
 						</view>
@@ -221,7 +221,7 @@
 		padding: 20rpx;
 	}
 	.header-title{
-		font-size: 28rpx;
+		font-size: 32rpx;
 		color: #333;
 	}
 	.header-label{
@@ -234,12 +234,13 @@
 	}
 	.order-body-text {
 		color: #777;
-		font-size: 24rpx;
+		font-size: 28rpx;
 		line-height: 48rpx;
 	}
 	.order-footer{
 		padding: 20rpx;
 		border-top: #e9eaec solid 1rpx;
+		overflow: hidden;
 	}
 	.order-info{
 		display: flex;
@@ -248,7 +249,7 @@
 		align-items: center;
 	}
 	.order-info-time{
-		font-size: 24rpx;
+		font-size: 28rpx;
 		color: #777;
 	}
 	.handle-box{
@@ -256,14 +257,16 @@
 		flex-direction: row;
 		justify-content: flex-end;
 		align-items: center;
-		margin-top: 20rpx;
+		padding-top: 20rpx;
+		height: 86rpx;
 	}
 	.handle-item{
 		/* display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
 		align-items: center; */
-		margin-right: 20rpx;
+		margin-left: 30rpx;
+		
 	}
 	.handle-item-text{
 		color: #999999;
