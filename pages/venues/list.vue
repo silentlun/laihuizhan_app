@@ -10,6 +10,9 @@
 			<uni-list-cell v-for="(item, index) in dataList" :key="index">
 				<venues-item :data="item" @click="showDetail(item)"></venues-item>
 			</uni-list-cell>
+			<uni-list-cell v-if="isLoading || dataList.length > 4">
+				<uni-load-more :status="loadingStatus" />
+			</uni-list-cell>
 		</uni-list>
 		<lun-prompt class="no-data" title="暂无相关数据" v-if="isNoData"></lun-prompt>
 	</view>

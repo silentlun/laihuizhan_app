@@ -1,26 +1,24 @@
 <template>
-	<view class="container">
-		<tui-tabs :tabs="navBars" :currentTab="currentTab" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
-		<swiper class="tab-content" :current="currentTab" duration="300" @change="switchTab" :style="{height:winHeight+'px'}">
-			<swiper-item v-for="(item,tabindex) in navBars" :key="tabindex">
-				<scroll-view scroll-y class="scoll-y" @scrolltolower="loadMore">
-					<uni-list>
-						<uni-list-cell v-for="(item, index) in dataList[currentTab].data" :key="index">
-							<template v-if="item.module == 3">
-								<event-item :data="item.event" @click="eventDetail(item)" :index="index" @close="close(index,item)" isFav></event-item>
-							</template>
-							<template v-if="item.module == 2">
-								<venues-item :data="item.venue" @click="venueDetail(item)" :index="index" @close="close(index,item)" isFav></venues-item>
-							</template>
-							<template v-if="item.module == 1">
-								<company-item :data="item.merchant" @click="companyDetail(item)" :index="index" @close="close(index,item)" isFav></company-item>
-							</template>
-						</uni-list-cell>
-					</uni-list>
-					<lun-prompt class="no-data" title="暂无相关数据" v-if="dataList[currentTab].isNoData"></lun-prompt>
-				</scroll-view>
-			</swiper-item>
-		</swiper>
+	<view class="page">
+		<tui-tabs isFixed :tabs="navBars" :currentTab="currentTab" @change="swichNav" itemWidth="33.333%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
+		<lun-gap height="80" bgColor="#ffff"></lun-gap>
+		<uni-list>
+			<uni-list-cell v-for="(item, index) in dataList[currentTab].data" :key="index">
+				<template v-if="item.module == 3">
+					<event-item :data="item.event" @click="eventDetail(item)" :index="index" @close="close(index,item)" isFav></event-item>
+				</template>
+				<template v-if="item.module == 2">
+					<venues-item :data="item.venue" @click="venueDetail(item)" :index="index" @close="close(index,item)" isFav></venues-item>
+				</template>
+				<template v-if="item.module == 1">
+					<company-item :data="item.merchant" @click="companyDetail(item)" :index="index" @close="close(index,item)" isFav></company-item>
+				</template>
+			</uni-list-cell>
+			<uni-list-cell v-if="dataList[currentTab].isLoading || dataList[currentTab].length > 4">
+				<uni-load-more :status="dataList[currentTab].loadingStatus" />
+			</uni-list-cell>
+		</uni-list>
+		<lun-prompt class="no-data" title="暂无相关数据" v-if="dataList[currentTab].isNoData"></lun-prompt>
 	</view>
 </template>
 
@@ -42,21 +40,10 @@
 					module: 1,
 					expand: 'merchant',
 				}],
-				winHeight: "", //窗口高度
 				currentTab: 0, //预设当前项的值
-				currentModule: 3,
-				scrollLeft: 0 //tab标题的滚动条位置
 			}
 		},
 		onLoad: function() {
-			let that = this;
-			//  高度自适应
-			uni.getSystemInfo({
-				success: function(res) {
-					let calc = res.windowHeight;
-					that.winHeight = calc;
-				}
-			});
 			this.navBars.forEach((tabBar) => {
 				this.dataList.push({
 					data: [],
@@ -69,21 +56,16 @@
 			});
 			this.loadData()
 		},
+		onReachBottom(){
+			this.loadData();
+		},
 		methods: {
-			// 滚动切换标签样式
-			switchTab: function(e) {
-				let that = this;
-				this.currentTab = e.detail.current;
-				console.log(this.currentTab)
-				this.loadData()
-			},
 			// 点击标题切换当前页时改变样式
 			swichNav: function(e) {
 				if (this.currentTab == e.index) {
 					return false;
 				} else {
 					this.currentTab = e.index
-					this.currentModule = this.navBars[e.index].module
 					this.loadData()
 				}
 			},
@@ -118,7 +100,7 @@
 							activeTab.data = data;
 						}
 						activeTab.page++;
-						
+						activeTab.isLoading = false;
 					}
 				});
 			},
@@ -145,12 +127,11 @@
 				})
 			},
 			close(i,item){
-				let that = this
 				let activeTab = this.dataList[this.currentTab]
 				uni.showModal({
 					content: "确定取消关注吗？",
-					success: function (res) {
-						if (res.confirm) {
+					success: (result) => {
+						if (result.confirm) {
 							uni.request({
 								url: 'v1/users/favorite-delete',
 								method: 'POST',

@@ -161,6 +161,9 @@
 		height: 40px;
 		align-items: center;
 		justify-content: center;
+		/* #ifndef APP-PLUS */
+		margin-bottom: env(safe-area-inset-bottom);
+		/* #endif */
 	}
 
 	.uni-load-more__text {

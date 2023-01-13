@@ -1,11 +1,10 @@
 <template>
 	<view class="page">
 		<view class="searchbar-input-view">
-			<uni-search-bar placeholder="输入关键词搜索" radius="60" @confirm="onSearch" v-model="searchValue" clearButton="auto" cancelButton="always" @cancel="cancel"></uni-search-bar>
+			<uni-search-bar focus placeholder="输入关键词搜索" radius="60" @confirm="onSearch" v-model="searchValue" clearButton="auto" cancelButton="always" @cancel="cancel"></uni-search-bar>
+			<tui-tabs v-if="isSearch" :tabs="tabBars" :currentTab="tabIndex" @change="swichNav" itemWidth="33.333%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
 		</view>
-		<template v-if="isSearch">
-		<tui-tabs :tabs="tabBars" :currentTab="tabIndex" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
-		<uni-list>
+		<uni-list :border="false">
 			<uni-list-cell v-for="(item, index) in dataList[tabIndex].data" :key="index">
 				<template v-if="tabIndex == 0">
 					<event-item :data="item" @click="eventDetail(item)" :index="index"></event-item>
@@ -18,8 +17,10 @@
 				</template>
 				
 			</uni-list-cell>
+			<uni-list-cell v-if="dataList[tabIndex].isLoading || dataList[tabIndex].length > 4">
+				<uni-load-more :status="dataList[tabIndex].loadingStatus" />
+			</uni-list-cell>
 		</uni-list>
-		</template>
 		<lun-prompt class="no-data" title="暂无相关数据" v-if="dataList[tabIndex].isNoData"></lun-prompt>
 	</view>
 </template>
@@ -138,5 +139,12 @@
 </script>
 
 <style>
-
+.searchbar-input-view{
+	position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 750rpx;
+	background-color: #fff;
+}
 </style>

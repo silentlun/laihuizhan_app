@@ -5,6 +5,9 @@
 			<uni-list-cell v-for="(item, index) in dataList[currentTab].data" :key="index">
 				<event-item :data="item" @click="eventDetail(item)" :index="index"></event-item>
 			</uni-list-cell>
+			<uni-list-cell v-if="dataList[currentTab].isLoading || dataList[currentTab].length > 4">
+				<uni-load-more :status="dataList[currentTab].loadingStatus" />
+			</uni-list-cell>
 		</uni-list>
 		<lun-prompt class="no-data" title="暂无相关数据" v-if="dataList[currentTab].isNoData"></lun-prompt>
 	</view>

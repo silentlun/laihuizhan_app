@@ -1,6 +1,7 @@
 <template>
 	<view class="page bg-gray">
-		<tui-tabs :tabs="tabBars" :currentTab="tabIndex" @change="swichNav" itemWidth="50%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
+		<tui-tabs isFixed :tabs="tabBars" :currentTab="tabIndex" @change="swichNav" :sliderWidth="50" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
+		<lun-gap height="80" bgColor="#f8f8f9"></lun-gap>
 		<template v-if="!isNoData">
 			<uni-list-cell v-for="(item, index) in dataList" :key="item.id">
 				<t-card :data="item" :index="index">
@@ -68,7 +69,22 @@
 				}],
 				dataList:[
 					{id:1,title:"233232323232",body:"dsffsdsfdsfdsdf"},
-					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"}
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
+					{id:1,title:"32323232323232",body:"dsffsdsfdsfdsdf"},
 				],
 				isLoading: false,
 				loadingText: '加载中...',
@@ -77,17 +93,13 @@
 				requestParams: {
 					page: 1,
 				},
-				showActionSheet: false,
-				maskClosable: true,
-				tips: "确认清空搜索历史吗？",
-				itemList: [],
-				color: "#9a9a9a",
-				size: 26,
-				isCancel: true
 			}
 		},
 		onLoad(e) {
 			//this.loadData()
+		},
+		onReachBottom(){
+			this.loadData();
 		},
 		methods: {
 			swichNav: function(e) {
@@ -159,49 +171,6 @@
 					});
 				});
 				return newItems;
-			},
-			onDelete(i,item){
-				let that = this
-				uni.showModal({
-					content: "确定删除评论吗？",
-					success: function (res) {
-						if (res.confirm) {
-							uni.request({
-								url: 'v1/users/comment-delete',
-								method: 'POST',
-								data: {id:item.id},
-								header: {
-									'content-type': 'application/x-www-form-urlencoded'
-								},
-								success: (res) => {
-									if (res.statusCode == 200) {
-										console.log(res.data.data.status)
-										if(res.data.data.status == 200) {
-											that.dataList.splice(i,1);
-											uni.showToast({
-											    title: '删除成功',
-											    icon: 'success'
-											});
-										}else{
-											uni.showToast({
-											    title: '删除失败',
-											    icon: 'error'
-											});
-										}
-									}
-								}
-							})
-						}
-					}
-				})
-			},
-			itemClick: function(e) {
-				let index = e.index;
-				this.closeActionSheet();
-				this.tui.toast(`您点击的按钮索引为：${index}`)
-			},
-			closeActionSheet: function() {
-				this.showActionSheet = false
 			},
 			toForm: function (e) {
 				uni.navigateTo({

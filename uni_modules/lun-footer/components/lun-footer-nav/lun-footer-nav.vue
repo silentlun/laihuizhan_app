@@ -10,7 +10,6 @@
 				<text class="foot-nav-text">关注</text>
 			</view>
 			<button class="foot-nav-item share-btn" hover-class="opcity" :hover-stay-time="150" open-type="share">
-				<!-- <t-icons type="share" :size="16" color='#333'></t-icons> -->
 				<uni-icons custom-prefix="lunfont" type="icon-share" :size="18" color="#333"></uni-icons>
 				<text class="foot-nav-text">分享</text>
 			</button>

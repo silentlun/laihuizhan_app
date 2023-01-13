@@ -19,11 +19,14 @@
 			<uni-forms-item label="账号" name="bank_code" required>
 				<uni-easyinput v-model="formData.bank_code" placeholder="账号" />
 			</uni-forms-item>
+			<uni-forms-item>
+				<view class="content-padded">
+					<t-button text="保存" type="warning" size="lg" shape="circle" block @click="formSubmit"></t-button>
+				</view>
+			</uni-forms-item>
 		</uni-forms>
 		
-		<view class="content-padded">
-			<t-button text="保存" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
-		</view>
+		
 		
 	</view>
 </template>

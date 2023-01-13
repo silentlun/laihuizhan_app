@@ -9,7 +9,7 @@
 		<slot name="footer">
 			<view class="card-footer" @click="onClick">
 				<text class="footer-text">{{data.moreText}}</text>
-				<t-icons type="right" color="#bbb"></t-icons>
+				<uni-icons type="right" color="#bbb"></uni-icons>
 			</view>
 		</slot>
 	</view>

@@ -10,12 +10,12 @@
 			<uni-forms-item label="证据截图" name="images">
 				<lun-upload limit="3" :serverUrl="serverUrl" @complete="result" @remove="remove"></lun-upload>
 			</uni-forms-item>
+			<uni-forms-item>
+				<view class="content-padded">
+					<t-button text="提交" type="warning" size="lg" shape="circle" block @click="formSubmit"></t-button>
+				</view>
+			</uni-forms-item>
 		</uni-forms>
-		
-		<view class="content-padded">
-			<t-button text="提交" type="warning" size="lg" shape="circle" @click="formSubmit"></t-button>
-		</view>
-		
 	</view>
 </template>
 

@@ -17,15 +17,18 @@
 			</view>
 		</view>
 		
-		<uni-list :border="false">
+		<uni-list :border="true">
 			<uni-list-item :subtitle="data.eventdate" :show-extra-icon="true" :extra-icon="{type: 'calendar',size: '20',color:'#777'}"></uni-list-item>
 			<uni-list-item :subtitle="data.address" :show-extra-icon="true" :extra-icon="{type: 'location',size: '20',color:'#777'}" :showArrow="true" :clickable="true" @click="openMap"></uni-list-item>
 		</uni-list>
+		
 		<view class="service-list">
 			<view class="service-item service" @click="toVenue(data.venues_id)">
+				<uni-icons custom-prefix="lunfont" type="icon-weizhichangdi" color="#fff" size="16"></uni-icons>
 				<text class="service-text">举办地详情</text>
 			</view>
 			<view class="service-item event" @click="toProvider">
+				<uni-icons type="paperplane-filled" color="#fff" size="16"></uni-icons>
 				<text class="service-text">服务推荐</text>
 			</view>
 		</view>
@@ -359,7 +362,7 @@
 		flex-direction: row;
 		align-items: center;
 		flex-wrap: wrap;
-		margin: 10rpx 0;
+		margin-bottom: 20rpx;
 	}
 	.tag-item{
 		font-size: 24rpx;
@@ -376,31 +379,33 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 750rpx;
-		margin-top: 40rpx;
-		margin-bottom: 40rpx;
+		margin-top: 30rpx;
+		margin-bottom: 20rpx;
 	}
 	.service-item{
-		font-size: 32rpx;
-		color: #fff;
 		flex: 1;
 		margin-left: 30rpx;
 		margin-right: 30rpx;
 		background-repeat: no-repeat;
 		background-position: 202rpx center;
 		background-size: 140rpx;
-		padding: 25rpx 44rpx;
+		padding: 25rpx 60rpx;
 		border-radius: 16rpx;
 		box-shadow: 0 12rpx 48rpx 0 rgb(140 152 164 / 13%);
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 	}
 	.service-item.service{
-		background-image: url('../../static/apps.png');
-		background-color: #377DFF;
+		background-color: #5677fc;
 	}
 	.service-item.event{
-		background-image: url('../../static/calendar.png');
-		background-color: #F5CA99;
+		background-color: #ff7510;
 	}
 	.service-text{
 		font-size: 28rpx;
+		color: #fff;
+		padding-left: 10rpx;
 	}
 </style>

@@ -1,7 +1,11 @@
 <template>
 	<view>
-		<uni-list>
-			<uni-list-item v-for="(item, index) in data.contact" :key="index" :subtitle="item.label" :rightText="item.title" @click="onCall(item.title)" clickable></uni-list-item>
+		<uni-list border>
+			<uni-list-item v-for="(item, index) in data.contact" :key="index" :subtitle="item.label" @click="onCall(item.title)" clickable>
+				<template v-slot:footer>
+					<text class="right-text">{{item.title}}</text>
+				</template>
+			</uni-list-item>
 			
 		</uni-list>
 		<view class="contact-orther">
@@ -46,7 +50,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.contact-orther{
 		display: flex;
 		flex-direction: column;
@@ -61,21 +65,12 @@
 	}
 	.contact-orther-text{
 		font-size: 24rpx;
-		color: #999;
+		color: #777;
 		line-height: 48rpx;
 	}
-	.tel-list{
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-end;
-		align-items: center;
-		flex-wrap: wrap;
-		max-width: 550rpx;
-	}
-	.tel-item{
-		font-size: 24rpx;
-		color: #999;
-		margin-left: 20rpx;
+	.right-text{
+		font-size: 28rpx;
+		color: #777;
 	}
 
 </style>

@@ -27,21 +27,9 @@
 				<view class="feedback-box" @click="onFeedback">
 					<uni-icons type="notification" color="#fff" size="16"></uni-icons><text class="feedback-text">投诉</text>
 				</view>
-				<!-- <view class="btn-tabs">
-					<text class="btn"><t-icons type="settings" color="#fff" size="12"></t-icons> 投诉</text>
-					<text class="btn"><t-icons type="settings" color="#fff" size="12"></t-icons> 关注</text>
-				</view> -->
 			</view>
 			
 		</view>
-		<!-- <view class="page-warp merchant-warp">
-			<view class="feedback-box" @click="onFeedback">
-				<uni-icons type="notification" color="#777" size="16"></uni-icons><text class="feedback-text">投诉</text>
-			</view>
-		</view> -->
-		<!-- <t-list>
-			<t-list-item :subtitle="'北京市朝阳区的说法发随叫随到发'" :showArrow="true"></t-list-item>
-		</t-list> -->
 		<view class="merchant-warp">
 		<lun-section title="服务商简介"></lun-section>
 		<view class="page-warp">

@@ -21,7 +21,7 @@
 			</view>
 		</view>
 		
-		<uni-list>
+		<uni-list border>
 			<uni-list-item :subtitle="data.address" :show-extra-icon="true" :extra-icon="{color: '#777',size: '16',type: 'location'}" :showArrow="true" :clickable="true" @click="openMap"></uni-list-item>
 		</uni-list>
 		<!-- <view class="service-list">
