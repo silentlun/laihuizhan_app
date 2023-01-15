@@ -1,7 +1,9 @@
 <template>
 	<view class="page">
-		<view class="searchbar-input-view">
-			<uni-search-bar focus placeholder="输入关键词搜索" radius="60" @confirm="onSearch" v-model="searchValue" clearButton="auto" cancelButton="always" @cancel="cancel"></uni-search-bar>
+		<view class="searchbar">
+			<view class="searchbar-input-view">
+				<uni-search-bar focus placeholder="输入关键词搜索" radius="60" @confirm="onSearch" v-model="searchValue" clearButton="auto" cancelButton="always" @cancel="cancel"></uni-search-bar>
+			</view>
 			<tui-tabs v-if="isSearch" :tabs="tabBars" :currentTab="tabIndex" @change="swichNav" itemWidth="33.333%" selectedColor="#ff7510" sliderBgColor="#ff7510"></tui-tabs>
 		</view>
 		<uni-list :border="false">
@@ -139,12 +141,5 @@
 </script>
 
 <style>
-.searchbar-input-view{
-	position: sticky;
-	top: 0;
-	left: 0;
-	right: 0;
-	width: 750rpx;
-	background-color: #fff;
-}
+
 </style>

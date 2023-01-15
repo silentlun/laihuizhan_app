@@ -1,6 +1,11 @@
 <template>
 	<view class="page">
-		<uni-search-bar radius="100" placeholder="输入关键词搜索" @confirm="onSearch" v-model="requestParams.q" cancelText="搜索" clearButton="auto" cancelButton="always" @cancel="onSearch"></uni-search-bar>
+		<view class="searchbar">
+			<view class="searchbar-input-view">
+				<uni-search-bar radius="100" placeholder="输入关键词搜索" @confirm="onSearch" v-model="requestParams.q" cancelText="搜索" clearButton="auto" cancelButton="always" @cancel="onSearch"></uni-search-bar>
+			</view>
+		</view>
+		
 		<uni-list>
 			<uni-list-cell v-for="(item, index) in dataList" :key="index">
 				<event-item :data="item" @click="onImport(item)"></event-item>

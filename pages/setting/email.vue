@@ -143,13 +143,13 @@
 
 <style lang="scss">
 .tips{
-	font-size: 28rpx;
+	font-size: 32rpx;
 	font-weight: 700;
 	text-align: center;
 	margin-top: 10rpx;
 }
 .btn-code{
-		font-size: 24rpx;
+		font-size: 28rpx;
 		color: $uni-color-warning;
 		width: 140rpx;
 		height: 50rpx;

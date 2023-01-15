@@ -85,7 +85,7 @@
 							activeTab.data = data;
 						}
 						activeTab.requestParams.page++;
-						
+						activeTab.isLoading = false;
 					}
 				});
 			},

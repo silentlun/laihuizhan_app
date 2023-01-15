@@ -288,7 +288,7 @@
 	$uni-img-size-lg:40px;
 	$uni-border-color:#e5e5e5;
 	$uni-bg-color-hover:#f1f1f1;
-	$uni-text-color-grey:#999;
+	$uni-text-color-grey:#777;
 	$list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 
 	.uni-list-item {
@@ -467,7 +467,7 @@
 
 	.uni-list-item__extra-text {
 		color: $uni-text-color-grey;
-		font-size: $uni-font-size-sm;
+		font-size: $uni-font-size-base;
 	}
 
 	.uni-ellipsis-1 {
